@@ -13,6 +13,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
     "@expo/vector-icons": "^14.0.0",
     "@jup-ag/dca-sdk": "3.0.0-beta.0",
     "@jup-ag/limit-order-sdk": "^0.1.10",

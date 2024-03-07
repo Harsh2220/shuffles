@@ -1,5 +1,6 @@
 import { PublicKey } from "@solana/web3.js";
 import { create } from "zustand";
+import { BN } from "@coral-xyz/anchor";
 
 interface IDCAStore {
     payer: PublicKey;
@@ -15,6 +16,41 @@ interface IDCAStore {
     userInTokenAccount: PublicKey;
     dcaPubKey: PublicKey;
     withDrawAmount: BigInt;
+
+    setPayer: (payer: PublicKey) => void;
+    setUser: (user: PublicKey) => void;
+    setInAmount: (inAmount: BigInt) => void;
+    setInAmountPerCycle: (inAmountPerCycle: BigInt) => void;
+    setCycleSecondsApart: (cycleSecondsApart: BigInt) => void;
+    setInputMint: (inputMint: PublicKey) => void;
+    setOutputMint: (outputMint: PublicKey) => void;
+    setMinOutAmountPerCycle: (minOutAmountPerCycle: BigInt) => void;
+    setMaxOutAmountPerCycle: (maxOutAmountPerCycle: BigInt) => void;
+    setStartAt: (startAt: BigInt) => void;
+    setUserInTokenAccount: (
+        Account: PublicKey) => void;
+    setDCA: (dcaPubKey: PublicKey) => void;
+    setWithDrawAmount: (withDrawAmount: BigInt) => void;
+}
+
+interface ILimitOrderStore {
+    owner: PublicKey;
+    inAmount: BN;
+    outAmount: BN;
+    inputMint: PublicKey;
+    outputMint: PublicKey;
+    expiredAt: BN | null;
+    base: PublicKey;
+    orderPubKey: PublicKey;
+
+    setOwner: (owner: PublicKey) => void;
+    setInAmount: (inAmount: BN) => void;
+    setOutAmount: (outAmount: BN) => void;
+    setInputMint: (inputMint: PublicKey) => void;
+    setOutputMint: (outputMint: PublicKey) => void;
+    setExpiredAt: (expiredAt: BN) => void;
+    setBase: (base: PublicKey) => void;
+    setOrder: (orderPubKey: PublicKey) => void;
 }
 
 const useDCAStore = create<IDCAStore>((set) => ({
@@ -48,4 +84,25 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setWithDrawAmount: (withDrawAmount: BigInt) => set({ withDrawAmount }),
 }));
 
-export { useDCAStore };
+const useLimitOrderStore = create<ILimitOrderStore>((set) => ({
+
+    owner: new PublicKey(""),
+    inAmount: new BN(0),
+    outAmount: new BN(0),
+    inputMint: new PublicKey(""),
+    outputMint: new PublicKey(""),
+    expiredAt: null,
+    base: new PublicKey(""),
+    orderPubKey: new PublicKey(""),
+
+    setOwner: (owner: PublicKey) => set({ owner }),
+    setInAmount: (inAmount: BN) => set({ inAmount }),
+    setOutAmount: (outAmount: BN) => set({ outAmount }),
+    setInputMint: (inputMint: PublicKey) => set({ inputMint }),
+    setOutputMint: (outputMint: PublicKey) => set({ outputMint }),
+    setExpiredAt: (expiredAt: BN) => set({ expiredAt }),
+    setBase: (base: PublicKey) => set({ base }),
+    setOrder: (orderPubKey: PublicKey) => set({ orderPubKey }),
+}));
+
+export { useDCAStore, useLimitOrderStore };
