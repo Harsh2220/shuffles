@@ -10,7 +10,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../src/assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono_Regular: require("../src/assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 
@@ -35,6 +35,7 @@ function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="create" options={{ headerShown: false }} />
     </Stack>
   );
 }
