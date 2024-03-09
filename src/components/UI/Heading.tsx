@@ -4,22 +4,22 @@ import { Text, TextProps } from "react-native";
 export const Heading: React.FC<TextProps> = (props) => {
   const getFontFamily = (fontWeight: string | undefined) => {
     if (fontWeight === undefined) {
-      return "Rubik_Regular";
+      return "SF_Regular";
     }
 
     switch (fontWeight) {
       case "900":
-        return "Rubik_Black";
+        return "SF_Black";
       case "800":
-        return "Rubik_ExtraBold";
+        return "SF_Heavy";
       case "700" || "bold":
-        return "Rubik_Bold";
+        return "SF_Bold";
       case "600":
-        return "Rubik_SemiBold";
+        return "SF_Semibold";
       case "500":
-        return "Rubik_Medium";
+        return "SF_Medium";
       default:
-        return "Rubik_Regular";
+        return "SF_Regular";
     }
   };
 

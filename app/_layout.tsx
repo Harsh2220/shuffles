@@ -10,7 +10,18 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono_Regular: require("../src/assets/fonts/SpaceMono-Regular.ttf"),
+    SF_Regular: require("../src/assets/fonts/SF-Pro-Rounded-Regular.otf"),
+    SF_Medium: require("../src/assets/fonts/SF-Pro-Rounded-Medium.otf"),
+    SF_Semibold: require("../src/assets/fonts/SF-Pro-Rounded-Semibold.otf"),
+    SF_Bold: require("../src/assets/fonts/SF-Pro-Rounded-Bold.otf"),
+    SF_Heavy: require("../src/assets/fonts/SF-Pro-Rounded-Heavy.otf"),
+    SF_Black: require("../src/assets/fonts/SF-Pro-Rounded-Black.otf"),
+    Inter_Regular: require("../src/assets/fonts/Inter-Regular.ttf"),
+    Inter_Medium: require("../src/assets/fonts/Inter-Medium.ttf"),
+    Inter_Semibold: require("../src/assets/fonts/Inter-Semibold.ttf"),
+    Inter_Bold: require("../src/assets/fonts/Inter-Bold.ttf"),
+    Inter_ExtraBold: require("../src/assets/fonts/Inter-ExtraBold.ttf"),
+    Inter_Black: require("../src/assets/fonts/Inter-Black.ttf"),
     ...FontAwesome.font,
   });
 
