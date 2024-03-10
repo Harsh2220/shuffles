@@ -18,7 +18,7 @@ export default function RootLayout() {
     SF_Black: require("../src/assets/fonts/SF-Pro-Rounded-Black.otf"),
     Inter_Regular: require("../src/assets/fonts/Inter-Regular.ttf"),
     Inter_Medium: require("../src/assets/fonts/Inter-Medium.ttf"),
-    Inter_Semibold: require("../src/assets/fonts/Inter-Semibold.ttf"),
+    Inter_Semibold: require("../src/assets/fonts/Inter-SemiBold.ttf"),
     Inter_Bold: require("../src/assets/fonts/Inter-Bold.ttf"),
     Inter_ExtraBold: require("../src/assets/fonts/Inter-ExtraBold.ttf"),
     Inter_Black: require("../src/assets/fonts/Inter-Black.ttf"),
