@@ -1,6 +1,6 @@
-import { Wormhole } from "@wormhole-foundation/connect-sdk";
-import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
-import { SolanaPlatform } from "@wormhole-foundation/connect-sdk-solana";
+import { Wormhole } from "@wormhole-foundation/sdk";
+import { EvmPlatform } from "@wormhole-foundation/sdk-evm";
+import { SolanaPlatform } from "@wormhole-foundation/sdk-solana";
 
 const wormhole = async () => {
     const network = "Mainnet";
