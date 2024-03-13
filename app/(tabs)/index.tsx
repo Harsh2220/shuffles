@@ -6,95 +6,72 @@ import {
   Wormhole,
 } from "@wormhole-foundation/connect-sdk";
 import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
-import { SolanaPlatform } from "@wormhole-foundation/connect-sdk-solana";
+import { SolanaPlatform, getSolanaSignAndSendSigner, getSolanaSigner } from "@wormhole-foundation/connect-sdk-solana";
+import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
+import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import React from "react";
 
 export default function Home() {
   async function handle() {
-    const connection = new Connection("https://api.testnet.solana.com");
-    let balance = await connection.getBalance(
-      new PublicKey("9N6ci3qpVxCm5Qmt1H1Pqid2KumUxFJZxpSAVyMMMBT8")
-    );
+    try {
+      const connection = new Connection("https://api.mainnet-beta.solana.com");
+      const balance = await connection.getBalance(
+        new PublicKey("HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN")
+      );
 
-    console.log(balance);
+      console.log(balance);
 
-    const wh = new Wormhole("Testnet", [EvmPlatform, SolanaPlatform]);
+      const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
 
-    const sourceToken: TokenId = Wormhole.tokenId(
-      "Solana",
-      "So11111111111111111111111111111111111111112"
-    );
+      const srcChain = wh.getChain("Solana");
+      const destChain = wh.getChain("Ethereum");
+      const sourceToken: TokenId = Wormhole.tokenId(
+        "Solana",
+        "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+      );
 
-    const sAddress: ChainAddress = Wormhole.chainAddress(
-      "Solana",
-      "9N6ci3qpVxCm5Qmt1H1Pqid2KumUxFJZxpSAVyMMMBT8"
-    );
-    const rAddress: ChainAddress = Wormhole.chainAddress(
-      "Ethereum",
-      "0xe19ca46C9F081A7B996331a36b0C9563977FfB70"
-    );
+      await srcChain.getTokenBridge();
 
-    const xfer = await wh.tokenTransfer(
-      sourceToken,
-      BigInt(1),
-      sAddress,
-      rAddress,
-      true
-    );
+      await destChain.getTokenBridge();
 
-    console.log("xfer", xfer);
+      const sAddress: ChainAddress = Wormhole.chainAddress(
+        "Solana",
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+      );
 
-    // const quote = await TokenTransfer.quoteTransfer(
-    //   wh,
-    //   wh.getChain("Solana"),
-    //   wh.getChain("Ethereum"),
-    //   xfer.transfer
-    // );
+      const rAddress: ChainAddress = Wormhole.chainAddress(
+        "Polygon",
+        "0xe19ca46C9F081A7B996331a36b0C9563977FfB70"
+      );
 
-    // console.log(quote, "quote");
+      // const usdcXfer = await wh.circleTransfer(
+      //   1_000_000n, // amount in base units (1 USDC)
+      //   sAddress, // Sender address on source chain
+      //   rAddress, // Recipient address on destination chain
+      //   true // Automatic transfer
+      // );
 
-    // if (xfer.transfer.automatic && quote.destinationToken.amount < 0)
-    //   throw "The amount requested is too low to cover the fee and any native gas requested.";
+      // console.log(usdcXfer);
 
-    // const se = bs58.decode(
-    //   "24V1WcYofTEXdQz34zNYAY8ygeEfQrU3cTWLyi3abfLcUd2EwqZtRniRoR7j9v5PR76TjTVKcbaG3QM6LXwdK1wg"
-    // );
+      const xfer = await wh.tokenTransfer(
+        sourceToken,
+        1_00n,
+        sAddress,
+        rAddress,
+        true
+      );
 
-    // const kp = solanaWeb3.Keypair.fromSecretKey(se);
+      console.log("xfer", xfer);
 
-    // const s = new SolanaSigner(
-    //   "Solana",
-    //   kp,
-    //   await wh.getChain("Solana").getRpc()
-    // );
+      const signer = await getSolanaSignAndSendSigner(connection, "3HqBfHTw6szng8bVZtEQYec5cVemR2CBhuevnaJp9iZTK3CiJFEPBpXo62qUuVS9ue8oys6Vdhu9zdZdckNHFvBn");
+      console.log("Starting transfer", signer);
+      const srcTxids = await xfer.initiateTransfer(signer);
+      console.log(`Started transfer: `, srcTxids);
 
-    // console.log("Starting transfer");
-    // const srcTxids = await xfer.initiateTransfer(s);
-    // console.log(`Started transfer: `, srcTxids);
-
-    // return xfer;
-
-    // console.log("Getting Attestation");
-    // const attestIds = await xfer.fetchAttestation(60_000);
-    // console.log(`Got Attestation: `, attestIds);
-
-    // // 3) Redeem the VAA on the dest chain
-    // console.log("Completing Transfer");
-    // const destTxids = await xfer.completeTransfer(route.destination.signer);
-    // console.log(`Completed Transfer: `, destTxids);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  return (
-    <Button
-      onPress={() => {
-        try {
-          handle();
-        } catch (error) {
-          console.log(error);
-        }
-      }}
-    >
-      Hello
-    </Button>
-  );
+  return <Button onPress={handle}>Hello</Button>;
 }
