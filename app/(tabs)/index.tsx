@@ -6,7 +6,10 @@ import {
   Wormhole,
 } from "@wormhole-foundation/connect-sdk";
 import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
-import { SolanaPlatform } from "@wormhole-foundation/connect-sdk-solana";
+import {
+  SolanaPlatform,
+  getSolanaSignAndSendSigner,
+} from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 import React from "react";
 
@@ -24,12 +27,14 @@ export default function Home() {
 
       const srcChain = wh.getChain("Solana");
 
-      await srcChain.getTokenBridge();
+      const b = await srcChain.getTokenBridge();
 
       const sourceToken: TokenId = Wormhole.tokenId(
         "Solana",
         "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
       );
+
+      console.log(sourceToken);
 
       const sAddress: ChainAddress = Wormhole.chainAddress(
         "Solana",
@@ -61,6 +66,8 @@ export default function Home() {
       // );
 
       console.log(manualXfer);
+
+      // const srcTxids = await manualXfer.initiateTransfer(src.signer);
 
       // const xfer = await wh.tokenTransfer(
       //   sourceToken,
