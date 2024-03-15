@@ -45,7 +45,7 @@ export default function Button({
           borderRadius: 50,
           backgroundColor: variant === "filled" ? primary : "transparent",
           borderWidth: variant === "outlined" ? 1 : 0,
-          borderColor: black[400],
+          borderColor: white[300],
         },
         style,
       ]}
@@ -66,7 +66,7 @@ export default function Button({
               {
                 color: variant === "filled" ? white[700] : black[700],
                 fontSize: size === "small" ? 14 : size === "medium" ? 16 : 20,
-                fontWeight: "700",
+                fontWeight: "400",
                 textAlign: "center",
               },
               textStyle,

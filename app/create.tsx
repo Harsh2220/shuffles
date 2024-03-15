@@ -1,39 +1,39 @@
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
-import { white } from "@/src/constants/color";
+import { black, white } from "@/src/constants/color";
 import React from "react";
 import { Image, View, useWindowDimensions } from "react-native";
 import { PublicKey, Keypair } from "@solana/web3.js";
 import * as Bip39 from "bip39";
 import bs58 from "bs58";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Paragraph } from "@/src/components/UI/Paragraph";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowDimensions();
 
   async function createWallet() {
-    const mnemonic = Bip39.generateMnemonic();
-    const seed = Bip39.mnemonicToSeedSync(mnemonic, "").slice(0, 32);
-    const keypair = Keypair.fromSeed(seed);
-    const wallets = [
-      {
-        name: "wallet 1",
-        seed: mnemonic,
-        publicKey: keypair.publicKey.toBase58(),
-        secretKey: bs58.encode(keypair.secretKey),
-      },
-    ];
-
-    const allWallets = await AsyncStorage.setItem(
-      "wallets",
-      JSON.stringify(wallets)
-    );
-
-    const w = await AsyncStorage.getItem("wallets");
-
-    console.log(allWallets);
+    try {
+      setIsLoading(true);
+      const mnemonic = Bip39.generateMnemonic();
+      const seed = Bip39.mnemonicToSeedSync(mnemonic, "").slice(0, 32);
+      const keypair = Keypair.fromSeed(seed);
+      const wallets = [
+        {
+          name: "wallet 1",
+          seed: mnemonic,
+          publicKey: keypair.publicKey.toBase58(),
+          secretKey: bs58.encode(keypair.secretKey),
+        },
+      ];
+      await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -50,47 +50,98 @@ export default function Create() {
       <View
         style={{
           flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
           padding: 16,
-          zIndex: 2,
-          justifyContent: "flex-end",
         }}
       >
         <View
           style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginVertical: 48,
+            flex: 1,
+            maxWidth: width / 1.3,
           }}
         >
-          <Heading
+          <View
             style={{
-              fontSize: 48,
-              fontWeight: "600",
-              color: white[700],
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Manage your crypto
-          </Heading>
-          <Heading
+            <Heading
+              style={{
+                fontSize: width / 10,
+                fontWeight: "600",
+                color: black[700],
+                textAlign: "center",
+              }}
+            >
+              Shuffling assets Over Shuffles
+            </Heading>
+            <Paragraph
+              style={{
+                fontSize: width / 24,
+                fontWeight: "500",
+                color: white[200],
+                textAlign: "center",
+                marginTop: 8,
+              }}
+            >
+              Your Passport to Seamless Cross-Chain Trading on Mobile
+            </Paragraph>
+          </View>
+          <View
             style={{
-              fontSize: 48,
-              fontWeight: "600",
-              color: white[700],
+              marginTop: 16,
             }}
           >
-            and enjoy
-          </Heading>
+            <Button
+              onPress={createWallet}
+              style={{
+                marginVertical: 8,
+              }}
+              isLoading={isLoading}
+            >
+              Create wallet
+            </Button>
+            <Button
+              variant="outlined"
+              onPress={createWallet}
+              style={{
+                marginVertical: 8,
+              }}
+            >
+              Import an Existing Wallet
+            </Button>
+          </View>
+          <Paragraph
+            style={{
+              fontSize: width / 28,
+              fontWeight: "500",
+              color: white[200],
+              textAlign: "center",
+              marginTop: 8,
+            }}
+          >
+            by using Shuffles, you agree to accept our{" "}
+            <Paragraph
+              style={{
+                fontWeight: "600",
+                color: white[100],
+              }}
+            >
+              Terms of Use{" "}
+            </Paragraph>
+            and{" "}
+            <Paragraph
+              style={{
+                fontWeight: "600",
+                color: white[100],
+              }}
+            >
+              Privacy Policy
+            </Paragraph>
+          </Paragraph>
         </View>
-        <Button
-          onPress={createWallet}
-          style={{
-            width: "100%",
-            marginVertical: 8,
-          }}
-          isLoading={isLoading}
-        >
-          Create wallet
-        </Button>
       </View>
     </Container>
   );
