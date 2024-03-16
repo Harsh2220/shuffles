@@ -7,8 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Keypair } from "@solana/web3.js";
 import * as Bip39 from "bip39";
 import bs58 from "bs58";
+import { Image } from "expo-image";
 import React from "react";
-import { Image, View, useWindowDimensions } from "react-native";
+import { View, useWindowDimensions } from "react-native";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -44,8 +45,8 @@ export default function Create() {
           height: height / 2,
           width: width / 1.1,
           alignSelf: "center",
-          objectFit: "contain",
         }}
+        contentFit="contain"
       />
       <View
         style={{

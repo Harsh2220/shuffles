@@ -29,7 +29,7 @@ export default function RootLayout() {
 
   async function handleTokens() {
     const tokens = await AsyncStorage.getItem("wallets");
-    if (tokens) {
+    if (!tokens) {
       router.push("/create");
     }
   }
