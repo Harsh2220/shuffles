@@ -30,7 +30,7 @@ export default function RootLayout() {
   async function handleTokens() {
     const tokens = await AsyncStorage.getItem("wallets");
     if (!tokens) {
-      router.push("/create");
+      router.push("/backup");
     }
   }
 
@@ -55,8 +55,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <Stack>
-      <Stack.Screen name="create" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="create" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="backup"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
     </Stack>
   );
 }
