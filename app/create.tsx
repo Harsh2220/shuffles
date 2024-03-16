@@ -1,14 +1,14 @@
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
+import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
-import React from "react";
-import { Image, View, useWindowDimensions } from "react-native";
-import { PublicKey, Keypair } from "@solana/web3.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Keypair } from "@solana/web3.js";
 import * as Bip39 from "bip39";
 import bs58 from "bs58";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Paragraph } from "@/src/components/UI/Paragraph";
+import React from "react";
+import { Image, View, useWindowDimensions } from "react-native";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -39,12 +39,12 @@ export default function Create() {
   return (
     <Container>
       <Image
-        source={{
-          uri: "https://images.unsplash.com/photo-1524055988636-436cfa46e59e?q=80&w=2235&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        }}
+        source={require("../src/assets/images/onboarding.png")}
         style={{
           height: height / 2,
-          width: width,
+          width: width / 1.1,
+          alignSelf: "center",
+          objectFit: "contain",
         }}
       />
       <View
