@@ -10,6 +10,7 @@ import bs58 from "bs58";
 import { Image } from "expo-image";
 import React from "react";
 import { View, useWindowDimensions } from "react-native";
+import { getTokenBalance, getWalletBalance } from "../src/utils/balance";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -35,6 +36,16 @@ export default function Create() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  async function getWalletTokenBalance() {
+    const data = await getTokenBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
+    console.log(data);
+  }
+
+  async function gettBalance() {
+    const data = await getWalletBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
+    console.log(data);
   }
 
   return (
@@ -96,7 +107,7 @@ export default function Create() {
             }}
           >
             <Button
-              onPress={createWallet}
+              onPress={gettBalance}
               style={{
                 marginVertical: 8,
               }}
