@@ -4,7 +4,9 @@ import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
 import React from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import useWalletStore from "@/src/store/wallet";
+import { Clipboard } from "react-native";
 
 function Word({ index, word }: { index: number; word: string }) {
   return (
@@ -38,6 +40,10 @@ function Word({ index, word }: { index: number; word: string }) {
 }
 
 export default function Backup() {
+
+  const { wallets } = useWalletStore();
+  const wallet = wallets[0];
+
   return (
     <Container>
       <View
@@ -87,7 +93,7 @@ export default function Backup() {
                 }}
               >
                 {[...Array(6)].map((el, index) => (
-                  <Word key={index} index={index + 1} word="open" />
+                  <Word key={index} index={index + 1} word={wallet.seed.split(" ")[index]} />
                 ))}
               </View>
               <View
@@ -96,10 +102,16 @@ export default function Backup() {
                 }}
               >
                 {[...Array(6)].map((el, index) => (
-                  <Word key={index} index={index + 7} word="open" />
+                  <Word key={index} index={index + 7} word={wallet.seed.split(" ")[index+6]} />
                 ))}
               </View>
             </View>
+           
+            <TouchableOpacity 
+            onPress={() => {
+              Clipboard.setString(wallet.seed);
+            }}
+            >
             <Paragraph
               style={{
                 fontSize: 20,
@@ -111,6 +123,7 @@ export default function Backup() {
             >
               Copy to ClipBoard
             </Paragraph>
+            </TouchableOpacity>
           </View>
         </View>
         <Button onPress={() => {}}>Continue</Button>

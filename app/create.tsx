@@ -12,11 +12,13 @@ import React from "react";
 import { View, useWindowDimensions } from "react-native";
 import { getTokenBalance, getWalletBalance } from "../src/utils/balance";
 import { useRouter } from "expo-router";
+import useWalletStore from "@/src/store/wallet";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowDimensions();
   const router = useRouter();
+  const addWallet = useWalletStore((state) => state.addWallet);
 
   async function createWallet() {
     try {
@@ -32,6 +34,7 @@ export default function Create() {
           secretKey: bs58.encode(keypair.secretKey),
         },
       ];
+      addWallet(wallets[0]);
       await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
       router.push("/backup");
     } catch (error) {
