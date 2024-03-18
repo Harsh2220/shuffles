@@ -11,6 +11,7 @@ import { Image } from "expo-image";
 import React from "react";
 import { View, useWindowDimensions } from "react-native";
 import { getTokenBalance, getWalletBalance } from "../src/utils/balance";
+import { useRouter } from "expo-router";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -36,6 +37,12 @@ export default function Create() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const router = useRouter();
+
+  async function handleImport() {
+    router.push("/import");
   }
 
   async function getWalletTokenBalance() {
@@ -117,7 +124,7 @@ export default function Create() {
             </Button>
             <Button
               variant="outlined"
-              onPress={createWallet}
+              onPress={handleImport}
               style={{
                 marginVertical: 8,
               }}
