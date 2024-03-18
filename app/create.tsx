@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowDimensions();
+  const router = useRouter();
 
   async function createWallet() {
     try {
@@ -32,6 +33,7 @@ export default function Create() {
         },
       ];
       await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
+      router.push("/backup");
     } catch (error) {
       console.log(error);
     } finally {
@@ -39,24 +41,8 @@ export default function Create() {
     }
   }
 
-  const router = useRouter();
-
   async function handleImport() {
     router.push("/import");
-  }
-
-  async function getWalletTokenBalance() {
-    const data = await getTokenBalance(
-      "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
-    );
-    console.log(data);
-  }
-
-  async function gettBalance() {
-    const data = await getWalletBalance(
-      "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
-    );
-    console.log(data);
   }
 
   return (
@@ -118,7 +104,7 @@ export default function Create() {
             }}
           >
             <Button
-              onPress={gettBalance}
+              onPress={createWallet}
               style={{
                 marginVertical: 8,
               }}
