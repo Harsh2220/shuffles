@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import Button from '@/src/components/UI/Button';
-import { Paragraph } from '@/src/components/UI/Paragraph';
-import { white } from '@/src/constants/color';
-import { Heading } from '@/src/components/UI/Heading';
+import Button from "@/src/components/UI/Button";
+import Container from "@/src/components/UI/Container";
+import { Heading } from "@/src/components/UI/Heading";
+import { Paragraph } from "@/src/components/UI/Paragraph";
+import { black, white } from "@/src/constants/color";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 function Word({ index, word }: { index: number; word: string }) {
   return (
@@ -33,132 +34,133 @@ function Word({ index, word }: { index: number; word: string }) {
   );
 }
 
-
 export default function ImportRecoveryPhraseScreen() {
-  const [recoveryPhrase, setRecoveryPhrase] = useState(Array(12).fill(''));
+  const [recoveryPhrase, setRecoveryPhrase] = useState(Array(12).fill(""));
 
-  const handlePaste = () => {
-  };
+  const handlePaste = () => {};
 
-  const handleManualEntry = () => {
-  };
+  const handleManualEntry = () => {};
 
-  const handleImport = () => {
-  };
+  const handleImport = () => {};
 
   return (
-    <ScrollView style={styles.container}>
-      <Heading style={styles.headerText}>Import Wallet</Heading>
-      <Paragraph style={styles.subHeaderText}>
-        Enter your Secret Recovery Phrase below to import your wallet.
-      </Paragraph>
-
+    <Container>
       <View
         style={{
-          flexDirection: "row",
+          flex: 1,
+          padding: 16,
           justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: 48,
         }}
       >
+        <View>
+          <Heading style={styles.headerText}>Import Wallet</Heading>
+          <Paragraph style={styles.subHeaderText}>
+            Enter your Secret Recovery Phrase below to import your wallet.
+          </Paragraph>
+        </View>
+
         <View
           style={{
-            gap: 4,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 48,
           }}
         >
-          {[...Array(6)].map((el, index) => (
-            <Word key={index} index={index + 1} word="open" />
-          ))}
+          <View
+            style={{
+              gap: 16,
+            }}
+          >
+            {[...Array(6)].map((el, index) => (
+              <Word key={index} index={index + 1} word="open" />
+            ))}
+          </View>
+          <View
+            style={{
+              gap: 16,
+            }}
+          >
+            {[...Array(6)].map((el, index) => (
+              <Word key={index} index={index + 7} word="open" />
+            ))}
+          </View>
         </View>
-        <View
-          style={{
-            gap: 4,
-          }}
-        >
-          {[...Array(6)].map((el, index) => (
-            <Word key={index} index={index + 7} word="open" />
-          ))}
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.pasteButton} onPress={handlePaste}>
+            <Ionicons name="copy-outline" size={18} color="black" />
+            <Heading style={styles.pasteButtonText}>
+              Paste from Clipboard
+            </Heading>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <Paragraph style={styles.disclaimerText}>
+            Your keys are stored securely within your phone.{"\n"}
+            we don't store or share your keys anywhere else.
+          </Paragraph>
+          <Button onPress={() => {}}>Import</Button>
         </View>
       </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.pasteButton} onPress={handlePaste}>
-          <Ionicons name="copy-outline" size={18} color="black" />
-          <Heading style={styles.pasteButtonText}>Paste from Clipboard</Heading>
-        </TouchableOpacity>
-      </View>
-
-      <Paragraph style={styles.disclaimerText}>
-        Your keys are stored securely within your phone.{'\n'}
-        we don't store or share your keys anywhere else.
-      </Paragraph>
-
-      <Button onPress={
-        () => {
-        }
-      }>Import</Button>
-    </ScrollView>
+    </Container>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: 'white',
-  },
   backButton: {
     marginBottom: 20,
   },
   headerText: {
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
   },
   subHeaderText: {
     fontSize: 16,
-    color: 'gray',
+    color: white[200],
     marginBottom: 20,
   },
   inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   pasteButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    width: 200,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: white[600],
   },
   pasteButtonText: {
     marginLeft: 10,
-    color: 'black',
-    fontWeight: '600',
+    color: black[800],
+    fontWeight: "600",
   },
   inputLabel: {
     width: 20,
     fontSize: 16,
-    color: 'black',
+    color: black[800],
     marginRight: 10,
   },
   input: {
     flex: 1,
-    borderBottomColor: 'gray',
+    borderBottomColor: white[200],
     borderBottomWidth: 1,
     fontSize: 16,
     paddingHorizontal: 40,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginVertical: 20,
   },
   button: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: white[400],
     padding: 10,
     borderRadius: 20,
   },
@@ -167,20 +169,8 @@ const styles = StyleSheet.create({
   },
   disclaimerText: {
     fontSize: 14,
-    color: 'gray',
-    textAlign: 'center',
+    color: white[200],
+    textAlign: "center",
     marginBottom: 20,
-  },
-  importButton: {
-    backgroundColor: '#8357FF',
-    borderRadius: 20,
-    padding: 15,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  importButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
   },
 });
