@@ -1,4 +1,4 @@
-import { black, white } from "@/src/constants/color";
+import { white } from "@/src/constants/color";
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,7 +9,7 @@ function Container({ children }: { children: React.ReactNode }) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: white[700],
+        backgroundColor: white[800],
         paddingTop: top,
       }}
     >

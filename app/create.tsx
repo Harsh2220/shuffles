@@ -46,12 +46,16 @@ export default function Create() {
   }
 
   async function getWalletTokenBalance() {
-    const data = await getTokenBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
+    const data = await getTokenBalance(
+      "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
+    );
     console.log(data);
   }
 
   async function gettBalance() {
-    const data = await getWalletBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
+    const data = await getWalletBalance(
+      "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
+    );
     console.log(data);
   }
 
@@ -71,7 +75,7 @@ export default function Create() {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          padding: 16,
+          paddingHorizontal: 16,
         }}
       >
         <View

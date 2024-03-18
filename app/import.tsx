@@ -1,93 +1,119 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Heading } from '@/src/components/UI/Heading';
-import { Paragraph } from '@/src/components/UI/Paragraph';
+import Container from "@/src/components/UI/Container";
+import { Heading } from "@/src/components/UI/Heading";
+import { Paragraph } from "@/src/components/UI/Paragraph";
+import { white } from "@/src/constants/color";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function ImportWalletScreen() {
+  const router = useRouter();
   return (
-    <View style={styles.container}>
-      <Heading style={styles.headerText}>Add an Existing Wallet</Heading>
-      <Paragraph style={styles.subHeaderText}>
-        Continue using your wallet by importing it.
-      </Paragraph>
-
-      <LinearGradient
-        colors={['#8357FF', '#7F7FD5']} 
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradientBox}
+    <Container>
+      <View
+        style={{
+          flex: 1,
+          padding: 16,
+          justifyContent: "space-between",
+        }}
       >
-      </LinearGradient>
+        <View>
+          <Heading style={styles.headerText}>Add an Existing Wallet</Heading>
+          <Paragraph style={styles.subHeaderText}>
+            Continue using your wallet by importing it.
+          </Paragraph>
+        </View>
 
-      <TouchableOpacity style={styles.optionButton}>
-        <Heading style={styles.optionButtonText}>Secret Recovery Phrase</Heading>
-        <Paragraph style={styles.optionButtonSubtext}>
-          Import any wallet using a 12-word Secret Recovery Phrase.
-        </Paragraph>
-      </TouchableOpacity>
+        <View>
+          <LinearGradient
+            colors={["#8357FF", "#7F7FD5"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradientBox}
+          />
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => {
+              router.push("/import-seed");
+            }}
+          >
+            <View>
+              <Heading style={styles.optionButtonText}>
+                Secret Recovery Phrase
+              </Heading>
+              <Paragraph style={styles.optionButtonSubtext}>
+                Import any wallet using a 12-word Secret Recovery Phrase.
+              </Paragraph>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => {
+              router.push("/import-privatekey");
+            }}
+          >
+            <View>
+              <Heading style={styles.optionButtonText}>Private Key</Heading>
+              <Paragraph style={styles.optionButtonSubtext}>
+                Import any wallet using your Private key.
+              </Paragraph>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <TouchableOpacity style={styles.optionButton}>
-        <Heading style={styles.optionButtonText}>Private Key</Heading>
-        <Paragraph style={styles.optionButtonSubtext}>
-          Import any wallet using your Private key.
-        </Paragraph>
-      </TouchableOpacity>
-
-      <Paragraph style={styles.disclaimerText}>
-        Your Private info is stored securely within your phone.
-        we don't store or share your info anywhere else.
-      </Paragraph>
-    </View>
+        <View>
+          <Paragraph style={styles.disclaimerText}>
+            Your Private info is stored securely within your phone. we don't
+            store or share your info anywhere else.
+          </Paragraph>
+        </View>
+      </View>
+    </Container>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: 'white',
-  },
   backButton: {
     marginBottom: 20,
   },
   headerText: {
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 10,
   },
   subHeaderText: {
     fontSize: 16,
-    color: 'gray',
+    color: white[200],
     marginBottom: 30,
   },
   gradientBox: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20, 
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
     marginBottom: 30,
   },
   optionButton: {
-    backgroundColor: '#E0E0E0',
+    borderWidth: 1,
+    borderColor: white[500],
+    backgroundColor: white[700],
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
   },
   optionButtonText: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   optionButtonSubtext: {
     fontSize: 14,
-    color: 'gray',
+    color: white[200],
   },
   disclaimerText: {
-    marginTop: 30,
     fontSize: 14,
-    color: 'gray',
-    textAlign: 'center',
+    color: white[200],
+    textAlign: "center",
   },
 });
