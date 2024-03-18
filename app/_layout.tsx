@@ -1,7 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
@@ -25,14 +24,6 @@ export default function RootLayout() {
     Inter_Black: require("../src/assets/fonts/Inter-Black.ttf"),
     ...FontAwesome.font,
   });
-  const router = useRouter();
-
-  async function handleTokens() {
-    const tokens = await AsyncStorage.getItem("wallets");
-    if (!tokens) {
-      router.push("/create");
-    }
-  }
 
   useEffect(() => {
     if (error) throw error;
@@ -40,7 +31,6 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      handleTokens();
       SplashScreen.hideAsync();
     }
   }, [loaded]);
@@ -55,10 +45,27 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="create" options={{ headerShown: false }} />
       <Stack.Screen
         name="backup"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="import"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="import-privatekey"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="import-seed"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="import-success"
         options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
       />
     </Stack>
