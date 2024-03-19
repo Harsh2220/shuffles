@@ -9,30 +9,22 @@ import ExchangeOutline from "@/src/assets/Icons/ExchangeOutline";
 import Wallet from "@/src/assets/Icons/Wallet";
 import WalletOutline from "@/src/assets/Icons/WalletOutline";
 import { black, white } from "@/src/constants/color";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {  
-   return (
+export default function TabLayout() {
+  return (
     <Tabs
       initialRouteName="limit"
       screenOptions={{
         tabBarActiveTintColor: "red",
+        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
         name="dca"
         options={{
           headerTitle: "DCA",
-          title: "",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <DCAIcon width={26} height={26} color={black[700]} />
@@ -45,7 +37,6 @@ export default function TabLayout() {
         name="limit"
         options={{
           headerTitle: "Limit",
-          title: "",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <BarIcon width={26} height={26} color={black[700]} />
@@ -58,7 +49,6 @@ export default function TabLayout() {
         name="index"
         options={{
           headerTitle: "Home",
-          title: "",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Wallet width={26} height={26} color={black[700]} />
@@ -70,7 +60,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="bridge"
         options={{
-          title: "",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <ExchangeIcon width={26} height={26} color={black[700]} />
@@ -83,7 +72,6 @@ export default function TabLayout() {
         name="activity"
         options={{
           headerTitle: "Activity",
-          title: "",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Clock width={26} height={26} color={black[700]} />
