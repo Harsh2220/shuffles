@@ -15,16 +15,16 @@ import React from "react";
 export default function TabLayout() {
   return (
     <Tabs
-      initialRouteName="limit"
       screenOptions={{
         tabBarActiveTintColor: "red",
         tabBarShowLabel: false,
+        headerShadowVisible: false,
+        headerTitle: "My wallet",
       }}
     >
       <Tabs.Screen
         name="dca"
         options={{
-          headerTitle: "DCA",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <DCAIcon width={26} height={26} color={black[700]} />
@@ -36,7 +36,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="limit"
         options={{
-          headerTitle: "Limit",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <BarIcon width={26} height={26} color={black[700]} />
@@ -48,7 +47,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          headerTitle: "Home",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Wallet width={26} height={26} color={black[700]} />
@@ -71,7 +69,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="activity"
         options={{
-          headerTitle: "Activity",
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Clock width={26} height={26} color={black[700]} />
