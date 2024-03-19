@@ -15,11 +15,11 @@ export default function HomeScreen() {
 
   async function getAssets() {
     const tokenList = await getTokenBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
-    if (totalBalance) return;
+    if (totalBalance != 0) return;
     setAssets(tokenList);
     for (let index = 0; index < tokenList.length; index++) {
       const token = tokenList[index];
-      setTotalBalance((prev) => (prev + Number(token.price)));
+      setTotalBalance((prev) => (prev + Number(token.price.substring(0, 3))));
     }
     return tokenList;
   }
@@ -64,7 +64,7 @@ export default function HomeScreen() {
                   fontSize: 12,
                   fontWeight: '600',
                   color: white[200],
-                }}>{asset.balance}</Paragraph>
+                }}>{asset.balance} {asset.symbol}</Paragraph>
               </View>
             </View>
             <Heading style={styles.assetName}>${asset.price}</Heading>

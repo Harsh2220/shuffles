@@ -2,6 +2,7 @@ export interface IToken {
     price: string;
     name: string;
     image: string;
+    symbol: string;
     balance: number;
 }
 
@@ -35,8 +36,9 @@ export async function getTokenBalance(address: string) {
                 tokens.push({
                     price: (balanceData.data.value * token.balance).toFixed(2),
                     name: token.info.name,
+                    symbol: token.info.symbol,
                     image: token.info.image,
-                    balance: token.balance
+                    balance: token.balance.toFixed(2)
                 });
             }
         } else if (token.address === 'So11111111111111111111111111111111111111112') {
@@ -45,6 +47,7 @@ export async function getTokenBalance(address: string) {
             tokens.push({
                 price: walletBalance.price.toFixed(2),
                 name: "Solana",  
+                symbol: "SOL",
                 image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg", 
                 balance: walletBalance.balance
             });
@@ -59,7 +62,7 @@ export async function getWalletBalance(address: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': process.env.SHYFT_API_KEY  as string
+            'x-api-key': process.env.SHYFT_API_KEY as string
         }
     });
 
