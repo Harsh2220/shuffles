@@ -10,23 +10,29 @@ import Container from "@/src/components/UI/Container";
 import { Image } from "expo-image";
 
 export default function HomeScreen() {
+  const [totalBalance, setTotalBalance] = useState<number>(0);
   const [assets, setAssets] = useState<IToken[]>([]);
+
   async function getAssets() {
     const tokenList = await getTokenBalance("3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv");
-    console.log(tokenList);
+    if (totalBalance) return;
     setAssets(tokenList);
+    for (let index = 0; index < tokenList.length; index++) {
+      const token = tokenList[index];
+      setTotalBalance((prev) => (prev + Number(token.price)));
+    }
     return tokenList;
   }
 
   useEffect(() => {
     getAssets();
   }
-    , []);
+    ,[]);
   return (
     <Container>
       <ScrollView style={styles.container}>
         <View style={styles.walletSummary}>
-          <Heading style={styles.balance}>$141.97</Heading>
+          <Heading style={styles.balance}>${totalBalance}</Heading>
           <View style={styles.buttonContainer}>
             <Button onPress={() => { }}
               color="black"
