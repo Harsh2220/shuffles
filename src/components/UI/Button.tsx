@@ -65,7 +65,7 @@ export default function Button({
             style={[
               {
                 color: variant === "filled" ? white[700] : black[700],
-                fontSize: size === "small" ? 14 : size === "medium" ? 16 : 20,
+                fontSize: size === "small" ? 16 : size === "medium" ? 20 : 24,
                 fontWeight: "700",
                 textAlign: "center",
               },

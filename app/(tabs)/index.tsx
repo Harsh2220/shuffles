@@ -23,5 +23,9 @@ export default function Home() {
     console.log(JSON.stringify(wallets));
   }
 
-  return <Button onPress={handle}>Test</Button>;
+  return (
+    <Button onPress={handle} size="small">
+      Connect wallet
+    </Button>
+  );
 }
