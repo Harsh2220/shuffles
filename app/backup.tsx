@@ -99,7 +99,7 @@ export default function Backup() {
               <Word
                 key={index}
                 index={index + 1}
-                word={currentWallet!.seed.split(" ")[index]}
+                word={currentWallet!.seed!.split(" ")[index]}
               />
             ))}
           </View>
@@ -112,7 +112,7 @@ export default function Backup() {
               <Word
                 key={index}
                 index={index + 7}
-                word={currentWallet!.seed.split(" ")[index + 6]}
+                word={currentWallet!.seed!.split(" ")[index + 6]}
               />
             ))}
           </View>
@@ -121,7 +121,7 @@ export default function Backup() {
           <TouchableOpacity
             style={styles.pasteButton}
             onPress={async () => {
-              await Clipboard.setStringAsync(currentWallet!.seed);
+              await Clipboard.setStringAsync(currentWallet!.seed!);
             }}
           >
             <Ionicons name="copy-outline" size={18} color="black" />

@@ -6,10 +6,20 @@ import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import Container from "@/src/components/UI/Container";
 import { white } from "@/src/constants/color";
+import useWalletStore from "@/src/store/wallet";
+import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ImportSuccessScreen() {
-  const walletAddress = "0x05ab...96ce";
-  const balance = "0.00 ETH";
+  const { wallets } = useWalletStore();
+  const router = useRouter();
+  const walletAddress = "5ab3...96ce";
+  const balance = "0.00 SOL";
+
+  async function handleImport() {
+    await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
+    router.replace("/(tabs)/");
+  }
 
   return (
     <Container>

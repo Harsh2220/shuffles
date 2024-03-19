@@ -5,7 +5,11 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import * as Bip39 from "bip39";
+import bs58 from "bs58";
+import { Keypair } from "@solana/web3.js";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import useWalletStore from "@/src/store/wallet";
 
 function Word({ index, word }: { index: number; word: string }) {
   return (
@@ -35,13 +39,26 @@ function Word({ index, word }: { index: number; word: string }) {
 }
 
 export default function ImportRecoveryPhraseScreen() {
+  const { setCurrentWallet, setWallets } = useWalletStore();
   const [recoveryPhrase, setRecoveryPhrase] = useState(Array(12).fill(""));
 
   const handlePaste = () => {};
 
-  const handleManualEntry = () => {};
-
-  const handleImport = () => {};
+  async function handleWallet() {
+    const mnemonic = Bip39.generateMnemonic();
+    const seed = Bip39.mnemonicToSeedSync(mnemonic, "").slice(0, 32);
+    const keypair = Keypair.fromSeed(seed);
+    const wallets = [
+      {
+        name: "wallet 1",
+        seed: mnemonic,
+        publicKey: keypair.publicKey.toBase58(),
+        secretKey: bs58.encode(keypair.secretKey),
+      },
+    ];
+    setWallets(wallets);
+    setCurrentWallet(wallets[0]);
+  }
 
   return (
     <Container>

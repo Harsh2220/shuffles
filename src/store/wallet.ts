@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 type Wallet = {
     name: string;
-    seed: string;
+    seed: string | null;
     publicKey: string;
     secretKey: string;
 }

@@ -13,11 +13,29 @@ import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import Container from "@/src/components/UI/Container";
 import { black, white } from "@/src/constants/color";
+import { Keypair } from "@solana/web3.js";
+import bs58 from "bs58";
+import useWalletStore from "@/src/store/wallet";
+import { useRouter } from "expo-router";
 
 export default function ImportPrivateKeyScreen() {
-  const handlePaste = () => {};
+  const { setWallets, setCurrentWallet } = useWalletStore();
+  const router = useRouter();
 
-  const handleImport = () => {};
+  async function handleWallet() {
+    const keypair = Keypair.fromSecretKey(bs58.decode(""));
+    const wallets = [
+      {
+        name: "wallet 1",
+        seed: null,
+        publicKey: keypair.publicKey.toBase58(),
+        secretKey: bs58.encode(keypair.secretKey),
+      },
+    ];
+    setWallets(wallets);
+    setCurrentWallet(wallets[0]);
+    router.push("/import-success");
+  }
 
   return (
     <Container>
