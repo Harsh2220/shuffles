@@ -1,6 +1,16 @@
+import Button from "@/src/components/UI/Button";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Text } from "react-native";
 
 export default function Home() {
-  return <Text>Hello</Text>;
+  const router = useRouter();
+  return (
+    <Button
+      onPress={() => {
+        router.push("/import-success");
+      }}
+    >
+      GO
+    </Button>
+  );
 }

@@ -3,10 +3,13 @@ import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
 import useWalletStore from "@/src/store/wallet";
-import { Clipboard } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 function Word({ index, word }: { index: number; word: string }) {
   return (
@@ -40,16 +43,20 @@ function Word({ index, word }: { index: number; word: string }) {
 }
 
 export default function Backup() {
+  const { currentWallet, wallets } = useWalletStore();
+  const router = useRouter();
 
-  const { wallets } = useWalletStore();
-  const wallet = wallets[0];
+  async function createWallet() {
+    await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
+    router.replace("/(tabs)/");
+  }
 
   return (
     <Container>
       <View
         style={{
           flex: 1,
-          padding: 48,
+          padding: 16,
           justifyContent: "space-between",
         }}
       >
@@ -74,60 +81,77 @@ export default function Backup() {
             Store your Secret Recovery Phrase in a safe location over which you
             have exclusive control.
           </Paragraph>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 64,
+          }}
+        >
           <View
             style={{
-              marginVertical: 48,
+              gap: 8,
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingHorizontal: 48,
-              }}
-            >
-              <View
-                style={{
-                  gap: 4,
-                }}
-              >
-                {[...Array(6)].map((el, index) => (
-                  <Word key={index} index={index + 1} word={wallet.seed.split(" ")[index]} />
-                ))}
-              </View>
-              <View
-                style={{
-                  gap: 4,
-                }}
-              >
-                {[...Array(6)].map((el, index) => (
-                  <Word key={index} index={index + 7} word={wallet.seed.split(" ")[index+6]} />
-                ))}
-              </View>
-            </View>
-           
-            <TouchableOpacity 
-            onPress={() => {
-              Clipboard.setString(wallet.seed);
+            {[...Array(6)].map((el, index) => (
+              <Word
+                key={index}
+                index={index + 1}
+                word={currentWallet!.seed.split(" ")[index]}
+              />
+            ))}
+          </View>
+          <View
+            style={{
+              gap: 8,
             }}
-            >
-            <Paragraph
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: white[200],
-                textAlign: "center",
-                marginTop: 48,
-              }}
-            >
-              Copy to ClipBoard
-            </Paragraph>
-            </TouchableOpacity>
+          >
+            {[...Array(6)].map((el, index) => (
+              <Word
+                key={index}
+                index={index + 7}
+                word={currentWallet!.seed.split(" ")[index + 6]}
+              />
+            ))}
           </View>
         </View>
-        <Button onPress={() => {}}>Continue</Button>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.pasteButton}
+            onPress={async () => {
+              await Clipboard.setStringAsync(currentWallet!.seed);
+            }}
+          >
+            <Ionicons name="copy-outline" size={18} color="black" />
+            <Heading style={styles.pasteButtonText}>Copy to Clipboard</Heading>
+          </TouchableOpacity>
+        </View>
+        <Button onPress={createWallet}>Continue</Button>
       </View>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  pasteButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: white[600],
+  },
+  pasteButtonText: {
+    marginLeft: 10,
+    color: black[800],
+    fontWeight: "600",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 20,
+  },
+});

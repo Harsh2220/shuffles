@@ -3,24 +3,22 @@ import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import useWalletStore from "@/src/store/wallet";
 import { Keypair } from "@solana/web3.js";
 import * as Bip39 from "bip39";
 import bs58 from "bs58";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React from "react";
 import { View, useWindowDimensions } from "react-native";
-import { getTokenBalance, getWalletBalance } from "../src/utils/balance";
-import { useRouter } from "expo-router";
-import useWalletStore from "@/src/store/wallet";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowDimensions();
   const router = useRouter();
-  const addWallet = useWalletStore((state) => state.addWallet);
+  const { setWallets, setCurrentWallet } = useWalletStore();
 
-  async function createWallet() {
+  async function generateWallet() {
     try {
       setIsLoading(true);
       const mnemonic = Bip39.generateMnemonic();
@@ -34,8 +32,8 @@ export default function Create() {
           secretKey: bs58.encode(keypair.secretKey),
         },
       ];
-      addWallet(wallets[0]);
-      await AsyncStorage.setItem("wallets", JSON.stringify(wallets));
+      setWallets(wallets);
+      setCurrentWallet(wallets[0]);
       router.push("/backup");
     } catch (error) {
       console.log(error);
@@ -107,7 +105,7 @@ export default function Create() {
             }}
           >
             <Button
-              onPress={createWallet}
+              onPress={generateWallet}
               style={{
                 marginVertical: 8,
               }}
