@@ -1,5 +1,5 @@
-interface IToken {
-    price: number;
+export interface IToken {
+    price: string;
     name: string;
     image: string;
     balance: number;
@@ -33,7 +33,7 @@ export async function getTokenBalance(address: string) {
 
             if (balanceData.data != null) {
                 tokens.push({
-                    price: balanceData.data.value * token.balance,
+                    price: (balanceData.data.value * token.balance).toFixed(2),
                     name: token.info.name,
                     image: token.info.image,
                     balance: token.balance
@@ -43,14 +43,14 @@ export async function getTokenBalance(address: string) {
             const walletBalance = await getWalletBalance(address);
 
             tokens.push({
-                price: walletBalance.price,
-                name: "Solana", 
-                image: "../src/assets/images/solana.png", 
+                price: walletBalance.price.toFixed(2),
+                name: "Solana",  
+                image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg", 
                 balance: walletBalance.balance
             });
         }
     }
-    tokens.sort((a, b) => a.price - b.price);
+    tokens.sort((a, b) => Number(a.price) - Number(b.price));
     return tokens;
 }
 
@@ -59,7 +59,7 @@ export async function getWalletBalance(address: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': process.env.SHYFT_API_KEY as string
+            'x-api-key': process.env.SHYFT_API_KEY  as string
         }
     });
 
