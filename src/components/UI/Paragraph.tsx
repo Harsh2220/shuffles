@@ -27,13 +27,15 @@ export const Paragraph: React.FC<TextProps> = (props) => {
     ? Object.assign({}, ...props.style)
     : props.style;
 
+  console.log(props.children);
+
   return (
     <Text
       {...props}
       style={[
         passedStyles,
         {
-          fontFamily: getFontFamily(passedStyles.fontWeight),
+          fontFamily: getFontFamily(passedStyles?.fontWeight),
         },
       ]}
     >

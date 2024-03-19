@@ -33,7 +33,7 @@ export const Heading: React.FC<TextProps> = (props) => {
       style={[
         passedStyles,
         {
-          fontFamily: getFontFamily(passedStyles.fontWeight),
+          fontFamily: getFontFamily(passedStyles?.fontWeight),
         },
       ]}
     >
