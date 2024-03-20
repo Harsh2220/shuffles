@@ -1,11 +1,13 @@
+import SwapIcon from "@/src/assets/Icons/SwapIcon";
+import Allocate from "@/src/components/DCA/Allocate";
+import Buy from "@/src/components/DCA/Buy";
+import Orders from "@/src/components/DCA/Orders";
+import Timings from "@/src/components/DCA/Timings";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
-import { Heading } from "@/src/components/UI/Heading";
-import { Paragraph } from "@/src/components/UI/Paragraph";
-import { white } from "@/src/constants/color";
-import { Image } from "expo-image";
+import { black, white } from "@/src/constants/color";
 import React from "react";
-import { TextInput, View } from "react-native";
+import { View } from "react-native";
 
 export default function Dca() {
   return (
@@ -16,102 +18,52 @@ export default function Dca() {
           padding: 16,
         }}
       >
-        <Paragraph
-          style={{
-            fontSize: 14,
-            fontWeight: "500",
-            color: white[200],
-          }}
-        >
-          I want to allocate
-        </Paragraph>
         <View
           style={{
-            borderRadius: 32,
-            marginTop: 8,
-            borderWidth: 1,
-            borderColor: white[500],
-            backgroundColor: "#F1F3F4",
-            padding: 8,
+            flex: 1,
+            gap: 16,
           }}
         >
+          <Allocate />
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between",
-              padding: 10,
-              backgroundColor: white[800],
-              borderWidth: 1,
-              borderColor: white[500],
-              borderRadius: 100,
+              gap: 16,
+              position: "relative",
+              height: 24,
             }}
           >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
-              <Image
-                source={require("../../src/assets/images/solana.png")}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 50,
-                }}
-                contentFit="cover"
-              />
-              <View>
-                <Heading
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "600",
-                  }}
-                >
-                  Jupiter
-                </Heading>
-                <Paragraph
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: white[100],
-                  }}
-                >
-                  1000 JUP
-                </Paragraph>
-              </View>
-            </View>
-            <Button
-              onPress={() => {}}
-              size="small"
-              color="black"
-              style={{
-                paddingHorizontal: 16,
-                paddingVertical: 8,
-              }}
-            >
-              Use Max
-            </Button>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              marginVertical: 24,
-            }}
-          >
-            <TextInput
-              style={{
-                fontSize: 58,
-                fontWeight: "600",
-                fontFamily: "SF_Semibold",
-              }}
-              placeholderTextColor={"#BEBFC3"}
-              placeholder="00"
+              style={{ height: 1, width: "100%", backgroundColor: white[500] }}
             />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SwapIcon
+                width={24}
+                height={24}
+                color={black[800]}
+                style={{
+                  paddingHorizontal: 24,
+                  backgroundColor: white[800],
+                }}
+              />
+            </View>
           </View>
+          <Buy />
+          <Timings />
+          <Orders />
         </View>
+        <Button onPress={() => {}}>Confirm DCA</Button>
       </View>
     </Container>
   );
