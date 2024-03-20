@@ -2,7 +2,7 @@ import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
-import { white } from "@/src/constants/color";
+import { black, white } from "@/src/constants/color";
 import useWalletData from "@/src/hooks/useWalletData";
 import useWalletStore from "@/src/store/wallet";
 import { IToken } from "@/src/types/wallet";
@@ -52,10 +52,10 @@ export default function HomeScreen() {
         <View style={styles.walletSummary}>
           <Heading style={styles.balance}>${balance}</Heading>
           <View style={styles.buttonContainer}>
-            <Button onPress={() => {}} color="black" style={styles.button}>
+            <Button onPress={() => {}} style={styles.button}>
               withdraw
             </Button>
-            <Button onPress={() => {}} color="black" style={styles.button}>
+            <Button onPress={() => {}} style={styles.button}>
               Deposit
             </Button>
           </View>
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     paddingVertical: 14,
+    backgroundColor: black[800],
   },
   buttonText: {
     color: "white",

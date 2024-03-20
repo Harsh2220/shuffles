@@ -27,8 +27,6 @@ export const Paragraph: React.FC<TextProps> = (props) => {
     ? Object.assign({}, ...props.style)
     : props.style;
 
-  console.log(props.children);
-
   return (
     <Text
       {...props}

@@ -17,7 +17,6 @@ interface IButton {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   icon?: JSX.Element;
-  color?: string;
   iconPosition?: "left" | "right";
   isLoading?: boolean;
   onPress: () => void;
@@ -32,7 +31,6 @@ export default function Button({
   icon,
   iconPosition = "right",
   isLoading = false,
-  color,
   onPress,
 }: IButton) {
   return (
@@ -46,9 +44,9 @@ export default function Button({
             size === "small" ? 36 : size === "medium" ? 48 : 60,
           paddingVertical: size === "small" ? 12 : size === "medium" ? 16 : 20,
           borderRadius: 50,
-          backgroundColor: variant === "filled" ? color ? color :primary : "transparent",
-          borderWidth: variant === "outlined" ? 1 : 0,
-          borderColor: white[300],
+          backgroundColor: variant === "filled" ? primary : "transparent",
+          borderWidth: 1,
+          borderColor: variant === "filled" ? primary : white[300],
         },
         style,
       ]}
