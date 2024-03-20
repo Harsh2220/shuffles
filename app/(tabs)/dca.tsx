@@ -3,13 +3,18 @@ import Allocate from "@/src/components/DCA/Allocate";
 import Buy from "@/src/components/DCA/Buy";
 import Orders from "@/src/components/DCA/Orders";
 import Timings from "@/src/components/DCA/Timings";
+import DCAConfirmSheet from "@/src/components/Sheets/DCAConfirmSheet";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
+import Sheet from "@/src/components/UI/Sheet";
 import { black, white } from "@/src/constants/color";
-import React from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Dca() {
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  // const snapPoints = ['25%', '50%'];
   return (
     <Container>
       <View
@@ -63,8 +68,17 @@ export default function Dca() {
           <Timings />
           <Orders />
         </View>
-        <Button onPress={() => {}}>Confirm DCA</Button>
+        <Button onPress={() => {
+          bottomSheetModalRef.current?.present();
+        }}>Confirm DCA</Button>
       </View>
+      <Sheet style={{
+        margin: 16,
+      }} ref={bottomSheetModalRef} snapPoints={[
+        450
+      ]} detached={true} bottomInset={50}>
+        <DCAConfirmSheet/>
+      </Sheet>
     </Container>
   );
 }
