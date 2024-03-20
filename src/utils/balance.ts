@@ -1,10 +1,4 @@
-export interface IToken {
-    price: string;
-    name: string;
-    image: string;
-    symbol: string;
-    balance: number;
-}
+import { IToken } from "../types/wallet";
 
 export async function getTokenBalance(address: string) {
     let tokens: IToken[] = [];
@@ -46,9 +40,9 @@ export async function getTokenBalance(address: string) {
 
             tokens.push({
                 price: walletBalance.price.toFixed(2),
-                name: "Solana",  
+                name: "Solana",
                 symbol: "SOL",
-                image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg", 
+                image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
                 balance: walletBalance.balance
             });
         }

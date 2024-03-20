@@ -3,9 +3,11 @@ import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
-import { IToken, getTokenBalance } from "@/src/utils/balance";
+import useWalletData from "@/src/hooks/useWalletData";
+import useWalletStore from "@/src/store/wallet";
+import { IToken } from "@/src/types/wallet";
 import { Image } from "expo-image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 const renderItem = ({ item }: { item: IToken }) => {
@@ -41,31 +43,14 @@ const renderItem = ({ item }: { item: IToken }) => {
 };
 
 export default function HomeScreen() {
-  const [totalBalance, setTotalBalance] = useState<number>(0);
-  const [assets, setAssets] = useState<IToken[]>([]);
-
-  async function getAssets() {
-    const tokenList = await getTokenBalance(
-      "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
-    );
-    if (totalBalance != 0) return;
-    setAssets(tokenList);
-    for (let index = 0; index < tokenList.length; index++) {
-      const token = tokenList[index];
-      setTotalBalance((prev) => prev + Number(token.price.substring(0, 3)));
-    }
-    return tokenList;
-  }
-
-  useEffect(() => {
-    // getAssets();
-  }, []);
+  const { handleBalance, handleTokens } = useWalletData();
+  const { balance, tokens } = useWalletStore();
 
   return (
     <Container>
       <View style={styles.container}>
         <View style={styles.walletSummary}>
-          <Heading style={styles.balance}>${totalBalance}</Heading>
+          <Heading style={styles.balance}>${balance}</Heading>
           <View style={styles.buttonContainer}>
             <Button onPress={() => {}} color="black" style={styles.button}>
               withdraw
@@ -78,7 +63,7 @@ export default function HomeScreen() {
         </View>
         <FlatList
           renderItem={renderItem}
-          data={assets}
+          data={tokens}
           contentContainerStyle={{
             gap: 8,
           }}
