@@ -16,6 +16,39 @@ import { Tabs } from "expo-router";
 import React, { useRef } from "react";
 import { TouchableOpacity } from "react-native";
 
+const TABS = [
+  {
+    name: "dca",
+    label: "DCA",
+    activeIcon: <DCAIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <DCAOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "limit",
+    label: "Limit",
+    activeIcon: <BarIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <BarOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "index",
+    label: "Index",
+    activeIcon: <Wallet width={26} height={26} color={black[700]} />,
+    inactiveIcon: <WalletOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "bridge",
+    label: "Bridge",
+    activeIcon: <ExchangeIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <ExchangeOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "activity",
+    label: "Activity",
+    activeIcon: <Clock width={26} height={26} color={black[700]} />,
+    inactiveIcon: <ClockOutline width={26} height={26} color={white[200]} />,
+  },
+];
+
 export default function TabLayout() {
   const scannerRef = useRef<BottomSheetModal>(null);
 
@@ -42,61 +75,16 @@ export default function TabLayout() {
           ),
         }}
       >
-        <Tabs.Screen
-          name="dca"
-          options={{
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <DCAIcon width={26} height={26} color={black[700]} />
-              ) : (
-                <DCAOutline width={26} height={26} color={white[200]} />
-              ),
-          }}
-        />
-        <Tabs.Screen
-          name="limit"
-          options={{
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <BarIcon width={26} height={26} color={black[700]} />
-              ) : (
-                <BarOutline width={26} height={26} color={white[200]} />
-              ),
-          }}
-        />
-        <Tabs.Screen
-          name="index"
-          options={{
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <Wallet width={26} height={26} color={black[700]} />
-              ) : (
-                <WalletOutline width={26} height={26} color={white[200]} />
-              ),
-          }}
-        />
-        <Tabs.Screen
-          name="bridge"
-          options={{
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <ExchangeIcon width={26} height={26} color={black[700]} />
-              ) : (
-                <ExchangeOutline width={26} height={26} color={white[200]} />
-              ),
-          }}
-        />
-        <Tabs.Screen
-          name="activity"
-          options={{
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <Clock width={26} height={26} color={black[700]} />
-              ) : (
-                <ClockOutline width={26} height={26} color={white[200]} />
-              ),
-          }}
-        />
+        {TABS.map((tab) => (
+          <Tabs.Screen
+            key={tab.name}
+            name={tab.name}
+            options={{
+              tabBarIcon: ({ focused }) =>
+                focused ? tab.activeIcon : tab.inactiveIcon,
+            }}
+          />
+        ))}
       </Tabs>
       <ScannerSheet ref={scannerRef} />
     </>
