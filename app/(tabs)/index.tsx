@@ -1,46 +1,15 @@
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
-import { Paragraph } from "@/src/components/UI/Paragraph";
-import { black, white } from "@/src/constants/color";
+import TokenCard from "@/src/components/cards/TokenCard";
+import { black } from "@/src/constants/color";
 import useWalletData from "@/src/hooks/useWalletData";
 import useWalletStore from "@/src/store/wallet";
 import { IToken } from "@/src/types/wallet";
-import { Image } from "expo-image";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
-const renderItem = ({ item }: { item: IToken }) => {
-  return (
-    <View style={styles.card}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-        }}
-      >
-        <Image
-          source={{ uri: item.image }}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
-        <View>
-          <Heading style={styles.assetName}>{item.name}</Heading>
-          <Paragraph
-            style={{
-              fontSize: 12,
-              fontWeight: "600",
-              color: white[200],
-            }}
-          >
-            {item.balance}
-          </Paragraph>
-        </View>
-      </View>
-      <Heading style={styles.assetName}>${item.price}</Heading>
-    </View>
-  );
-};
+const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
 
 export default function HomeScreen() {
   const { handleBalance, handleTokens } = useWalletData();
@@ -109,18 +78,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-  },
-  card: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    alignItems: "flex-start",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  assetName: {
-    fontSize: 18,
-    fontWeight: "700",
   },
   assetBalance: {
     fontWeight: "500",
