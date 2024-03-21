@@ -7,13 +7,33 @@ import useWalletData from "@/src/hooks/useWalletData";
 import useWalletStore from "@/src/store/wallet";
 import { IToken } from "@/src/types/wallet";
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 
 const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
 
 export default function HomeScreen() {
-  const { handleBalance, handleTokens } = useWalletData();
+  const [refreshing, setRefreshing] = React.useState(false);
+  const { handleTokens } = useWalletData();
   const { balance, tokens } = useWalletStore();
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    try {
+      handleTokens();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
+
+  const _RefreshControl = (
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      progressBackgroundColor={"black"}
+    />
+  );
 
   return (
     <Container>
@@ -33,6 +53,7 @@ export default function HomeScreen() {
         <FlatList
           renderItem={renderItem}
           data={tokens}
+          refreshControl={_RefreshControl}
           contentContainerStyle={{
             gap: 8,
           }}
