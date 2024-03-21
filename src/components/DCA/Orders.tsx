@@ -21,6 +21,7 @@ export default function Orders() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          paddingVertical: 20,
           padding: 16,
           backgroundColor: white[600],
           borderRadius: 100,

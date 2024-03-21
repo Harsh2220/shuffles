@@ -31,7 +31,7 @@ const Sheet = React.forwardRef<BottomSheetModalMethods, BottomSheetProps>(
         }}
         backdropComponent={renderBackdrop}
         backgroundStyle={{
-         borderRadius: 30,
+          borderRadius: 30,
           backgroundColor: white[800],
         }}
         {...props}

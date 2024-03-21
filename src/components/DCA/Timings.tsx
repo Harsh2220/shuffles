@@ -1,6 +1,6 @@
 import Button from "@/src/components/UI/Button";
 import { Paragraph } from "@/src/components/UI/Paragraph";
-import { white } from "@/src/constants/color";
+import { black, white } from "@/src/constants/color";
 import React from "react";
 import { TextInput, View } from "react-native";
 
@@ -41,7 +41,8 @@ export default function Timings() {
           style={{
             paddingHorizontal: 16,
             paddingVertical: 8,
-            backgroundColor: "black",
+            backgroundColor: black[800],
+            borderColor: black[800],
           }}
           size="small"
           onPress={() => {}}
