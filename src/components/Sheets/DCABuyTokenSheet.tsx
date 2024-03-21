@@ -5,7 +5,7 @@ import TokenCard from "../cards/TokenCard";
 
 const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
 
-export default function DCABuyTokenList() {
+export default function DCABuyTokenSheet() {
   const { tokens } = useWalletStore();
 
   return (

@@ -9,7 +9,8 @@ import ExchangeOutline from "@/src/assets/Icons/ExchangeOutline";
 import ScanIcon from "@/src/assets/Icons/ScanIcon";
 import Wallet from "@/src/assets/Icons/Wallet";
 import WalletOutline from "@/src/assets/Icons/WalletOutline";
-import ScannerSheet from "@/src/components/Sheets/ScanneSheet";
+import ScannerSheet from "@/src/components/Sheets/ScannerSheet";
+import Sheet from "@/src/components/UI/Sheet";
 import { black, white } from "@/src/constants/color";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Tabs } from "expo-router";
@@ -51,6 +52,7 @@ const TABS = [
 
 export default function TabLayout() {
   const scannerRef = useRef<BottomSheetModal>(null);
+  const snapPoints = React.useMemo(() => ["60%", "90%"], []);
 
   return (
     <>
@@ -86,7 +88,9 @@ export default function TabLayout() {
           />
         ))}
       </Tabs>
-      <ScannerSheet ref={scannerRef} />
+      <Sheet ref={scannerRef} snapPoints={snapPoints}>
+        <ScannerSheet />
+      </Sheet>
     </>
   );
 }

@@ -14,7 +14,7 @@ import { View } from "react-native";
 
 export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  // const snapPoints = ['25%', '50%'];
+
   return (
     <Container>
       <View
@@ -68,16 +68,24 @@ export default function Dca() {
           <Timings />
           <Orders />
         </View>
-        <Button onPress={() => {
-          bottomSheetModalRef.current?.present();
-        }}>Confirm DCA</Button>
+        <Button
+          onPress={() => {
+            bottomSheetModalRef.current?.present();
+          }}
+        >
+          Confirm DCA
+        </Button>
       </View>
-      <Sheet style={{
-        margin: 16,
-      }} ref={bottomSheetModalRef} snapPoints={[
-        450
-      ]} detached={true} bottomInset={50}>
-        <DCAConfirmSheet/>
+      <Sheet
+        style={{
+          margin: 16,
+        }}
+        ref={bottomSheetModalRef}
+        snapPoints={[450]}
+        detached={true}
+        bottomInset={50}
+      >
+        <DCAConfirmSheet />
       </Sheet>
     </Container>
   );
