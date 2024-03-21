@@ -14,8 +14,8 @@ import { useState } from "react";
 export default function Allocate() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
-  const { sellTokenData} = useDCAStore();
-  const [amount, setAmount] = useState<Number>(0);
+  const { sellTokenData } = useDCAStore();
+  const [amount, setAmount] = useState<string>("");
   return (
     <>
       <View>
@@ -51,9 +51,9 @@ export default function Allocate() {
             }}
           >
             <TouchableOpacity
-            onPress={()=>{
-              bottomSheetModalRef.current?.present();
-            }}
+              onPress={() => {
+                bottomSheetModalRef.current?.present();
+              }}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -61,7 +61,11 @@ export default function Allocate() {
               }}
             >
               <Image
-                source={sellTokenData.image ? { uri: sellTokenData.image } : require("../../assets/images/solana.png")}
+                source={
+                  sellTokenData.image
+                    ? { uri: sellTokenData.image }
+                    : require("../../assets/images/solana.png")
+                }
                 style={{
                   width: 36,
                   height: 36,
@@ -85,15 +89,14 @@ export default function Allocate() {
                     color: white[100],
                   }}
                 >
-                  {sellTokenData.balance ? sellTokenData.balance : ""}
-                  {" "}
+                  {sellTokenData.balance ? sellTokenData.balance : ""}{" "}
                   {sellTokenData.symbol ? sellTokenData.symbol : "Select Token"}
                 </Paragraph>
               </View>
             </TouchableOpacity>
             <Button
               onPress={() => {
-                setAmount(sellTokenData.balance);
+                setAmount("10");
               }}
               size="small"
               style={{
@@ -113,14 +116,14 @@ export default function Allocate() {
           >
             <TextInput
               keyboardType="numeric"
-              value={ amount.toString()}
-              onChangeText={(text) => setAmount(Number(text))}
+              value={amount.toString()}
+              onChangeText={(text) => setAmount(text)}
               style={{
                 fontSize: 58,
                 fontWeight: "600",
                 fontFamily: "SF_Semibold",
               }}
-              placeholderTextColor= {amount === 0 ? white[500] : white[100]}
+              placeholderTextColor={white[200]}
               placeholder="00"
             />
           </View>

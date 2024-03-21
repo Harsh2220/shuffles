@@ -1,28 +1,27 @@
-import Button from "@/src/components/UI/Button";
+import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
-import Sheet from "@/src/components/UI/Sheet";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef } from "react";
+import React from "react";
+import { View } from "react-native";
 
 export default function Limit() {
-  // ref
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["80%"], []);
-
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  // renders
   return (
-    <>
-      <Button onPress={handlePresentModalPress}>snkda</Button>
-      <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
-        <Heading>HEllo</Heading>
-      </Sheet>
-    </>
+    <Container>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Heading
+          style={{
+            fontSize: 24,
+            fontWeight: "700",
+          }}
+        >
+          Comming Soon
+        </Heading>
+      </View>
+    </Container>
   );
 }

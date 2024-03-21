@@ -12,6 +12,7 @@ import WalletOutline from "@/src/assets/Icons/WalletOutline";
 import ScannerSheet from "@/src/components/Sheets/ScannerSheet";
 import Sheet from "@/src/components/UI/Sheet";
 import { black, white } from "@/src/constants/color";
+import useWalletStore from "@/src/store/wallet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Tabs } from "expo-router";
 import React, { useRef } from "react";
@@ -51,6 +52,7 @@ const TABS = [
 ];
 
 export default function TabLayout() {
+  const { currentWallet } = useWalletStore();
   const scannerRef = useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
 
@@ -61,7 +63,7 @@ export default function TabLayout() {
           tabBarActiveTintColor: "red",
           tabBarShowLabel: false,
           headerShadowVisible: false,
-          headerTitle: "My wallet",
+          headerTitle: currentWallet?.name,
           headerRight: () => (
             <TouchableOpacity
               style={{
