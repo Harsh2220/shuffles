@@ -4,15 +4,18 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
 import { Image } from "expo-image";
 import React from "react";
-import { TextInput, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import Sheet from "../UI/Sheet";
 import DCASellTokenSheet from "../Sheets/DCASellTokenSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useDCAStore } from "@/src/store";
+import { useState } from "react";
 
 export default function Allocate() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
-
+  const { sellTokenData} = useDCAStore();
+  const [amount, setAmount] = useState<Number>(0);
   return (
     <>
       <View>
@@ -47,7 +50,10 @@ export default function Allocate() {
               borderRadius: 100,
             }}
           >
-            <View
+            <TouchableOpacity
+            onPress={()=>{
+              bottomSheetModalRef.current?.present();
+            }}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -55,7 +61,7 @@ export default function Allocate() {
               }}
             >
               <Image
-                source={require("../../../src/assets/images/solana.png")}
+                source={sellTokenData.image ? { uri: sellTokenData.image } : require("../../assets/images/solana.png")}
                 style={{
                   width: 36,
                   height: 36,
@@ -70,7 +76,7 @@ export default function Allocate() {
                     fontWeight: "600",
                   }}
                 >
-                  Jupiter
+                  {sellTokenData.name ? sellTokenData.name : "Select Token"}
                 </Heading>
                 <Paragraph
                   style={{
@@ -79,12 +85,16 @@ export default function Allocate() {
                     color: white[100],
                   }}
                 >
-                  1000 JUP
+                  {sellTokenData.balance ? sellTokenData.balance : ""}
+                  {" "}
+                  {sellTokenData.symbol ? sellTokenData.symbol : "Select Token"}
                 </Paragraph>
               </View>
-            </View>
+            </TouchableOpacity>
             <Button
-              onPress={() => {}}
+              onPress={() => {
+                setAmount(sellTokenData.balance);
+              }}
               size="small"
               style={{
                 paddingHorizontal: 16,
@@ -102,12 +112,15 @@ export default function Allocate() {
             }}
           >
             <TextInput
+              keyboardType="numeric"
+              value={ amount.toString()}
+              onChangeText={(text) => setAmount(Number(text))}
               style={{
                 fontSize: 58,
                 fontWeight: "600",
                 fontFamily: "SF_Semibold",
               }}
-              placeholderTextColor={"#BEBFC3"}
+              placeholderTextColor= {amount === 0 ? white[500] : white[100]}
               placeholder="00"
             />
           </View>

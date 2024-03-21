@@ -1,12 +1,12 @@
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
-import { IToken } from "@/src/types/wallet";
+import { IToken, JupTokens } from "@/src/types/wallet";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export default function TokenCard({ token }: { token: IToken }) {
+export default function JupTokenCard({ token }: { token: JupTokens }) {
   return (
     <View style={styles.card}>
       <View
@@ -16,21 +16,11 @@ export default function TokenCard({ token }: { token: IToken }) {
           gap: 10,
         }}
       >
-        <Image source={{ uri: token.image }} style={styles.assetImage} />
+        <Image source={{ uri: token.logoURI }} style={styles.assetImage} />
         <View>
           <Heading style={styles.assetName}>{token.name}</Heading>
-          <Paragraph
-            style={{
-              fontSize: 12,
-              fontWeight: "600",
-              color: white[200],
-            }}
-          >
-            {token.balance} {token.symbol}
-          </Paragraph>
         </View>
       </View>
-      <Heading style={styles.assetName}>${token.price}</Heading>
     </View>
   );
 }

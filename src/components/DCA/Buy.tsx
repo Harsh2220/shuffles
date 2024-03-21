@@ -3,14 +3,16 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
 import { Image } from "expo-image";
 import React from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import DCABuyTokenSheet from "../Sheets/DCABuyTokenSheet";
 import Sheet from "../UI/Sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useDCAStore } from "@/src/store";
 
 export default function Buy() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
+  const {buyTokenData } = useDCAStore();
 
   return (
     <>
@@ -24,7 +26,12 @@ export default function Buy() {
         >
           To Buy
         </Paragraph>
-        <View
+      <TouchableOpacity
+     onPress={()=>{
+      bottomSheetModalRef.current?.present();
+    }}
+      >
+      <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -45,7 +52,7 @@ export default function Buy() {
             }}
           >
             <Image
-              source={require("../../../src/assets/images/solana.png")}
+              source={buyTokenData.logoURI ? { uri: buyTokenData.logoURI } : require("../../assets/images/solana.png")}
               style={{
                 width: 36,
                 height: 36,
@@ -59,10 +66,11 @@ export default function Buy() {
                 fontWeight: "600",
               }}
             >
-              Solana
+              {buyTokenData.name ? buyTokenData.name : "Select Token"}
             </Heading>
           </View>
         </View>
+      </TouchableOpacity>
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
         <DCABuyTokenSheet />

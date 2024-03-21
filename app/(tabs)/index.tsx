@@ -54,8 +54,10 @@ export default function HomeScreen() {
           renderItem={renderItem}
           data={tokens}
           refreshControl={_RefreshControl}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            gap: 8,
+            gap: 12,
+            marginTop: 16,
           }}
         />
       </View>

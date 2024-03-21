@@ -1,21 +1,24 @@
 import { PublicKey } from "@solana/web3.js";
 import { create } from "zustand";
 import { BN } from "@coral-xyz/anchor";
+import { IToken, JupTokens } from "../types/wallet";
 
 interface IDCAStore {
-    payer: PublicKey;
-    user: PublicKey;
+    payer: PublicKey | null;
+    user: PublicKey | null;
     inAmount: BigInt;
     inAmountPerCycle: BigInt;
     cycleSecondsApart: BigInt;
-    inputMint: PublicKey;
-    outputMint: PublicKey;
+    inputMint: PublicKey | null;
+    outputMint: PublicKey | null;
     minOutAmountPerCycle: BigInt | null;
     maxOutAmountPerCycle: BigInt | null;
     startAt: BigInt | null;
-    userInTokenAccount: PublicKey;
-    dcaPubKey: PublicKey;
+    userInTokenAccount: PublicKey | null;
+    dcaPubKey: PublicKey | null;
     withDrawAmount: BigInt;
+    buyTokenData: JupTokens;
+    sellTokenData: IToken;
 
     setPayer: (payer: PublicKey) => void;
     setUser: (user: PublicKey) => void;
@@ -31,17 +34,19 @@ interface IDCAStore {
         Account: PublicKey) => void;
     setDCA: (dcaPubKey: PublicKey) => void;
     setWithDrawAmount: (withDrawAmount: BigInt) => void;
+    setBuyTokenData: (buyTokenData: JupTokens) => void;
+    setSellTokenData: (sellTokenData: IToken) => void;
 }
 
 interface ILimitOrderStore {
-    owner: PublicKey;
+    owner: PublicKey | null;
     inAmount: BN;
     outAmount: BN;
-    inputMint: PublicKey;
-    outputMint: PublicKey;
+    inputMint: PublicKey | null;
+    outputMint: PublicKey | null;
     expiredAt: BN | null;
-    base: PublicKey;
-    orderPubKey: PublicKey;
+    base: PublicKey | null;
+    orderPubKey: PublicKey | null;
 
     setOwner: (owner: PublicKey) => void;
     setInAmount: (inAmount: BN) => void;
@@ -55,19 +60,39 @@ interface ILimitOrderStore {
 
 const useDCAStore = create<IDCAStore>((set) => ({
 
-    payer: new PublicKey(""),
-    user: new PublicKey(""),
+    payer: null,
+    user: null,
     inAmount: BigInt(0),
     inAmountPerCycle: BigInt(0),
     cycleSecondsApart: BigInt(0),
-    inputMint: new PublicKey(""),
-    outputMint: new PublicKey(""),
+    inputMint: null,
+    outputMint: null,
     minOutAmountPerCycle: null,
     maxOutAmountPerCycle: null,
     startAt: null,
-    userInTokenAccount: new PublicKey(""),
-    dcaPubKey: new PublicKey(""),
+    userInTokenAccount: null,
+    dcaPubKey: null,
     withDrawAmount: BigInt(0),
+    buyTokenData: {
+        address: "",
+        chainId: 0,
+        decimals: 0,
+        extensions: {
+            coingeckoId: "",
+        },
+        logoURI: "",
+        name: "",
+        symbol: "",
+        tags: [],
+    },
+    sellTokenData: {
+        price: "",
+        name: "",
+        image: "",
+        symbol: "",
+        balance: 0,
+        address: "",
+    },
 
     setPayer: (payer: PublicKey) => set({ payer }),
     setUser: (user: PublicKey) => set({ user }),
@@ -82,18 +107,20 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setUserInTokenAccount: (userInTokenAccount: PublicKey) => set({ userInTokenAccount }),
     setDCA: (dcaPubKey: PublicKey) => set({ dcaPubKey }),
     setWithDrawAmount: (withDrawAmount: BigInt) => set({ withDrawAmount }),
+    setBuyTokenData: (buyTokenData: JupTokens) => set({ buyTokenData }),
+    setSellTokenData: (sellTokenData: IToken) => set({ sellTokenData }),
 }));
 
 const useLimitOrderStore = create<ILimitOrderStore>((set) => ({
 
-    owner: new PublicKey(""),
+    owner: null,
     inAmount: new BN(0),
     outAmount: new BN(0),
-    inputMint: new PublicKey(""),
-    outputMint: new PublicKey(""),
+    inputMint: null,
+    outputMint: null,
     expiredAt: null,
-    base: new PublicKey(""),
-    orderPubKey: new PublicKey(""),
+    base: null,
+    orderPubKey: null,
 
     setOwner: (owner: PublicKey) => set({ owner }),
     setInAmount: (inAmount: BN) => set({ inAmount }),

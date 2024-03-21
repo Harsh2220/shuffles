@@ -21,7 +21,7 @@ export default function useWalletData() {
       for (let index = 0; index < tokens.length; index++) {
         totalBalance = totalBalance + Number(tokens[index].price);
       }
-      setBalance(totalBalance);
+      setBalance(Number(totalBalance.toFixed(2)));
     } catch (error) {}
   }
 

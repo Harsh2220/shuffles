@@ -28,6 +28,7 @@ export async function getTokenBalance(address: string) {
 
             if (balanceData.data != null) {
                 tokens.push({
+                    address: token.address,
                     price: (balanceData.data.value * token.balance).toFixed(2),
                     name: token.info.name,
                     symbol: token.info.symbol,
@@ -39,6 +40,7 @@ export async function getTokenBalance(address: string) {
             const walletBalance = await getWalletBalance(address);
 
             tokens.push({
+                address: token.address,
                 price: walletBalance.price.toFixed(2),
                 name: "Solana",
                 symbol: "SOL",
