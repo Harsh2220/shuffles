@@ -15,7 +15,7 @@ export async function getTokenBalance(address: string) {
     for (let i = 0; i < data.result.length; i++) {
         const token = data.result[i];
 
-        if (token.balance > 0.01) {
+        if (token.balance > 0) {
             const balanceResponse = await fetch(`https://public-api.birdeye.so/public/price?address=${token.address}`, {
                 method: 'GET',
                 headers: {
@@ -36,7 +36,8 @@ export async function getTokenBalance(address: string) {
                     balance: token.balance.toFixed(2)
                 });
             }
-        } else if (token.address === 'So11111111111111111111111111111111111111112') {
+
+        } else {
             const walletBalance = await getWalletBalance(address);
 
             tokens.push({
@@ -49,6 +50,16 @@ export async function getTokenBalance(address: string) {
             });
         }
     }
+    const walletBalance = await getWalletBalance(address);
+
+    tokens.push({
+        address: 'So11111111111111111111111111111111111111112',
+        price: walletBalance.price.toFixed(2),
+        name: "Solana",
+        symbol: "SOL",
+        image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
+        balance: walletBalance.balance
+    });
     tokens.sort((a, b) => Number(a.price) - Number(b.price));
     return tokens;
 }

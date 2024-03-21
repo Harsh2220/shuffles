@@ -1,24 +1,23 @@
-import { CreateDCAParamsV2 } from "@jup-ag/dca-sdk";
+import { CreateDCAParamsV2, DCA, Network } from "@jup-ag/dca-sdk";
 import { Keypair, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
 import { useDCAStore } from "../../store";
-import { connection, dca } from "../../utils/connection";
 import  useWalletStore  from "../../store/wallet";
-import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
+import  bs58  from "bs58";
 
-export default async function useCreateDCA() {
+export default function useCreateDCA() {
   const { currentWallet } = useWalletStore();
+  const { payer, user, inAmount, inAmountPerCycle, cycleSecondsApart, inputMint, outputMint, minOutAmountPerCycle, maxOutAmountPerCycle, startAt, userInTokenAccount } = useDCAStore();
 
   async function createDCA() {
-    const { payer, user, inAmount, inAmountPerCycle, cycleSecondsApart, inputMint, outputMint, minOutAmountPerCycle, maxOutAmountPerCycle, startAt, userInTokenAccount } = useDCAStore();
 
     const userPayer = Keypair.fromSecretKey(bs58.decode(currentWallet?.secretKey as string));
 
     const params: CreateDCAParamsV2 = {
-      payer: payer as PublicKey,
-      user: user as PublicKey,
-      inAmount: inAmount as bigint,
-      inAmountPerCycle: inAmountPerCycle as bigint, 
-      cycleSecondsApart: cycleSecondsApart as bigint, 
+      payer: new PublicKey(currentWallet?.publicKey!),
+      user: new PublicKey(currentWallet?.publicKey!),
+      inAmount: BigInt(inAmount),
+      inAmountPerCycle: BigInt(inAmountPerCycle), 
+      cycleSecondsApart: BigInt(cycleSecondsApart), 
       inputMint: inputMint as PublicKey, 
       outputMint: outputMint as PublicKey, 
       minOutAmountPerCycle: minOutAmountPerCycle as bigint, 
@@ -27,12 +26,15 @@ export default async function useCreateDCA() {
       userInTokenAccount : userInTokenAccount as PublicKey, 
     };
 
-    const { tx, dcaPubKey } = await dca.createDcaV2(params);
-    const txid = await sendAndConfirmTransaction(connection, tx, [userPayer]);
+    console.log('Create DCA: ', { params });
 
-    console.log('Create DCA: ', { txid });
+    // const { tx, dcaPubKey } = await dca.createDcaV2(params);
+    // console.log('Create DCA: ', { tx, dcaPubKey });
+    // const txid = await sendAndConfirmTransaction(connection, tx, [userPayer]);
 
-    return dcaPubKey;
+    // console.log('Create DCA: ', { txid });
+
+    // return dcaPubKey;
   }
 
   return { createDCA };

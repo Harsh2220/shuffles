@@ -8,14 +8,19 @@ import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
 import { black, white } from "@/src/constants/color";
-import { useDCAStore } from "@/src/store";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { View } from "react-native";
+import { useDCAStore } from "@/src/store";
+import {  PublicKey } from "@solana/web3.js";
+import createDCssA from "@/src/utils/jup";
+import { useState } from "react";
 
 export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const {setInputMint, setOutputMint} = useDCAStore();
+  const { inputMint, outputMint, inAmount, inAmountPerCycle,  } = useDCAStore();
+  const pubKey = new PublicKey('HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <Container>
@@ -71,8 +76,19 @@ export default function Dca() {
           <Orders />
         </View>
         <Button
-          onPress={() => {
-            bottomSheetModalRef.current?.present();
+        isLoading={isLoading}
+          onPress={async () => {
+            // bottomSheetModalRef.current?.present();
+            setIsLoading(true);
+           await createDCssA(
+              pubKey,
+              BigInt(Number(inAmount) * 1000000),
+              BigInt(100000),
+              BigInt(inAmountPerCycle),
+              inputMint as PublicKey,
+              outputMint as PublicKey,
+            );
+            setIsLoading(false);
           }}
         >
           Confirm DCA
@@ -85,7 +101,7 @@ export default function Dca() {
         ref={bottomSheetModalRef}
         snapPoints={[450]}
         detached={true}
-        bottomInset={50}
+        bottomInset={50}        
       >
         <DCAConfirmSheet />
       </Sheet>

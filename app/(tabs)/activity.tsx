@@ -19,7 +19,7 @@ export default function Activity() {
             fontWeight: "700",
           }}
         >
-          Comming Soon
+          Coming Soon
         </Heading>
       </View>
     </Container>

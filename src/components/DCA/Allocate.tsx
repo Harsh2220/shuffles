@@ -15,7 +15,7 @@ export default function Allocate() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
   const { sellTokenData } = useDCAStore();
-  const [amount, setAmount] = useState<string>("");
+  const {inAmount, setInAmount} = useDCAStore();
   return (
     <>
       <View>
@@ -96,7 +96,7 @@ export default function Allocate() {
             </TouchableOpacity>
             <Button
               onPress={() => {
-                setAmount("10");
+                setInAmount((sellTokenData.balance.toString().split(".")[0]));
               }}
               size="small"
               style={{
@@ -116,8 +116,8 @@ export default function Allocate() {
           >
             <TextInput
               keyboardType="numeric"
-              value={amount.toString()}
-              onChangeText={(text) => setAmount(text)}
+              value={inAmount.toString()}
+              onChangeText={(text) => setInAmount((text))}
               style={{
                 fontSize: 58,
                 fontWeight: "600",

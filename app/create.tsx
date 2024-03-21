@@ -68,7 +68,7 @@ export default function Create() {
         <View
           style={{
             flex: 1,
-            maxWidth: width / 1.3,
+            // maxWidth: width / 1.3,
           }}
         >
           <View

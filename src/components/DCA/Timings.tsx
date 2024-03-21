@@ -3,8 +3,10 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
 import React from "react";
 import { TextInput, View } from "react-native";
+import { useDCAStore } from "@/src/store";
 
 export default function Timings() {
+  const {setInAmountPerCycle} = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -28,7 +30,11 @@ export default function Timings() {
         }}
       >
         <TextInput
+          onChangeText={(text) => {
+            setInAmountPerCycle((Number(text)*60 * 60 * 24).toString());
+          }}
           style={{
+            flex: 1,
             fontSize: 16,
             fontWeight: "600",
             fontFamily: "SF_Semibold",
@@ -47,7 +53,7 @@ export default function Timings() {
           size="small"
           onPress={() => {}}
         >
-          Minute
+          Day
         </Button>
       </View>
     </View>

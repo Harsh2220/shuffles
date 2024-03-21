@@ -8,7 +8,7 @@ export default function useWalletData() {
   async function handleTokens() {
     try {
       const tokenList = await getTokenBalance(
-        "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
       );
       setTokens(tokenList);
     } catch (error) {}

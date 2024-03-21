@@ -3,8 +3,10 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
 import React from "react";
 import { TextInput, View } from "react-native";
+import { useDCAStore } from "@/src/store";
 
 export default function Orders() {
+  const { setCycleSecondsApart } = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -29,7 +31,11 @@ export default function Orders() {
         }}
       >
         <TextInput
+        onChangeText={(text) => {
+          setCycleSecondsApart((text));
+        }}
           style={{
+            flex: 1,
             fontSize: 16,
             fontWeight: "600",
             fontFamily: "SF_Semibold",
