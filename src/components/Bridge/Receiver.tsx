@@ -1,10 +1,11 @@
-import { Heading } from "@/src/components/UI/Heading";
+import CopyIcon from "@/src/assets/Icons/CopyIcon";
+import Button from "@/src/components/UI/Button";
 import { Paragraph } from "@/src/components/UI/Paragraph";
-import { white } from "@/src/constants/color";
+import { black, white } from "@/src/constants/color";
 import React from "react";
 import { TextInput, View } from "react-native";
 
-export default function Orders() {
+export default function Receiver() {
   return (
     <View>
       <Paragraph
@@ -14,14 +15,14 @@ export default function Orders() {
           color: white[200],
         }}
       >
-        Over
+        Enter EVM Address
       </Paragraph>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: 16,
+          padding: 6,
           paddingLeft: 20,
           backgroundColor: white[600],
           borderRadius: 100,
@@ -36,16 +37,23 @@ export default function Orders() {
             paddingLeft: 8,
           }}
           placeholderTextColor={"#BEBFC3"}
-          placeholder="00"
+          placeholder="0x85F0....aaeA"
         />
-        <Heading
+        <Button
           style={{
-            fontSize: 16,
-            fontWeight: "600",
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            backgroundColor: black[800],
+            borderColor: black[800],
+            gap: 6,
           }}
+          size="small"
+          onPress={() => {}}
+          icon={<CopyIcon width={16} height={16} color="white" />}
+          iconPosition="left"
         >
-          Orders
-        </Heading>
+          Paste
+        </Button>
       </View>
     </View>
   );

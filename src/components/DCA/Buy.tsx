@@ -8,11 +8,12 @@ import DCABuyTokenSheet from "../Sheets/DCABuyTokenSheet";
 import Sheet from "../UI/Sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useDCAStore } from "@/src/store";
+import ChevronDown from "@/src/assets/Icons/ChevronDown";
 
 export default function Buy() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
-  const {buyTokenData } = useDCAStore();
+  const { buyTokenData } = useDCAStore();
 
   return (
     <>
@@ -26,12 +27,7 @@ export default function Buy() {
         >
           To Buy
         </Paragraph>
-      <TouchableOpacity
-     onPress={()=>{
-      bottomSheetModalRef.current?.present();
-    }}
-      >
-      <View
+        <TouchableOpacity
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -43,6 +39,9 @@ export default function Buy() {
             borderRadius: 100,
             marginTop: 8,
           }}
+          onPress={() => {
+            bottomSheetModalRef.current?.present();
+          }}
         >
           <View
             style={{
@@ -52,7 +51,11 @@ export default function Buy() {
             }}
           >
             <Image
-              source={buyTokenData.logoURI ? { uri: buyTokenData.logoURI } : require("../../assets/images/solana.png")}
+              source={
+                buyTokenData.logoURI
+                  ? { uri: buyTokenData.logoURI }
+                  : require("../../assets/images/solana.png")
+              }
               style={{
                 width: 36,
                 height: 36,
@@ -69,8 +72,8 @@ export default function Buy() {
               {buyTokenData.name ? buyTokenData.name : "Select Token"}
             </Heading>
           </View>
-        </View>
-      </TouchableOpacity>
+          <ChevronDown width={24} height={24} color={"black"} />
+        </TouchableOpacity>
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
         <DCABuyTokenSheet />
