@@ -121,7 +121,6 @@ export default function BridgeConfirmSheet() {
           >
             Cancel
           </Button>
-
           <Button
             style={{
               width: "48%",

@@ -1,18 +1,22 @@
+import DepositSheet from "@/src/components/Sheets/DepositSheet";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
+import Sheet from "@/src/components/UI/Sheet";
 import TokenCard from "@/src/components/cards/TokenCard";
 import { black } from "@/src/constants/color";
 import useWalletData from "@/src/hooks/useWalletData";
 import useWalletStore from "@/src/store/wallet";
 import { IToken } from "@/src/types/wallet";
-import React from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useRef } from "react";
 import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
   const { handleTokens } = useWalletData();
   const { balance, tokens } = useWalletStore();
+  const depositSheetRef = useRef<BottomSheetModal>(null);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -42,7 +46,12 @@ export default function HomeScreen() {
             <Button onPress={() => {}} style={styles.button}>
               Withdraw
             </Button>
-            <Button onPress={() => {}} style={styles.button}>
+            <Button
+              onPress={() => {
+                depositSheetRef.current?.present();
+              }}
+              style={styles.button}
+            >
               Deposit
             </Button>
           </View>
@@ -59,6 +68,17 @@ export default function HomeScreen() {
           }}
         />
       </View>
+      <Sheet
+        style={{
+          margin: 16,
+        }}
+        ref={depositSheetRef}
+        snapPoints={[500]}
+        detached={true}
+        bottomInset={50}
+      >
+        <DepositSheet />
+      </Sheet>
     </Container>
   );
 }
