@@ -15,7 +15,7 @@ import { View } from "react-native";
 
 export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const {setInputMint, setOutputMint} = useDCAStore();
+  const { setInputMint, setOutputMint } = useDCAStore();
 
   return (
     <Container>
@@ -23,11 +23,11 @@ export default function Dca() {
         style={{
           flex: 1,
           padding: 16,
+          justifyContent: "space-between",
         }}
       >
         <View
           style={{
-            flex: 1,
             gap: 16,
           }}
         >
@@ -73,6 +73,9 @@ export default function Dca() {
         <Button
           onPress={() => {
             bottomSheetModalRef.current?.present();
+          }}
+          style={{
+            marginTop: 16,
           }}
         >
           Confirm DCA

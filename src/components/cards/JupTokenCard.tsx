@@ -1,7 +1,5 @@
 import { Heading } from "@/src/components/UI/Heading";
-import { Paragraph } from "@/src/components/UI/Paragraph";
-import { black, white } from "@/src/constants/color";
-import { IToken, JupTokens } from "@/src/types/wallet";
+import { JupTokens } from "@/src/types/wallet";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, View } from "react-native";

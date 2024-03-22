@@ -9,8 +9,6 @@ import { IToken } from "@/src/types/wallet";
 import React from "react";
 import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 
-const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
-
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
   const { handleTokens } = useWalletData();
@@ -39,10 +37,10 @@ export default function HomeScreen() {
     <Container>
       <View style={styles.container}>
         <View style={styles.walletSummary}>
-          <Heading style={styles.balance}>${balance}</Heading>
+          <Heading style={styles.balance}>${balance || "0"}</Heading>
           <View style={styles.buttonContainer}>
             <Button onPress={() => {}} style={styles.button}>
-              withdraw
+              Withdraw
             </Button>
             <Button onPress={() => {}} style={styles.button}>
               Deposit
@@ -65,6 +63,8 @@ export default function HomeScreen() {
   );
 }
 
+const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   balance: {
-    fontSize: 45,
-    fontWeight: "600",
+    fontSize: 48,
+    fontWeight: "700",
   },
   change: {
     fontSize: 16,
@@ -94,9 +94,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    padding: 10,
+    padding: 12,
     borderRadius: 50,
     paddingVertical: 14,
+    fontSize: 12,
     backgroundColor: black[800],
   },
   buttonText: {

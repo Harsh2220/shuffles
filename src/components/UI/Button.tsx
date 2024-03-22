@@ -46,7 +46,7 @@ export default function Button({
           borderRadius: 50,
           backgroundColor: variant === "filled" ? primary : "transparent",
           borderWidth: 1,
-          borderColor: variant === "filled" ? primary : white[300],
+          borderColor: variant === "filled" ? "transparent" : white[300],
         },
         style,
       ]}
