@@ -6,7 +6,7 @@ import { Heading } from "../UI/Heading";
 import { Paragraph } from "../UI/Paragraph";
 import { white } from "@/src/constants/color";
 import useWalletStore from "@/src/store/wallet";
-import formatAddress from "@/src/utils/formatBalance";
+import formatAddress from "@/src/utils/formatAddress";
 
 export default function DepositSheet() {
   const { height, width } = useWindowDimensions();
