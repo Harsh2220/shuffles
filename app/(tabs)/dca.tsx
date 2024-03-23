@@ -1,4 +1,3 @@
-import SwapIcon from "@/src/assets/Icons/SwapIcon";
 import Allocate from "@/src/components/DCA/Allocate";
 import Buy from "@/src/components/DCA/Buy";
 import Orders from "@/src/components/DCA/Orders";
@@ -8,15 +7,14 @@ import SwapDivider from "@/src/components/SwapDivider";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
-import { black, white } from "@/src/constants/color";
-import { useDCAStore } from "@/src/store";
+import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const { setInputMint, setOutputMint } = useDCAStore();
+  const { createDCA } = useCreateDCA();
 
   return (
     <Container>
