@@ -6,7 +6,7 @@ export async function getTokenBalance(address: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': process.env.SHYFT_API_KEY as string
+            'x-api-key': process.env.EXPO_PUBLIC_SHYFT_API_KEY as string
         }
     });
 
@@ -20,7 +20,7 @@ export async function getTokenBalance(address: string) {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-API-KEY': process.env.BIRDEYE_API_KEY as string
+                    'X-API-KEY': process.env.EXPO_PUBLIC_BIRDEYE_API_KEY as string
                 }
             });
 
@@ -58,7 +58,7 @@ export async function getWalletBalance(address: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-api-key': process.env.SHYFT_API_KEY as string
+            'x-api-key': process.env.EXPO_PUBLIC_SHYFT_API_KEY as string
         }
     });
 
@@ -68,7 +68,7 @@ export async function getWalletBalance(address: string) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'X-API-KEY': process.env.BIRDEYE_API_KEY as string
+            'X-API-KEY': process.env.EXPO_PUBLIC_BIRDEYE_API_KEY as string
         }
     });
 
