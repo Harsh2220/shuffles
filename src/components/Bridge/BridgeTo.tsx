@@ -77,7 +77,7 @@ export default function BridgeTo() {
                   fontWeight: "600",
                 }}
               >
-                {sellTokenData.name ? sellTokenData.name : "Select Token"}
+                {sellTokenData ? sellTokenData.name : "Select Token"}
               </Heading>
             </View>
             <ChevronDown width={24} height={24} color={"black"} />

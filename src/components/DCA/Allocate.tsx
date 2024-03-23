@@ -62,7 +62,7 @@ export default function Allocate() {
             >
               <Image
                 source={
-                  sellTokenData.image
+                  sellTokenData
                     ? { uri: sellTokenData.image }
                     : require("../../assets/images/solana.png")
                 }
@@ -80,7 +80,7 @@ export default function Allocate() {
                     fontWeight: "600",
                   }}
                 >
-                  {sellTokenData.name ? sellTokenData.name : "Select Token"}
+                  {sellTokenData ? sellTokenData.name : "Select Token"}
                 </Heading>
                 <Paragraph
                   style={{
@@ -89,8 +89,8 @@ export default function Allocate() {
                     color: white[100],
                   }}
                 >
-                  {sellTokenData.balance ? sellTokenData.balance : ""}{" "}
-                  {sellTokenData.symbol ? sellTokenData.symbol : "Select Token"}
+                  {sellTokenData ? sellTokenData.balance : ""}{" "}
+                  {sellTokenData ? sellTokenData.symbol : "Select Token"}
                 </Paragraph>
               </View>
             </TouchableOpacity>

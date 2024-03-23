@@ -52,7 +52,7 @@ export default function Buy() {
           >
             <Image
               source={
-                buyTokenData.logoURI
+                buyTokenData
                   ? { uri: buyTokenData.logoURI }
                   : require("../../assets/images/solana.png")
               }
@@ -69,7 +69,7 @@ export default function Buy() {
                 fontWeight: "600",
               }}
             >
-              {buyTokenData.name ? buyTokenData.name : "Select Token"}
+              {buyTokenData ? buyTokenData.name : "Select Token"}
             </Heading>
           </View>
           <ChevronDown width={24} height={24} color={"black"} />
