@@ -4,19 +4,37 @@ import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
 import * as Bip39 from "bip39";
-import bs58 from "bs58";
-import { Keypair } from "@solana/web3.js";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import * as Clipboard from "expo-clipboard";
+import React, { useState } from "react";
 import useWalletStore from "@/src/store/wallet";
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
+import { Keypair } from "@solana/web3.js";
+import { encode } from "bs58";
 
-function Word({ index, word }: { index: number; word: string }) {
+function Word({
+  index,
+  value,
+  onChange,
+}: {
+  index: number;
+  value: string;
+  onChange: (text: string, index: number) => void;
+}) {
+  const { width } = useWindowDimensions();
   return (
     <View
       style={{
         flexDirection: "row",
+        justifyContent: "center",
         gap: 8,
+        width: width / 3.5,
       }}
     >
       <Paragraph
@@ -27,12 +45,14 @@ function Word({ index, word }: { index: number; word: string }) {
           width: 24,
         }}
       >
-        {index}
+        {index + 1}
       </Paragraph>
       <TextInput
         style={styles.input}
-        value={word}
-        placeholder={`${index + 1}`}
+        value={value}
+        onChange={(e) => {
+          onChange(e.nativeEvent.text, index);
+        }}
       />
     </View>
   );
@@ -42,10 +62,17 @@ export default function ImportRecoveryPhraseScreen() {
   const { setCurrentWallet, setWallets } = useWalletStore();
   const [recoveryPhrase, setRecoveryPhrase] = useState(Array(12).fill(""));
 
-  const handlePaste = () => {};
+  async function handlePaste() {
+    const text = await Clipboard.getStringAsync();
+    const seedArray = text.split(" ");
+    for (let index = 0; index < seedArray.length; index++) {
+      recoveryPhrase[index] = seedArray[index];
+      setRecoveryPhrase(recoveryPhrase);
+    }
+  }
 
   async function handleWallet() {
-    const mnemonic = Bip39.generateMnemonic();
+    const mnemonic = recoveryPhrase.join(" ");
     const seed = Bip39.mnemonicToSeedSync(mnemonic, "").slice(0, 32);
     const keypair = Keypair.fromSeed(seed);
     const wallets = [
@@ -53,11 +80,17 @@ export default function ImportRecoveryPhraseScreen() {
         name: "wallet 1",
         seed: mnemonic,
         publicKey: keypair.publicKey.toBase58(),
-        secretKey: bs58.encode(keypair.secretKey),
+        secretKey: encode(keypair.secretKey),
       },
     ];
     setWallets(wallets);
     setCurrentWallet(wallets[0]);
+  }
+
+  function onChange(word: string, index: number) {
+    recoveryPhrase[index] = word;
+    setRecoveryPhrase(recoveryPhrase);
+    console.log(recoveryPhrase);
   }
 
   return (
@@ -90,7 +123,12 @@ export default function ImportRecoveryPhraseScreen() {
             }}
           >
             {[...Array(6)].map((el, index) => (
-              <Word key={index} index={index + 1} word="open" />
+              <Word
+                key={index}
+                index={index}
+                onChange={onChange}
+                value={recoveryPhrase[index]}
+              />
             ))}
           </View>
           <View
@@ -99,7 +137,12 @@ export default function ImportRecoveryPhraseScreen() {
             }}
           >
             {[...Array(6)].map((el, index) => (
-              <Word key={index} index={index + 7} word="open" />
+              <Word
+                key={index}
+                index={index + 6}
+                onChange={onChange}
+                value={recoveryPhrase[index + 6]}
+              />
             ))}
           </View>
         </View>
@@ -118,7 +161,7 @@ export default function ImportRecoveryPhraseScreen() {
             Your keys are stored securely within your phone.{"\n"}
             we don't store or share your keys anywhere else.
           </Paragraph>
-          <Button onPress={() => {}}>Import</Button>
+          <Button onPress={handleWallet}>Import</Button>
         </View>
       </View>
     </Container>
@@ -169,7 +212,8 @@ const styles = StyleSheet.create({
     borderBottomColor: white[200],
     borderBottomWidth: 1,
     fontSize: 16,
-    paddingHorizontal: 40,
+    fontFamily: "SF_Semibold",
+    fontWeight: "600",
   },
   buttonContainer: {
     flexDirection: "row",
