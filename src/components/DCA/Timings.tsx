@@ -3,8 +3,14 @@ import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
 import React from "react";
 import { TextInput, View } from "react-native";
+import Sheet from "../UI/Sheet";
+import DCATimingsSheet from "../Sheets/DCATimingsSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export default function Timings() {
+  const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
+  const snapPoints = React.useMemo(() => ["35%", "60%"], []);
+
   return (
     <View>
       <Paragraph
@@ -46,11 +52,16 @@ export default function Timings() {
             borderColor: black[800],
           }}
           size="small"
-          onPress={() => {}}
+          onPress={() => {
+            bottomSheetModalRef?.current?.present();
+          }}
         >
           Minute
         </Button>
       </View>
+      <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
+        <DCATimingsSheet />
+      </Sheet>
     </View>
   );
 }
