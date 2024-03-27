@@ -5,7 +5,7 @@ export interface IToken {
   symbol: string;
   balance: number;
   address: string;
-  rawPrice: number
+  decimal: number;
 }
 
 export interface JupTokens {
@@ -16,8 +16,7 @@ export interface JupTokens {
   symbol: string
   logoURI: string
   extensions: Extensions
-  tags: string[]
-  rawPrice: number
+  tags: string[],
 }
 
 export interface Extensions {

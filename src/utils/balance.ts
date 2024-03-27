@@ -33,8 +33,8 @@ export async function getTokenBalance(address: string) {
                     name: token.info.name,
                     symbol: token.info.symbol,
                     image: token.info.image,
+                    decimal: token.info.decimal,
                     balance: token.balance.toFixed(2),
-                    rawPrice: 0,
                 });
             }
         }
@@ -47,12 +47,12 @@ export async function getTokenBalance(address: string) {
         const data = await getWalletBalance(address)
         tokens.push({
             address: solTokenAddress,
+            decimal: 9,
             price: (data.price).toFixed(2),
             name: "Solana",
             symbol: "SOL",
             image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
             balance: data.balance.toFixed(2),
-            rawPrice: data.rawPrice,
         })
     }
 
