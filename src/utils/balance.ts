@@ -11,10 +11,10 @@ export async function getTokenBalance(address: string) {
     });
 
     const data = await tokenResponse.json();
+    const solTokenAddress = 'So11111111111111111111111111111111111111112';
 
     for (let i = 0; i < data.result.length; i++) {
         const token = data.result[i];
-
         if (token.balance > 0.01) {
             const balanceResponse = await fetch(`https://public-api.birdeye.so/public/price?address=${token.address}`, {
                 method: 'GET',
@@ -47,8 +47,9 @@ export async function getTokenBalance(address: string) {
                 image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
                 balance: walletBalance.balance
             });
-        }
+        } 
     }
+
     tokens.sort((a, b) => Number(a.price) - Number(b.price));
     return tokens;
 }

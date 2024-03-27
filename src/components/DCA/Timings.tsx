@@ -6,11 +6,12 @@ import { TextInput, View } from "react-native";
 import Sheet from "../UI/Sheet";
 import DCATimingsSheet from "../Sheets/DCATimingsSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useDCAStore } from "@/src/store";
 
 export default function Timings() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["35%", "60%"], []);
-
+  const {setInAmountPerCycle} = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -35,6 +36,7 @@ export default function Timings() {
         }}
       >
         <TextInput
+        onChange={(e) => setInAmountPerCycle(e.nativeEvent.text)}
           style={{
             fontSize: 16,
             fontWeight: "600",

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useWalletStore from "../store/wallet";
-import { getTokenBalance } from "../utils/balance";
+import { getTokenBalance, getWalletBalance } from "../utils/balance";
 
 export default function useWalletData() {
   const { setTokens, tokens, setBalance } = useWalletStore();
@@ -8,10 +8,11 @@ export default function useWalletData() {
   async function handleTokens() {
     try {
       const tokenList = await getTokenBalance(
-        "3dTSLCGStegkuoU6dc75DbRdJk4rKV3d5ZCZdSWbTcQv"
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
       );
+      
       setTokens(tokenList);
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async function handleBalance() {
@@ -22,7 +23,7 @@ export default function useWalletData() {
         totalBalance = totalBalance + Number(tokens[index].price);
       }
       setBalance(Number(totalBalance.toFixed(2)));
-    } catch (error) {}
+    } catch (error) { }
   }
 
   useEffect(() => {

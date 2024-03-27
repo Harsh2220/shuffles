@@ -15,6 +15,7 @@ export default function Allocate() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
   const { sellTokenData } = useDCAStore();
+  const {inAmount, setInAmount} = useDCAStore();
   const [amount, setAmount] = useState<string>("");
   return (
     <>
@@ -116,8 +117,8 @@ export default function Allocate() {
           >
             <TextInput
               keyboardType="numeric"
-              value={amount.toString()}
-              onChangeText={(text) => setAmount(text)}
+              value={inAmount.toString()}
+              onChangeText={(text) => setInAmount((text))}
               style={{
                 fontSize: 58,
                 fontWeight: "600",

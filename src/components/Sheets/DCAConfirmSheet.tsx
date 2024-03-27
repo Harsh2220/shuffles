@@ -6,10 +6,26 @@ import { StyleSheet, View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
 import { Paragraph } from "../UI/Paragraph";
+import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
+import { useDCAStore } from "@/src/store";
 
 export default function DCAConfirmSheet() {
   const { dismiss } = useBottomSheetModal();
+  const { gasFess } = useDCAStore();
+  const {
+    payer,
+    user,
+    inAmount,
+    inAmountPerCycle,
+    cycleSecondsApart,
+    inputMint,
+    outputMint,
+    minOutAmountPerCycle,
+    maxOutAmountPerCycle,
+    startAt,
+  } = useDCAStore();
 
+  console.log("Gas: ", gasFess);
   return (
     <View style={styles.contentContainer}>
       <View style={styles.transactionPreview}>
@@ -82,7 +98,7 @@ export default function DCAConfirmSheet() {
                     fontWeight: "500",
                   }}
                 >
-                  Sell Total
+                  Sell Per Total
                 </Paragraph>
                 <Heading
                   style={{
@@ -91,7 +107,7 @@ export default function DCAConfirmSheet() {
                     color: black[800],
                   }}
                 >
-                  500 JUP
+                  {gasFess}
                 </Heading>
               </View>
             ))}
