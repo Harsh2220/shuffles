@@ -55,7 +55,7 @@ export default function Dca() {
           margin: 16,
         }}
         ref={bottomSheetModalRef}
-        snapPoints={[450]}
+        snapPoints={[400]}
         detached={true}
         bottomInset={50}
       >

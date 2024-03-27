@@ -17,8 +17,8 @@ interface IDCAStore {
     userInTokenAccount: PublicKey | null;
     dcaPubKey: PublicKey | null;
     withDrawAmount: BigInt;
-    buyTokenData: JupTokens;
-    sellTokenData: IToken;
+    buyTokenData: JupTokens | null;
+    sellTokenData: IToken | null;
     gasFess: number;
 
     setPayer: (payer: PublicKey) => void;
@@ -76,27 +76,8 @@ const useDCAStore = create<IDCAStore>((set) => ({
     dcaPubKey: null,
     withDrawAmount: BigInt(0),
     gasFess: 0,
-    buyTokenData: {
-        address: "",
-        chainId: 0,
-        decimals: 0,
-        extensions: {
-            coingeckoId: "",
-        },
-        logoURI: "",
-        name: "",
-        symbol: "",
-        tags: [],
-    },
-    sellTokenData: {
-        price: "",
-        name: "",
-        image: "",
-        symbol: "",
-        balance: 0,
-        address: "",
-    },
-
+    buyTokenData: null,
+    sellTokenData: null,
     setPayer: (payer: PublicKey) => set({ payer }),
     setUser: (user: PublicKey) => set({ user }),
     setInAmount: (inAmount: string) => set({ inAmount }),

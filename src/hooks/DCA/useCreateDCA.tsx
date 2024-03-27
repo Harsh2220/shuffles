@@ -1,5 +1,10 @@
 import { CreateDCAParamsV2 } from "@jup-ag/dca-sdk";
-import { Keypair, PublicKey, Transaction, sendAndConfirmTransaction } from "@solana/web3.js";
+import {
+  Keypair,
+  PublicKey,
+  Transaction,
+  sendAndConfirmTransaction,
+} from "@solana/web3.js";
 import { useDCAStore } from "../../store";
 import { connection, dca } from "../../utils/connection";
 import useWalletStore from "../../store/wallet";
@@ -11,7 +16,6 @@ import { DCABuyTimings } from "@/src/types/DCA";
 import React from "react";
 
 export default function useCreateDCA() {
-
   const { currentWallet } = useWalletStore();
   const {
     inAmount,
@@ -24,14 +28,18 @@ export default function useCreateDCA() {
     startAt,
   } = useDCAStore();
 
-   async function createDCA() {
-    const pubKey = new PublicKey(currentWallet?.publicKey as string);
+  async function createDCA() {
+    const pubKey = new PublicKey(
+      "Ad3SGvr7fzAHGLC81nooyG5BaYxsACFxM28kDpXZe4aa"
+    );
     const params: CreateDCAParamsV2 = {
       payer: pubKey,
       user: pubKey,
       inAmount: BigInt(Number(inAmount) * 1000000),
       inAmountPerCycle: BigInt(Number(inAmountPerCycle) * 100000),
-      cycleSecondsApart: BigInt(getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)) as bigint,
+      cycleSecondsApart: BigInt(
+        getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)
+      ) as bigint,
       inputMint: inputMint as PublicKey,
       outputMint: outputMint as PublicKey,
       minOutAmountPerCycle: minOutAmountPerCycle as bigint,
@@ -41,8 +49,9 @@ export default function useCreateDCA() {
     console.log("Create DCA Params: ", params);
     const { tx, dcaPubKey } = await dca.createDcaV2(params);
     console.log("Create DCA TX: ", tx.instructions);
-    const simulate = await getSimulationUnits(connection, tx.instructions, pubKey, []) ?? 0;
-    const gasFees = (simulate) / 1000000000;
+    const simulate =
+      (await getSimulationUnits(connection, tx.instructions, pubKey, [])) ?? 0;
+    const gasFees = simulate / 1000000000;
     return { tx, dcaPubKey, gasFees };
   }
 

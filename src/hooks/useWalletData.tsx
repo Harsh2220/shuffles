@@ -8,11 +8,11 @@ export default function useWalletData() {
   async function handleTokens() {
     try {
       const tokenList = await getTokenBalance(
-        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+        "Ad3SGvr7fzAHGLC81nooyG5BaYxsACFxM28kDpXZe4aa"
       );
-      
+
       setTokens(tokenList);
-    } catch (error) { }
+    } catch (error) {}
   }
 
   async function handleBalance() {
@@ -23,7 +23,7 @@ export default function useWalletData() {
         totalBalance = totalBalance + Number(tokens[index].price);
       }
       setBalance(Number(totalBalance.toFixed(2)));
-    } catch (error) { }
+    } catch (error) {}
   }
 
   useEffect(() => {

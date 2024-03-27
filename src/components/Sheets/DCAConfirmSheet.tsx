@@ -1,31 +1,64 @@
 import { black, white } from "@/src/constants/color";
+import { useDCAStore } from "@/src/store";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
 import { Paragraph } from "../UI/Paragraph";
-import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
-import { useDCAStore } from "@/src/store";
+import useTokenPrice from "@/src/hooks/useTokenPrice";
 
 export default function DCAConfirmSheet() {
   const { dismiss } = useBottomSheetModal();
-  const { gasFess } = useDCAStore();
   const {
-    payer,
-    user,
     inAmount,
     inAmountPerCycle,
     cycleSecondsApart,
-    inputMint,
-    outputMint,
-    minOutAmountPerCycle,
-    maxOutAmountPerCycle,
-    startAt,
+    sellTokenData,
+    buyTokenData,
+    gasFess,
   } = useDCAStore();
+  const { getTokenPrice } = useTokenPrice();
+  const [price, setPrice] = useState(0);
 
-  console.log("Gas: ", gasFess);
+  async function handlePrice() {
+    try {
+      if (!sellTokenData?.address) return;
+      const tokenPrice = await getTokenPrice(sellTokenData?.address);
+      setPrice(tokenPrice);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    handlePrice();
+  }, []);
+
+  const DATA = [
+    {
+      title: "Sell per order",
+      value: `${inAmountPerCycle} ${sellTokenData?.symbol}`,
+    },
+    {
+      title: "Receive",
+      value: buyTokenData?.symbol,
+    },
+    {
+      title: "Order interval",
+      value: cycleSecondsApart,
+    },
+    {
+      title: "Start date",
+      value: "Immediate",
+    },
+    {
+      title: "Estimated gas fees",
+      value: gasFess,
+    },
+  ];
+
   return (
     <View style={styles.contentContainer}>
       <View style={styles.transactionPreview}>
@@ -40,7 +73,9 @@ export default function DCAConfirmSheet() {
           }}
         >
           <View>
-            <Heading style={styles.assetName}>-500 JUP</Heading>
+            <Heading style={styles.assetName}>
+              -{inAmount} {sellTokenData?.symbol}
+            </Heading>
             <Paragraph
               style={{
                 fontSize: 12,
@@ -48,11 +83,13 @@ export default function DCAConfirmSheet() {
                 color: white[200],
               }}
             >
-              $700
+              ${price.toFixed(2)}
             </Paragraph>
           </View>
           <Image
-            source={require("../../assets/images/solana.png")}
+            source={{
+              uri: sellTokenData?.image,
+            }}
             style={{ width: 40, height: 40, borderRadius: 25 }}
           />
         </View>
@@ -82,7 +119,7 @@ export default function DCAConfirmSheet() {
               gap: 8,
             }}
           >
-            {[...Array(8)].map((_, index) => (
+            {DATA.map((el, index) => (
               <View
                 key={index}
                 style={{
@@ -98,7 +135,7 @@ export default function DCAConfirmSheet() {
                     fontWeight: "500",
                   }}
                 >
-                  Sell Per Total
+                  {el.title}
                 </Paragraph>
                 <Heading
                   style={{
@@ -107,7 +144,7 @@ export default function DCAConfirmSheet() {
                     color: black[800],
                   }}
                 >
-                  {gasFess}
+                  {el.value}
                 </Heading>
               </View>
             ))}

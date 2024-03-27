@@ -33,24 +33,30 @@ export async function getTokenBalance(address: string) {
                     name: token.info.name,
                     symbol: token.info.symbol,
                     image: token.info.image,
-                    balance: token.balance.toFixed(2)
+                    balance: token.balance.toFixed(2),
+                    rawPrice: 0,
                 });
             }
-        } else if (token.address === 'So11111111111111111111111111111111111111112') {
-            const walletBalance = await getWalletBalance(address);
+        }
 
-            tokens.push({
-                address: token.address,
-                price: walletBalance.price.toFixed(2),
-                name: "Solana",
-                symbol: "SOL",
-                image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
-                balance: walletBalance.balance
-            });
-        } 
     }
 
-    tokens.sort((a, b) => Number(a.price) - Number(b.price));
+    const sol = tokens.find((el) => el.address === solTokenAddress)
+
+    if (!sol) {
+        const data = await getWalletBalance(address)
+        tokens.push({
+            address: solTokenAddress,
+            price: (data.price).toFixed(2),
+            name: "Solana",
+            symbol: "SOL",
+            image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
+            balance: data.balance.toFixed(2),
+            rawPrice: data.rawPrice,
+        })
+    }
+
+    tokens.sort((a, b) => Number(b.price) - Number(a.price));
     return tokens;
 }
 
@@ -77,6 +83,7 @@ export async function getWalletBalance(address: string) {
 
     return {
         balance: data.result.balance,
-        price: balanceData.data.value * data.result.balance
+        price: balanceData.data.value * data.result.balance,
+        rawPrice: balanceData.data.value,
     };
 }
