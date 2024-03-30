@@ -31,14 +31,16 @@ export default function Orders() {
         }}
       >
         <TextInput
+          keyboardType="number-pad"
           onChangeText={(text) => {
-            setCycleSecondsApart((text));
+            setCycleSecondsApart(text);
           }}
           style={{
+            flex: 1,
             fontSize: 16,
             fontWeight: "600",
             fontFamily: "SF_Semibold",
-            paddingLeft: 8,
+            marginHorizontal: 8,
           }}
           placeholderTextColor={"#BEBFC3"}
           placeholder="00"

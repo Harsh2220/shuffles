@@ -47,26 +47,24 @@ export default function Buy() {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              gap: 10,
             }}
           >
-            <Image
-              source={
-                buyTokenData
-                  ? { uri: buyTokenData.logoURI }
-                  : require("../../assets/images/solana.png")
-              }
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 50,
-              }}
-              contentFit="cover"
-            />
+            {buyTokenData?.logoURI && (
+              <Image
+                source={{ uri: buyTokenData.logoURI }}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 50,
+                }}
+                contentFit="cover"
+              />
+            )}
             <Heading
               style={{
                 fontSize: 16,
                 fontWeight: "600",
+                marginLeft: 10,
               }}
             >
               {buyTokenData ? buyTokenData.name : "Select Token"}

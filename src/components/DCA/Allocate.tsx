@@ -15,7 +15,7 @@ export default function Allocate() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
   const { sellTokenData } = useDCAStore();
-  const {inAmount, setInAmount} = useDCAStore();
+  const { inAmount, setInAmount } = useDCAStore();
   const [amount, setAmount] = useState<string>("");
   return (
     <>
@@ -58,23 +58,24 @@ export default function Allocate() {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 10,
               }}
             >
-              <Image
-                source={
-                  sellTokenData
-                    ? { uri: sellTokenData.image }
-                    : require("../../assets/images/solana.png")
-                }
+              {sellTokenData?.image && (
+                <Image
+                  source={{ uri: sellTokenData.image }}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 50,
+                  }}
+                  contentFit="cover"
+                />
+              )}
+              <View
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 50,
+                  marginLeft: 10,
                 }}
-                contentFit="cover"
-              />
-              <View>
+              >
                 <Heading
                   style={{
                     fontSize: 16,
@@ -83,16 +84,17 @@ export default function Allocate() {
                 >
                   {sellTokenData ? sellTokenData.name : "Select Token"}
                 </Heading>
-                <Paragraph
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: white[100],
-                  }}
-                >
-                  {sellTokenData ? sellTokenData.balance : ""}{" "}
-                  {sellTokenData ? sellTokenData.symbol : "Select Token"}
-                </Paragraph>
+                {sellTokenData && (
+                  <Paragraph
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "500",
+                      color: white[100],
+                    }}
+                  >
+                    {sellTokenData?.balance} {sellTokenData?.symbol}
+                  </Paragraph>
+                )}
               </View>
             </TouchableOpacity>
             <Button
@@ -116,9 +118,9 @@ export default function Allocate() {
             }}
           >
             <TextInput
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
               value={inAmount.toString()}
-              onChangeText={(text) => setInAmount((text))}
+              onChangeText={(text) => setInAmount(text)}
               style={{
                 fontSize: 58,
                 fontWeight: "600",
