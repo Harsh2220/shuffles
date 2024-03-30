@@ -11,7 +11,7 @@ import { useDCAStore } from "@/src/store";
 export default function Timings() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["35%", "60%"], []);
-  const { setInAmountPerCycle } = useDCAStore();
+  const { setCycleSecondsApart } = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -37,7 +37,7 @@ export default function Timings() {
       >
         <TextInput
           keyboardType="number-pad"
-          onChange={(e) => setInAmountPerCycle(e.nativeEvent.text)}
+          onChange={(e) => setCycleSecondsApart(e.nativeEvent.text)}
           style={{
             flex: 1,
             fontSize: 16,

@@ -19,6 +19,8 @@ export default function DCAConfirmSheet() {
     sellTokenData,
     buyTokenData,
     gasFess,
+    tx,
+    dcaPubKey
   } = useDCAStore();
   const { getTokenPrice } = useTokenPrice();
   const [price, setPrice] = useState(0);
@@ -85,7 +87,7 @@ export default function DCAConfirmSheet() {
                 color: white[200],
               }}
             >
-              ${price.toFixed(2)}
+              ${Number(price.toFixed(2)) * Number(inAmount)}
             </Paragraph>
           </View>
           <Image
@@ -183,8 +185,7 @@ export default function DCAConfirmSheet() {
             }}
             size="small"
             onPress={() => {
-              // dismiss();
-              executeDCA
+              executeDCA();
 
             }}
           >

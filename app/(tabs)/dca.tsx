@@ -40,9 +40,8 @@ export default function Dca() {
         </View>
         <Button
           onPress={async () => {
-            getUserDCAs();
-            // createDCA();
-            // bottomSheetModalRef.current?.present();
+            await createDCA();
+            bottomSheetModalRef.current?.present();
           }}
           style={{
             marginTop: 16,

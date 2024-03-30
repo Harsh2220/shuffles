@@ -1,4 +1,4 @@
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 import { create } from "zustand";
 // import { BN } from "@coral-xyz/anchor";
 import { IToken, JupTokens } from "../types/wallet";
@@ -20,6 +20,7 @@ interface IDCAStore {
     buyTokenData: JupTokens | null;
     sellTokenData: IToken | null;
     gasFess: number;
+    tx: Transaction | null;
 
     setPayer: (payer: PublicKey) => void;
     setUser: (user: PublicKey) => void;
@@ -38,6 +39,7 @@ interface IDCAStore {
     setBuyTokenData: (buyTokenData: JupTokens) => void;
     setSellTokenData: (sellTokenData: IToken) => void;
     setGasFees: (gasFess: number) => void;
+    setTx: (tx: Transaction) => void;
 }
 
 // interface ILimitOrderStore {
@@ -76,6 +78,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     dcaPubKey: null,
     withDrawAmount: BigInt(0),
     gasFess: 0,
+    tx: null,
     buyTokenData: null,
     sellTokenData: null,
     setPayer: (payer: PublicKey) => set({ payer }),
@@ -94,6 +97,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setWithDrawAmount: (withDrawAmount: BigInt) => set({ withDrawAmount }),
     setBuyTokenData: (buyTokenData: JupTokens) => set({ buyTokenData }),
     setSellTokenData: (sellTokenData: IToken) => set({ sellTokenData }),
+    setTx:(tx: Transaction) => set({ tx }),
 }));
 
 // const useLimitOrderStore = create<ILimitOrderStore>((set) => ({

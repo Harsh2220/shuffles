@@ -6,7 +6,7 @@ import React from "react";
 import { TextInput, View } from "react-native";
 
 export default function Orders() {
-  const { setCycleSecondsApart } = useDCAStore();
+  const { setInAmountPerCycle } = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -33,7 +33,7 @@ export default function Orders() {
         <TextInput
           keyboardType="number-pad"
           onChangeText={(text) => {
-            setCycleSecondsApart(text);
+            setInAmountPerCycle(text);
           }}
           style={{
             flex: 1,
