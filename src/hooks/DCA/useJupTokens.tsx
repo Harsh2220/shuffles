@@ -10,7 +10,6 @@ export default function useJupTokens() {
         setIsLoading(true)
         const response = await fetch('https://token.jup.ag/strict');
         const data = await response.json();
-        console.log(data)
         setJupTokens(data);
        } catch (error) {
         console.log(error)

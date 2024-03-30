@@ -16,8 +16,7 @@ import { View } from "react-native";
 export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { createDCA } = useCreateDCA();
-  const { setGasFees } = useDCAStore();
-  return (
+ return (
     <Container>
       <View
         style={{
@@ -39,9 +38,8 @@ export default function Dca() {
         </View>
         <Button
           onPress={async () => {
-            const gas = await createDCA();
-            setGasFees(gas.gasFees);
-            bottomSheetModalRef.current?.present();
+             createDCA();
+            // bottomSheetModalRef.current?.present();
           }}
           style={{
             marginTop: 16,

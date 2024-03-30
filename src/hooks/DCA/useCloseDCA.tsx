@@ -1,6 +1,6 @@
 import { CloseDCAParams } from "@jup-ag/dca-sdk";
 import { useDCAStore } from "../../store";
-import { Keypair, sendAndConfirmTransaction } from "@solana/web3.js";
+import { Keypair, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
 import { connection, dca } from "../../utils/connection";
 
 export default async function useCloseDCA() {
@@ -10,8 +10,8 @@ export default async function useCloseDCA() {
         const { user, dcaPubKey } = useDCAStore();
 
         const params: CloseDCAParams = {
-            user: user,
-            dca: dcaPubKey,
+            user: user as PublicKey,
+            dca: dcaPubKey as PublicKey,
         };
 
         const { tx } = await dca.closeDCA(params);

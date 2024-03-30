@@ -15,7 +15,7 @@ export async function getTokenBalance(address: string) {
 
     for (let i = 0; i < data.result.length; i++) {
         const token = data.result[i];
-        if (token.balance > 0.01) {
+         if (token.balance > 0.01) {
             const balanceResponse = await fetch(`https://public-api.birdeye.so/public/price?address=${token.address}`, {
                 method: 'GET',
                 headers: {
@@ -33,7 +33,7 @@ export async function getTokenBalance(address: string) {
                     name: token.info.name,
                     symbol: token.info.symbol,
                     image: token.info.image,
-                    decimal: token.info.decimal,
+                    decimal: token.info.decimals,
                     balance: token.balance.toFixed(2),
                 });
             }

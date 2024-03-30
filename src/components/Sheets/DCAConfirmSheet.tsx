@@ -8,6 +8,7 @@ import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
 import { Paragraph } from "../UI/Paragraph";
 import useTokenPrice from "@/src/hooks/useTokenPrice";
+import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
 
 export default function DCAConfirmSheet() {
   const { dismiss } = useBottomSheetModal();
@@ -21,6 +22,7 @@ export default function DCAConfirmSheet() {
   } = useDCAStore();
   const { getTokenPrice } = useTokenPrice();
   const [price, setPrice] = useState(0);
+  const {executeDCA} = useCreateDCA();
 
   async function handlePrice() {
     try {
@@ -181,7 +183,9 @@ export default function DCAConfirmSheet() {
             }}
             size="small"
             onPress={() => {
-              dismiss();
+              // dismiss();
+              executeDCA
+
             }}
           >
             Confirm

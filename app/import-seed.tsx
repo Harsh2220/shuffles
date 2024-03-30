@@ -90,7 +90,6 @@ export default function ImportRecoveryPhraseScreen() {
   function onChange(word: string, index: number) {
     recoveryPhrase[index] = word;
     setRecoveryPhrase(recoveryPhrase);
-    console.log(recoveryPhrase);
   }
 
   return (
