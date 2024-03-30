@@ -1,22 +1,19 @@
-import Button from "@/src/components/UI/Button";
+import ChevronDown from "@/src/assets/Icons/ChevronDown";
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
+import useBridgeStore from "@/src/store/bridge";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
 import React from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
+import ChainSheet from "../Sheets/BridgeSheets/ChainSheet";
 import Sheet from "../UI/Sheet";
-import DCASellTokenSheet from "../Sheets/DCASellTokenSheet";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDCAStore } from "@/src/store";
-import { useState } from "react";
-import ChevronDown from "@/src/assets/Icons/ChevronDown";
 
 export default function BridgeTo() {
+  const { chain } = useBridgeStore();
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
-  const { sellTokenData } = useDCAStore();
-  const [amount, setAmount] = useState<string>("");
 
   return (
     <>
@@ -59,25 +56,29 @@ export default function BridgeTo() {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 10,
               }}
             >
-              <Image
-                source={require("../../assets/images/solana.png")}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 50,
-                }}
-                contentFit="cover"
-              />
+              {chain && (
+                <Image
+                  source={{
+                    uri: chain.image,
+                  }}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 50,
+                  }}
+                  contentFit="cover"
+                />
+              )}
               <Heading
                 style={{
                   fontSize: 16,
                   fontWeight: "600",
+                  marginLeft: 10,
                 }}
               >
-                {sellTokenData ? sellTokenData.name : "Select Token"}
+                {chain ? chain.name : "Select Chain"}
               </Heading>
             </View>
             <ChevronDown width={24} height={24} color={"black"} />
@@ -89,9 +90,7 @@ export default function BridgeTo() {
             }}
           >
             <TextInput
-              keyboardType="numeric"
-              value={amount.toString()}
-              onChangeText={(text) => setAmount(text)}
+              editable={false}
               style={{
                 fontSize: 58,
                 fontWeight: "600",
@@ -104,7 +103,7 @@ export default function BridgeTo() {
         </View>
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
-        <DCASellTokenSheet />
+        <ChainSheet />
       </Sheet>
     </>
   );

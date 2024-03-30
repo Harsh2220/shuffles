@@ -10,12 +10,13 @@ import DCASellTokenSheet from "../Sheets/DCASellTokenSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useDCAStore } from "@/src/store";
 import { useState } from "react";
+import useBridgeStore from "@/src/store/bridge";
 
 export default function BridgeFrom() {
+  const { amount, setAmount } = useBridgeStore();
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
   const { sellTokenData } = useDCAStore();
-  const [amount, setAmount] = useState<string>("");
 
   return (
     <>
@@ -117,8 +118,8 @@ export default function BridgeFrom() {
           >
             <TextInput
               keyboardType="numeric"
-              value={amount.toString()}
-              onChangeText={(text) => setAmount(text)}
+              value={amount}
+              onChangeText={(value) => setAmount(value)}
               style={{
                 fontSize: 58,
                 fontWeight: "600",
