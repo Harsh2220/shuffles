@@ -2,10 +2,19 @@ import CopyIcon from "@/src/assets/Icons/CopyIcon";
 import Button from "@/src/components/UI/Button";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { black, white } from "@/src/constants/color";
+import useBridgeStore from "@/src/store/bridge";
 import React from "react";
+import * as Clipboard from "expo-clipboard";
 import { TextInput, View } from "react-native";
 
 export default function Receiver() {
+  const { setReceiver, receiver } = useBridgeStore();
+
+  async function handlePaste() {
+    const text = await Clipboard.getStringAsync();
+    setReceiver(text);
+  }
+
   return (
     <View>
       <Paragraph
@@ -30,7 +39,12 @@ export default function Receiver() {
         }}
       >
         <TextInput
+          value={receiver}
+          onChange={(e) => {
+            setReceiver(e.nativeEvent.text);
+          }}
           style={{
+            flex: 1,
             fontSize: 16,
             fontWeight: "600",
             fontFamily: "SF_Semibold",
@@ -48,7 +62,7 @@ export default function Receiver() {
             gap: 6,
           }}
           size="small"
-          onPress={() => {}}
+          onPress={handlePaste}
           icon={<CopyIcon width={16} height={16} color="white" />}
           iconPosition="left"
         >

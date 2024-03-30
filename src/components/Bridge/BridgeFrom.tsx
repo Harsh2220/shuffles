@@ -58,6 +58,7 @@ export default function BridgeFrom() {
                 bottomSheetModalRef.current?.present();
               }}
               style={{
+                flex: 1,
                 flexDirection: "row",
                 alignItems: "center",
               }}
