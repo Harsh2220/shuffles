@@ -1,8 +1,8 @@
-import Container from "@/src/components/UI/Container";
-import { Heading } from "@/src/components/UI/Heading";
+import { white } from "@/src/constants/color";
 import useWalletData from "@/src/hooks/useWalletData";
 import useWalletStore from "@/src/store/wallet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
 import { View } from "react-native";
@@ -29,10 +29,18 @@ export default function loader() {
   }, []);
 
   return (
-    <Container>
-      <View>
-        <Heading>Loading</Heading>
-      </View>
-    </Container>
+    <View
+      style={{
+        backgroundColor: white[800],
+      }}
+    >
+      <Image
+        source={require("../src/assets/images/splash.png")}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      />
+    </View>
   );
 }
