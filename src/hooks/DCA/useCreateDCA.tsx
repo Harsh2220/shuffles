@@ -27,16 +27,13 @@ export default function useCreateDCA() {
     minOutAmountPerCycle,
     maxOutAmountPerCycle,
     startAt,
-    sellTokenData
+    sellTokenData,
   } = useDCAStore();
   async function createDCA() {
-
     const userPayer = Keypair.fromSecretKey(
       bs58.decode(currentWallet?.secretKey as string)
     );
-    const pubKey = new PublicKey(
-      currentWallet?.publicKey as string
-    );
+    const pubKey = new PublicKey(currentWallet?.publicKey as string);
 
     let nonceAccount = Keypair.generate();
     console.log(`nonce account: ${nonceAccount.publicKey.toBase58()}`);
@@ -44,12 +41,15 @@ export default function useCreateDCA() {
     const params: CreateDCAParamsV2 = {
       payer: pubKey,
       user: pubKey,
-      inAmount: BigInt(Number(calculateDecimals(Number(sellTokenData?.decimal), Number(inAmount)))),
-      // inAmountPerCycle: BigInt(Number(calculateDecimals(Number(sellTokenData?.decimal), Number(inAmountPerCycle)))),
+      inAmount: BigInt(
+        Number(inAmount) * Math.pow(10, sellTokenData?.decimal!)
+      ),
       cycleSecondsApart: BigInt(
         getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)
-      ) as bigint,
-      inAmountPerCycle: BigInt(5_00_000), // buy using 1 USDC each day
+      ),
+      inAmountPerCycle: BigInt(
+        Number(inAmountPerCycle) * Math.pow(10, sellTokenData?.decimal!)
+      ),
       inputMint: inputMint as PublicKey,
       outputMint: outputMint as PublicKey,
       minOutAmountPerCycle: minOutAmountPerCycle as bigint,
@@ -81,13 +81,18 @@ export default function useCreateDCA() {
           noncePubkey: nonceAccount.publicKey, // nonce account pubkey
           authorizedPubkey: pubKey, // nonce account authority (for advance and close)
         })
-      )
-      console.log("SOlana's blockHeight: ", latestBlockhash.lastValidBlockHeight);
+      );
+      console.log(
+        "SOlana's blockHeight: ",
+        latestBlockhash.lastValidBlockHeight
+      );
       transaction.recentBlockhash = latestBlockhash.blockhash;
       transaction.lastValidBlockHeight = latestBlockhash.lastValidBlockHeight;
-      const txid = await sendAndConfirmTransaction(connection, transaction, [userPayer, nonceAccount]);
+      const txid = await sendAndConfirmTransaction(connection, transaction, [
+        userPayer,
+        nonceAccount,
+      ]);
       console.log("Created DCA: ", { txid });
-
     } catch (error) {
       console.log("Error creating DCA: ", error);
     }
@@ -97,7 +102,6 @@ export default function useCreateDCA() {
   }
 
   async function executeDCA(tx: Transaction, dcaPubKey: PublicKey) {
-
     const latestBlockhash = await connection.getLatestBlockhash();
 
     const userPayer = Keypair.fromSecretKey(
