@@ -15,7 +15,7 @@ export async function getTokenBalance(address: string) {
 
     for (let i = 0; i < data.result.length; i++) {
         const token = data.result[i];
-         if (token.balance > 0.01) {
+        if (token.balance > 0.01) {
             const balanceResponse = await fetch(`https://public-api.birdeye.so/public/price?address=${token.address}`, {
                 method: 'GET',
                 headers: {
@@ -51,7 +51,7 @@ export async function getTokenBalance(address: string) {
             price: (data.price).toFixed(2),
             name: "Solana",
             symbol: "SOL",
-            image: "https://www.creativefabrica.com/wp-content/uploads/2021/06/16/Cryptocurrency-Solana-Logo-Graphics-13460284-1.jpg",
+            image: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
             balance: data.balance.toFixed(2),
         })
     }

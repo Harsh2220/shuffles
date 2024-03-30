@@ -11,12 +11,13 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useDCAStore } from "@/src/store";
 import { useState } from "react";
 import useBridgeStore from "@/src/store/bridge";
+import TokenSheet from "../Sheets/BridgeSheets/TokenSheet";
 
 export default function BridgeFrom() {
   const { amount, setAmount } = useBridgeStore();
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
-  const { sellTokenData } = useDCAStore();
+  const { sellToken } = useBridgeStore();
 
   return (
     <>
@@ -59,41 +60,43 @@ export default function BridgeFrom() {
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 10,
               }}
             >
-              <Image
-                source={
-                  sellTokenData
-                    ? { uri: sellTokenData.image }
-                    : require("../../assets/images/solana.png")
-                }
+              {sellToken && (
+                <Image
+                  source={{ uri: sellToken.image }}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 50,
+                  }}
+                  contentFit="cover"
+                />
+              )}
+              <View
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 50,
+                  marginLeft: 10,
                 }}
-                contentFit="cover"
-              />
-              <View>
+              >
                 <Heading
                   style={{
                     fontSize: 16,
                     fontWeight: "600",
                   }}
                 >
-                  {sellTokenData ? sellTokenData.name : "Select Token"}
+                  {sellToken ? sellToken.name : "Select Token"}
                 </Heading>
-                <Paragraph
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: white[100],
-                  }}
-                >
-                  {sellTokenData ? sellTokenData.balance : ""}{" "}
-                  {sellTokenData ? sellTokenData.symbol : "Select Token"}
-                </Paragraph>
+                {sellToken && (
+                  <Paragraph
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "500",
+                      color: white[100],
+                    }}
+                  >
+                    {sellToken.balance} {sellToken.symbol}
+                  </Paragraph>
+                )}
               </View>
             </TouchableOpacity>
             <Button
@@ -132,7 +135,7 @@ export default function BridgeFrom() {
         </View>
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
-        <DCASellTokenSheet />
+        <TokenSheet />
       </Sheet>
     </>
   );
