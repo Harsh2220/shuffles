@@ -7,6 +7,7 @@ import DCAOutline from "@/src/assets/Icons/DCAOutline";
 import ExchangeIcon from "@/src/assets/Icons/ExchangeIcon";
 import ExchangeOutline from "@/src/assets/Icons/ExchangeOutline";
 import ScanIcon from "@/src/assets/Icons/ScanIcon";
+import SettingsIcon from "@/src/assets/Icons/Settings";
 import Wallet from "@/src/assets/Icons/Wallet";
 import WalletOutline from "@/src/assets/Icons/WalletOutline";
 import ScannerSheet from "@/src/components/Sheets/ScannerSheet";
@@ -14,7 +15,7 @@ import Sheet from "@/src/components/UI/Sheet";
 import { black, white } from "@/src/constants/color";
 import useWalletStore from "@/src/store/wallet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import React, { useRef } from "react";
 import { TouchableOpacity } from "react-native";
 
@@ -53,6 +54,7 @@ const TABS = [
 
 export default function TabLayout() {
   const { currentWallet } = useWalletStore();
+  const router = useRouter();
   const scannerRef = useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
 
@@ -75,6 +77,19 @@ export default function TabLayout() {
               }}
             >
               <ScanIcon width={20} height={20} color={black[700]} />
+            </TouchableOpacity>
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 24,
+                paddingVertical: 8,
+              }}
+              onPress={() => {
+                router.push("/settings");
+              }}
+            >
+              <SettingsIcon width={24} height={24} color={black[700]} />
             </TouchableOpacity>
           ),
         }}

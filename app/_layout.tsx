@@ -80,6 +80,10 @@ function RootLayoutNav() {
         name="import-success"
         options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
       />
+      <Stack.Screen
+        name="settings"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
     </Stack>
   );
 }
