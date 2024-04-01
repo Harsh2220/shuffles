@@ -20,6 +20,7 @@ export default function Dca() {
   const { createDCA } = useCreateDCA();
   const { getUserDCAs } = useGetDCA();
   const [isloading, setIsLoading] = React.useState(false);
+
   return (
     <Container>
       <View
@@ -41,7 +42,7 @@ export default function Dca() {
           <Orders />
         </View>
         <Button
-        isLoading={isloading}
+          isLoading={isloading}
           onPress={async () => {
             setIsLoading(true);
             await createDCA();
