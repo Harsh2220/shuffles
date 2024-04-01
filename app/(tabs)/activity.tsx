@@ -1,13 +1,36 @@
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
 import ApprovedDCACard from "@/src/components/cards/activities/ApprovedDCACard";
-import ReceivedCard from "@/src/components/cards/activities/ReceivedCard";
-import SentCard from "@/src/components/cards/activities/SentCard";
 import SwappedCard from "@/src/components/cards/activities/SwappedCard";
-import React from "react";
-import { View } from "react-native";
+import useWalletStore from "@/src/store/wallet";
+import { Activities, SwapActivity } from "@/src/types/Activitiy";
+import { getSwapActivity } from "@/src/utils/getSwapActivity";
+import React, { useEffect, useState } from "react";
+import { FlatList, View } from "react-native";
 
 export default function Activity() {
+  const { currentWallet } = useWalletStore();
+  const [activities, setActivities] = useState<SwapActivity[] | null>(null);
+
+  const renderItem = ({ item }: { item: SwapActivity }) => {
+    return item.type === Activities.DCA ? (
+      <ApprovedDCACard data={item} />
+    ) : (
+      <SwappedCard data={item} />
+    );
+  };
+
+  async function handleSwapActivity() {
+    const activity = await getSwapActivity(
+      "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+    );
+    setActivities(activity);
+  }
+
+  useEffect(() => {
+    handleSwapActivity();
+  }, []);
+
   return (
     <Container>
       <View
@@ -26,10 +49,7 @@ export default function Activity() {
         >
           Today
         </Heading>
-        <ApprovedDCACard />
-        <SwappedCard />
-        <SentCard />
-        <ReceivedCard />
+        <FlatList data={activities} renderItem={renderItem} />
       </View>
     </Container>
   );

@@ -3,8 +3,9 @@ import { white } from "@/src/constants/color";
 import { Image } from "expo-image";
 import { View } from "react-native";
 import { Heading } from "../../UI/Heading";
+import { SwapActivity } from "@/src/types/Activitiy";
 
-export default function SwappedCard() {
+export default function SwappedCard({ data }: { data: SwapActivity }) {
   return (
     <View
       style={{
