@@ -1,77 +1,139 @@
+import DepositSheet from "@/src/components/Sheets/DepositSheet";
 import Button from "@/src/components/UI/Button";
-import { Connection, PublicKey } from "@solana/web3.js";
-import {
-  ChainAddress,
-  TokenId,
-  Wormhole,
-} from "@wormhole-foundation/connect-sdk";
-import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
-import { SolanaPlatform, getSolanaSignAndSendSigner, getSolanaSigner } from "@wormhole-foundation/connect-sdk-solana";
-import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
-import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
-import React from "react";
+import Container from "@/src/components/UI/Container";
+import { Heading } from "@/src/components/UI/Heading";
+import Sheet from "@/src/components/UI/Sheet";
+import TokenCard from "@/src/components/cards/TokenCard";
+import { black } from "@/src/constants/color";
+import useWalletData from "@/src/hooks/useWalletData";
+import useWalletStore from "@/src/store/wallet";
+import { IToken } from "@/src/types/wallet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useRef } from "react";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 
-export default function Home() {
-  async function handle() {
+export default function HomeScreen() {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const { handleTokens } = useWalletData();
+  const { balance, tokens } = useWalletStore();
+  const depositSheetRef = useRef<BottomSheetModal>(null);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
     try {
-      const connection = new Connection("https://api.mainnet-beta.solana.com");
-      const balance = await connection.getBalance(
-        new PublicKey("HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN")
-      );
-
-      console.log(balance);
-
-      const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
-
-      const srcChain = wh.getChain("Solana");
-      const destChain = wh.getChain("Ethereum");
-      const sourceToken: TokenId = Wormhole.tokenId(
-        "Solana",
-        "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
-      );
-
-      await srcChain.getTokenBridge();
-
-      await destChain.getTokenBridge();
-
-      const sAddress: ChainAddress = Wormhole.chainAddress(
-        "Solana",
-        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
-      );
-
-      const rAddress: ChainAddress = Wormhole.chainAddress(
-        "Polygon",
-        "0xe19ca46C9F081A7B996331a36b0C9563977FfB70"
-      );
-
-      // const usdcXfer = await wh.circleTransfer(
-      //   1_000_000n, // amount in base units (1 USDC)
-      //   sAddress, // Sender address on source chain
-      //   rAddress, // Recipient address on destination chain
-      //   true // Automatic transfer
-      // );
-
-      // console.log(usdcXfer);
-
-      const xfer = await wh.tokenTransfer(
-        sourceToken,
-        1_00n,
-        sAddress,
-        rAddress,
-        true
-      );
-
-      console.log("xfer", xfer);
-
-      const signer = await getSolanaSignAndSendSigner(connection, "3HqBfHTw6szng8bVZtEQYec5cVemR2CBhuevnaJp9iZTK3CiJFEPBpXo62qUuVS9ue8oys6Vdhu9zdZdckNHFvBn");
-      console.log("Starting transfer", signer);
-      const srcTxids = await xfer.initiateTransfer(signer);
-      console.log(`Started transfer: `, srcTxids);
-
+      handleTokens();
     } catch (error) {
       console.log(error);
+    } finally {
+      setRefreshing(false);
     }
-  }
+  }, []);
 
-  return <Button onPress={handle}>Hello</Button>;
+  const _RefreshControl = (
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      progressBackgroundColor={"black"}
+    />
+  );
+
+  return (
+    <Container>
+      <View style={styles.container}>
+        <View style={styles.walletSummary}>
+          <Heading style={styles.balance}>${balance || "0"}</Heading>
+          <View style={styles.buttonContainer}>
+            <Button onPress={() => {}} style={styles.button}>
+              Withdraw
+            </Button>
+            <Button
+              onPress={() => {
+                depositSheetRef.current?.present();
+              }}
+              style={styles.button}
+            >
+              Deposit
+            </Button>
+          </View>
+          <Heading style={styles.assetsHeading}>My Assets</Heading>
+        </View>
+        <FlatList
+          renderItem={renderItem}
+          data={tokens}
+          refreshControl={_RefreshControl}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            gap: 12,
+            marginTop: 16,
+          }}
+        />
+      </View>
+      <Sheet
+        style={{
+          margin: 16,
+        }}
+        ref={depositSheetRef}
+        snapPoints={[500]}
+        detached={true}
+        bottomInset={50}
+      >
+        <DepositSheet />
+      </Sheet>
+    </Container>
+  );
 }
+
+const renderItem = ({ item }: { item: IToken }) => <TokenCard token={item} />;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  walletSummary: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  balanceTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  balance: {
+    fontSize: 48,
+    fontWeight: "700",
+  },
+  change: {
+    fontSize: 16,
+    color: "green",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    gap: 15,
+    width: "100%",
+    justifyContent: "space-around",
+    marginTop: 20,
+  },
+  button: {
+    padding: 12,
+    borderRadius: 50,
+    paddingVertical: 14,
+    fontSize: 12,
+    backgroundColor: black[800],
+  },
+  buttonText: {
+    color: "white",
+  },
+  assetBalance: {
+    fontWeight: "500",
+    fontSize: 16,
+  },
+  assetChange: {
+    fontSize: 14,
+    color: "black",
+  },
+  assetsHeading: {
+    fontSize: 20,
+    fontWeight: "700",
+    marginTop: 20,
+  },
+});

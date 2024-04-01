@@ -1,34 +1,113 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
-import React from 'react';
+import BarIcon from "@/src/assets/Icons/Bar";
+import BarOutline from "@/src/assets/Icons/BarOutline";
+import Clock from "@/src/assets/Icons/Clock";
+import ClockOutline from "@/src/assets/Icons/ClockOutline";
+import DCAIcon from "@/src/assets/Icons/DCAIcon";
+import DCAOutline from "@/src/assets/Icons/DCAOutline";
+import ExchangeIcon from "@/src/assets/Icons/ExchangeIcon";
+import ExchangeOutline from "@/src/assets/Icons/ExchangeOutline";
+import ScanIcon from "@/src/assets/Icons/ScanIcon";
+import SettingsIcon from "@/src/assets/Icons/Settings";
+import Wallet from "@/src/assets/Icons/Wallet";
+import WalletOutline from "@/src/assets/Icons/WalletOutline";
+import ScannerSheet from "@/src/components/Sheets/ScannerSheet";
+import Sheet from "@/src/components/UI/Sheet";
+import { black, white } from "@/src/constants/color";
+import useWalletStore from "@/src/store/wallet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Tabs, useRouter } from "expo-router";
+import React, { useRef } from "react";
+import { TouchableOpacity } from "react-native";
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+const TABS = [
+  {
+    name: "dca",
+    label: "DCA",
+    activeIcon: <DCAIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <DCAOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "limit",
+    label: "Limit",
+    activeIcon: <BarIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <BarOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "index",
+    label: "Index",
+    activeIcon: <Wallet width={26} height={26} color={black[700]} />,
+    inactiveIcon: <WalletOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "bridge",
+    label: "Bridge",
+    activeIcon: <ExchangeIcon width={26} height={26} color={black[700]} />,
+    inactiveIcon: <ExchangeOutline width={26} height={26} color={white[200]} />,
+  },
+  {
+    name: "activity",
+    label: "Activity",
+    activeIcon: <Clock width={26} height={26} color={black[700]} />,
+    inactiveIcon: <ClockOutline width={26} height={26} color={white[200]} />,
+  },
+];
 
 export default function TabLayout() {
+  const { currentWallet } = useWalletStore();
+  const router = useRouter();
+  const scannerRef = useRef<BottomSheetModal>(null);
+  const snapPoints = React.useMemo(() => ["60%", "90%"], []);
+
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "red",
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: "red",
+          tabBarShowLabel: false,
+          headerShadowVisible: false,
+          headerTitle: currentWallet?.name,
+          headerRight: () => (
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 24,
+                paddingVertical: 8,
+              }}
+              onPress={() => {
+                scannerRef.current?.present();
+              }}
+            >
+              <ScanIcon width={20} height={20} color={black[700]} />
+            </TouchableOpacity>
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 24,
+                paddingVertical: 8,
+              }}
+              onPress={() => {
+                router.push("/settings");
+              }}
+            >
+              <SettingsIcon width={24} height={24} color={black[700]} />
+            </TouchableOpacity>
+          ),
         }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'swap',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        {TABS.map((tab) => (
+          <Tabs.Screen
+            key={tab.name}
+            name={tab.name}
+            options={{
+              tabBarIcon: ({ focused }) =>
+                focused ? tab.activeIcon : tab.inactiveIcon,
+            }}
+          />
+        ))}
+      </Tabs>
+      <Sheet ref={scannerRef} snapPoints={snapPoints}>
+        <ScannerSheet />
+      </Sheet>
+    </>
   );
 }

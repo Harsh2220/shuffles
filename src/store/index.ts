@@ -1,27 +1,32 @@
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 import { create } from "zustand";
-import { BN } from "@coral-xyz/anchor";
+// import { BN } from "@coral-xyz/anchor";
+import { IToken, JupTokens } from "../types/wallet";
 
 interface IDCAStore {
-    payer: PublicKey;
-    user: PublicKey;
-    inAmount: BigInt;
-    inAmountPerCycle: BigInt;
-    cycleSecondsApart: BigInt;
-    inputMint: PublicKey;
-    outputMint: PublicKey;
+    payer: PublicKey | null;
+    user: PublicKey | null;
+    inAmount: string;
+    inAmountPerCycle: string;
+    cycleSecondsApart: string;
+    inputMint: PublicKey | null;
+    outputMint: PublicKey | null;
     minOutAmountPerCycle: BigInt | null;
     maxOutAmountPerCycle: BigInt | null;
     startAt: BigInt | null;
-    userInTokenAccount: PublicKey;
-    dcaPubKey: PublicKey;
+    userInTokenAccount: PublicKey | null;
+    dcaPubKey: PublicKey | null;
     withDrawAmount: BigInt;
+    buyTokenData: JupTokens | null;
+    sellTokenData: IToken | null;
+    gasFess: number;
+    tx: Transaction | null;
 
     setPayer: (payer: PublicKey) => void;
     setUser: (user: PublicKey) => void;
-    setInAmount: (inAmount: BigInt) => void;
-    setInAmountPerCycle: (inAmountPerCycle: BigInt) => void;
-    setCycleSecondsApart: (cycleSecondsApart: BigInt) => void;
+    setInAmount: (inAmount: string) => void;
+    setInAmountPerCycle: (inAmountPerCycle: string) => void;
+    setCycleSecondsApart: (cycleSecondsApart: string) => void;
     setInputMint: (inputMint: PublicKey) => void;
     setOutputMint: (outputMint: PublicKey) => void;
     setMinOutAmountPerCycle: (minOutAmountPerCycle: BigInt) => void;
@@ -31,49 +36,57 @@ interface IDCAStore {
         Account: PublicKey) => void;
     setDCA: (dcaPubKey: PublicKey) => void;
     setWithDrawAmount: (withDrawAmount: BigInt) => void;
+    setBuyTokenData: (buyTokenData: JupTokens) => void;
+    setSellTokenData: (sellTokenData: IToken) => void;
+    setGasFees: (gasFess: number) => void;
+    setTx: (tx: Transaction) => void;
 }
 
-interface ILimitOrderStore {
-    owner: PublicKey;
-    inAmount: BN;
-    outAmount: BN;
-    inputMint: PublicKey;
-    outputMint: PublicKey;
-    expiredAt: BN | null;
-    base: PublicKey;
-    orderPubKey: PublicKey;
+// interface ILimitOrderStore {
+//     owner: PublicKey | null;
+//     inAmount: BN;
+//     outAmount: BN;
+//     inputMint: PublicKey | null;
+//     outputMint: PublicKey | null;
+//     expiredAt: BN | null;
+//     base: PublicKey | null;
+//     orderPubKey: PublicKey | null;
 
-    setOwner: (owner: PublicKey) => void;
-    setInAmount: (inAmount: BN) => void;
-    setOutAmount: (outAmount: BN) => void;
-    setInputMint: (inputMint: PublicKey) => void;
-    setOutputMint: (outputMint: PublicKey) => void;
-    setExpiredAt: (expiredAt: BN) => void;
-    setBase: (base: PublicKey) => void;
-    setOrder: (orderPubKey: PublicKey) => void;
-}
+//     setOwner: (owner: PublicKey) => void;
+//     setInAmount: (inAmount: BN) => void;
+//     setOutAmount: (outAmount: BN) => void;
+//     setInputMint: (inputMint: PublicKey) => void;
+//     setOutputMint: (outputMint: PublicKey) => void;
+//     setExpiredAt: (expiredAt: BN) => void;
+//     setBase: (base: PublicKey) => void;
+//     setOrder: (orderPubKey: PublicKey) => void;
+// }
 
 const useDCAStore = create<IDCAStore>((set) => ({
 
-    payer: new PublicKey(""),
-    user: new PublicKey(""),
-    inAmount: BigInt(0),
-    inAmountPerCycle: BigInt(0),
-    cycleSecondsApart: BigInt(0),
-    inputMint: new PublicKey(""),
-    outputMint: new PublicKey(""),
+    payer: null,
+    user: null,
+    inAmount: '',
+    inAmountPerCycle: '',
+    cycleSecondsApart: '',
+    inputMint: null,
+    outputMint: null,
     minOutAmountPerCycle: null,
     maxOutAmountPerCycle: null,
     startAt: null,
-    userInTokenAccount: new PublicKey(""),
-    dcaPubKey: new PublicKey(""),
+    userInTokenAccount: null,
+    dcaPubKey: null,
     withDrawAmount: BigInt(0),
-
+    gasFess: 0,
+    tx: null,
+    buyTokenData: null,
+    sellTokenData: null,
     setPayer: (payer: PublicKey) => set({ payer }),
     setUser: (user: PublicKey) => set({ user }),
-    setInAmount: (inAmount: BigInt) => set({ inAmount }),
-    setInAmountPerCycle: (inAmountPerCycle: BigInt) => set({ inAmountPerCycle }),
-    setCycleSecondsApart: (cycleSecondsApart: BigInt) => set({ cycleSecondsApart }),
+    setInAmount: (inAmount: string) => set({ inAmount }),
+    setGasFees: (gasFess: number) => set({ gasFess }),
+    setInAmountPerCycle: (inAmountPerCycle: string) => set({ inAmountPerCycle }),
+    setCycleSecondsApart: (cycleSecondsApart: string) => set({ cycleSecondsApart }),
     setInputMint: (inputMint: PublicKey) => set({ inputMint }),
     setOutputMint: (outputMint: PublicKey) => set({ outputMint }),
     setMinOutAmountPerCycle: (minOutAmountPerCycle: BigInt) => set({ minOutAmountPerCycle }),
@@ -82,27 +95,30 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setUserInTokenAccount: (userInTokenAccount: PublicKey) => set({ userInTokenAccount }),
     setDCA: (dcaPubKey: PublicKey) => set({ dcaPubKey }),
     setWithDrawAmount: (withDrawAmount: BigInt) => set({ withDrawAmount }),
+    setBuyTokenData: (buyTokenData: JupTokens) => set({ buyTokenData }),
+    setSellTokenData: (sellTokenData: IToken) => set({ sellTokenData }),
+    setTx:(tx: Transaction) => set({ tx }),
 }));
 
-const useLimitOrderStore = create<ILimitOrderStore>((set) => ({
+// const useLimitOrderStore = create<ILimitOrderStore>((set) => ({
 
-    owner: new PublicKey(""),
-    inAmount: new BN(0),
-    outAmount: new BN(0),
-    inputMint: new PublicKey(""),
-    outputMint: new PublicKey(""),
-    expiredAt: null,
-    base: new PublicKey(""),
-    orderPubKey: new PublicKey(""),
+//     owner: null,
+//     inAmount: new BN(0),
+//     outAmount: new BN(0),
+//     inputMint: null,
+//     outputMint: null,
+//     expiredAt: null,
+//     base: null,
+//     orderPubKey: null,
 
-    setOwner: (owner: PublicKey) => set({ owner }),
-    setInAmount: (inAmount: BN) => set({ inAmount }),
-    setOutAmount: (outAmount: BN) => set({ outAmount }),
-    setInputMint: (inputMint: PublicKey) => set({ inputMint }),
-    setOutputMint: (outputMint: PublicKey) => set({ outputMint }),
-    setExpiredAt: (expiredAt: BN) => set({ expiredAt }),
-    setBase: (base: PublicKey) => set({ base }),
-    setOrder: (orderPubKey: PublicKey) => set({ orderPubKey }),
-}));
+//     setOwner: (owner: PublicKey) => set({ owner }),
+//     setInAmount: (inAmount: BN) => set({ inAmount }),
+//     setOutAmount: (outAmount: BN) => set({ outAmount }),
+//     setInputMint: (inputMint: PublicKey) => set({ inputMint }),
+//     setOutputMint: (outputMint: PublicKey) => set({ outputMint }),
+//     setExpiredAt: (expiredAt: BN) => set({ expiredAt }),
+//     setBase: (base: PublicKey) => set({ base }),
+//     setOrder: (orderPubKey: PublicKey) => set({ orderPubKey }),
+// }));
 
-export { useDCAStore, useLimitOrderStore };
+export { useDCAStore };

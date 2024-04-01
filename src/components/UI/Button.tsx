@@ -1,13 +1,14 @@
 import React from "react";
 import {
   ActivityIndicator,
+  DimensionValue,
   StyleProp,
   TextStyle,
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
-import { black, white } from "@/src/constants/Colors";
 import { Heading } from "./Heading";
+import { black, primary, white } from "@/src/constants/color";
 
 interface IButton {
   children: React.ReactNode;
@@ -43,9 +44,9 @@ export default function Button({
             size === "small" ? 36 : size === "medium" ? 48 : 60,
           paddingVertical: size === "small" ? 12 : size === "medium" ? 16 : 20,
           borderRadius: 50,
-          backgroundColor: variant === "filled" ? white[700] : "transparent",
-          borderWidth: variant === "outlined" ? 1 : 0,
-          borderColor: black[400],
+          backgroundColor: variant === "filled" ? primary : "transparent",
+          borderWidth: 1,
+          borderColor: variant === "filled" ? "transparent" : white[300],
         },
         style,
       ]}
@@ -64,9 +65,9 @@ export default function Button({
           <Heading
             style={[
               {
-                color: variant === "filled" ? black[700] : white[700],
-                fontSize: size === "small" ? 14 : size === "medium" ? 16 : 20,
-                fontWeight: "600",
+                color: variant === "filled" ? white[700] : black[700],
+                fontSize: size === "small" ? 16 : size === "medium" ? 20 : 24,
+                fontWeight: "700",
                 textAlign: "center",
               },
               textStyle,

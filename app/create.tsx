@@ -1,84 +1,164 @@
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
-import { white } from "@/src/constants/Colors";
+import { Paragraph } from "@/src/components/UI/Paragraph";
+import { black, white } from "@/src/constants/color";
+import useWalletStore from "@/src/store/wallet";
+import { Keypair } from "@solana/web3.js";
+import * as Bip39 from "bip39";
+import bs58 from "bs58";
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Image, View, useWindowDimensions } from "react-native";
-import solanaWeb3 from "@solana/web3.js";
-import bip39 from "bip39";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, useWindowDimensions } from "react-native";
 
 export default function Create() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { width, height } = useWindowDimensions();
+  const router = useRouter();
+  const { setWallets, setCurrentWallet } = useWalletStore();
 
-  const generateSolanaAddress = async () => {
-    let mnemonic = bip39.generateMnemonic();
-    const seed = bip39.mnemonicToSeedSync(mnemonic);
-    let a = new Uint8Array(seed.toJSON().data.slice(0, 32));
-    var kp = solanaWeb3.Keypair.fromSeed(a);
+  async function generateWallet() {
+    try {
+      setIsLoading(true);
+      const mnemonic = Bip39.generateMnemonic();
+      const seed = Bip39.mnemonicToSeedSync(mnemonic, "").slice(0, 32);
+      const keypair = Keypair.fromSeed(seed);
+      const wallets = [
+        {
+          name: "wallet 1",
+          seed: mnemonic,
+          publicKey: keypair.publicKey.toBase58(),
+          secretKey: bs58.encode(keypair.secretKey),
+        },
+      ];
+      setWallets(wallets);
+      setCurrentWallet(wallets[0]);
+      router.push("/backup");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-    console.log("Public Key:", kp.publicKey.toString());
-    console.log("Secret Key:", kp.secretKey);
-    console.log("Seed Phrase:", mnemonic);
-    console.log("Keypair:", kp);
-  };
+  async function handleImport() {
+    router.push("/import");
+  }
 
   return (
     <Container>
       <Image
-        source={{
-          uri: "",
-        }}
+        source={require("../src/assets/images/onboarding.png")}
         style={{
-          height: height / 2,
-          width: width,
+          height: height / 2.5,
+          width: width / 1.2,
+          alignSelf: "center",
+          marginVertical: 32,
         }}
+        contentFit="contain"
       />
       <View
         style={{
           flex: 1,
-          padding: 16,
-          zIndex: 2,
-          justifyContent: "flex-end",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 16,
         }}
       >
         <View
           style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginVertical: 48,
+            flex: 1,
+            maxWidth: width / 1.3,
           }}
         >
-          <Heading
+          <View
             style={{
-              fontSize: 48,
-              fontWeight: "600",
-              color: white[700],
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Manage your crypto
-          </Heading>
-          <Heading
+            <Heading
+              style={{
+                fontSize: width / 10,
+                fontWeight: "600",
+                color: black[700],
+                textAlign: "center",
+              }}
+            >
+              Shuffling assets Over Shuffles
+            </Heading>
+            <Paragraph
+              style={{
+                fontSize: width / 24,
+                fontWeight: "500",
+                color: white[200],
+                textAlign: "center",
+                marginTop: 8,
+              }}
+            >
+              Your Passport to Seamless Cross-Chain Trading on Mobile
+            </Paragraph>
+          </View>
+          <View
             style={{
-              fontSize: 48,
-              fontWeight: "600",
-              color: white[700],
+              marginTop: 16,
             }}
           >
-            and enjoy
-          </Heading>
+            <Button
+              onPress={generateWallet}
+              style={{
+                marginVertical: 8,
+              }}
+              textStyle={{
+                fontSize: width / 25,
+              }}
+              isLoading={isLoading}
+            >
+              Create wallet
+            </Button>
+            <Button
+              variant="outlined"
+              onPress={handleImport}
+              style={{
+                marginVertical: 8,
+              }}
+              textStyle={{
+                fontSize: width / 25,
+              }}
+            >
+              Import an Existing Wallet
+            </Button>
+          </View>
+          <Paragraph
+            style={{
+              fontSize: width / 28,
+              fontWeight: "500",
+              color: white[200],
+              textAlign: "center",
+              marginTop: 8,
+            }}
+          >
+            by using Shuffles, you agree to accept our{" "}
+            <Paragraph
+              style={{
+                fontWeight: "600",
+                color: white[100],
+              }}
+            >
+              Terms of Use{" "}
+            </Paragraph>
+            and{" "}
+            <Paragraph
+              style={{
+                fontWeight: "600",
+                color: white[100],
+              }}
+            >
+              Privacy Policy
+            </Paragraph>
+          </Paragraph>
         </View>
-        <Button
-          onPress={open}
-          style={{
-            width: "100%",
-            marginVertical: 8,
-          }}
-          isLoading={isLoading}
-        >
-          Create wallet
-        </Button>
       </View>
     </Container>
   );

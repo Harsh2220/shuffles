@@ -1,6 +1,6 @@
 import { WithdrawParams } from "@jup-ag/dca-sdk";
 import { useDCAStore } from "../../store";
-import { Keypair, sendAndConfirmTransaction } from "@solana/web3.js";
+import { Keypair, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
 import { connection, dca } from "../../utils/connection";
 
 export default async function useWithdrawDCA() {
@@ -10,9 +10,9 @@ export default async function useWithdrawDCA() {
         const { inputMint, user, dcaPubKey, withDrawAmount } = useDCAStore();
 
         const params: WithdrawParams = {
-            user: user,
-            dca: dcaPubKey,
-            inputMint: inputMint,
+            user: user as PublicKey,
+            dca: dcaPubKey as PublicKey,
+            inputMint: inputMint as PublicKey,
             withdrawInAmount: withDrawAmount as bigint,
         };
 
