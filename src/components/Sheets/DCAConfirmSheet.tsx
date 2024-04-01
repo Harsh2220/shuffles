@@ -20,11 +20,11 @@ export default function DCAConfirmSheet() {
     buyTokenData,
     gasFess,
     tx,
-    dcaPubKey
+    dcaPubKey,
   } = useDCAStore();
   const { getTokenPrice } = useTokenPrice();
   const [price, setPrice] = useState(0);
-  const {executeDCA} = useCreateDCA();
+  const { executeDCA } = useCreateDCA();
 
   async function handlePrice() {
     try {
@@ -186,7 +186,6 @@ export default function DCAConfirmSheet() {
             size="small"
             onPress={() => {
               executeDCA();
-
             }}
           >
             Confirm

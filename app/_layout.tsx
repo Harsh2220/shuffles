@@ -84,6 +84,10 @@ function RootLayoutNav() {
         name="settings"
         options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
       />
+      <Stack.Screen
+        name="activeDCA"
+        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+      />
     </Stack>
   );
 }

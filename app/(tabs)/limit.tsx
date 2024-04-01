@@ -1,12 +1,13 @@
 import Container from "@/src/components/UI/Container";
 import { Heading } from "@/src/components/UI/Heading";
+import ActiveDCACard from "@/src/components/cards/ActiveDCACard";
 import React from "react";
 import { View } from "react-native";
 
 export default function Limit() {
   return (
     <Container>
-      <View
+      {/* <View
         style={{
           flex: 1,
           justifyContent: "center",
@@ -21,6 +22,13 @@ export default function Limit() {
         >
           Comming Soon
         </Heading>
+      </View> */}
+      <View
+        style={{
+          padding: 16,
+        }}
+      >
+        <ActiveDCACard />
       </View>
     </Container>
   );
