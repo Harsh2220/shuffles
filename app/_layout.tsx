@@ -82,7 +82,11 @@ function RootLayoutNav() {
       />
       <Stack.Screen
         name="settings"
-        options={{ headerShown: true, title: "", headerBackTitle: "Back" }}
+        options={{
+          headerShown: true,
+          title: "Settings",
+          headerBackTitle: "Back",
+        }}
       />
       <Stack.Screen
         name="activeDCA"
