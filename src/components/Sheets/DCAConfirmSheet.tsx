@@ -25,6 +25,7 @@ export default function DCAConfirmSheet() {
   const { getTokenPrice } = useTokenPrice();
   const [price, setPrice] = useState(0);
   const { executeDCA } = useCreateDCA();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handlePrice() {
     try {
@@ -162,7 +163,7 @@ export default function DCAConfirmSheet() {
             marginTop: 16,
           }}
         >
-          <Button
+          {!isLoading && (<Button
             style={{
               backgroundColor: "#EDEFF2",
               borderColor: white[800],
@@ -177,15 +178,18 @@ export default function DCAConfirmSheet() {
             }}
           >
             Cancel
-          </Button>
+          </Button>)}
 
           <Button
             style={{
-              width: "48%",
+              width: isLoading ? "100%" : "48%",
             }}
             size="small"
-            onPress={() => {
-              executeDCA();
+            isLoading={isLoading}
+            onPress={async () => {
+              setIsLoading(true);
+              await executeDCA();
+              setIsLoading(false);
             }}
           >
             Confirm

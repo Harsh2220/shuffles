@@ -52,8 +52,7 @@ export default function useCreateDCA() {
         getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)
       ),
       inAmountPerCycle: BigInt(
-        500000
-        // Number(inAmountPerCycle) * Math.pow(10, sellTokenData?.decimal!)
+        Number(inAmount) * Math.pow(10, sellTokenData?.decimal!) / Number(inAmountPerCycle)
       ),
       inputMint: inputMint as PublicKey,
       outputMint: outputMint as PublicKey,
@@ -74,28 +73,28 @@ export default function useCreateDCA() {
   }
 
   async function executeDCA() {
-   console.log("Execute DCA: ", dcaPubKey);
+    console.log("Execute DCA: ", dcaPubKey);
     try {
       const latestBlockhash = await connection.getLatestBlockhash();
 
       tx!.recentBlockhash = latestBlockhash.blockhash;
       tx!.lastValidBlockHeight = latestBlockhash.lastValidBlockHeight;
       tx?.add(
-            SystemProgram.createAccount({
-              fromPubkey: pubKey,
-              newAccountPubkey: nonceAccount.publicKey,
-              lamports: await connection.getMinimumBalanceForRentExemption(
-                NONCE_ACCOUNT_LENGTH
-              ),
-              space: NONCE_ACCOUNT_LENGTH,
-              programId: SystemProgram.programId,
-            }),
-            SystemProgram.nonceInitialize({
-              noncePubkey: nonceAccount.publicKey,
-              authorizedPubkey: pubKey,
-            })
-          );
-      
+        SystemProgram.createAccount({
+          fromPubkey: pubKey,
+          newAccountPubkey: nonceAccount.publicKey,
+          lamports: await connection.getMinimumBalanceForRentExemption(
+            NONCE_ACCOUNT_LENGTH
+          ),
+          space: NONCE_ACCOUNT_LENGTH,
+          programId: SystemProgram.programId,
+        }),
+        SystemProgram.nonceInitialize({
+          noncePubkey: nonceAccount.publicKey,
+          authorizedPubkey: pubKey,
+        })
+      );
+
       const txid = await sendAndConfirmTransaction(connection, tx!, [userPayer, nonceAccount]);
 
       console.log("Create DCA: ", { txid });

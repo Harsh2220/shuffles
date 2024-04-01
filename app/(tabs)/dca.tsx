@@ -10,6 +10,7 @@ import Sheet from "@/src/components/UI/Sheet";
 import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
 import useGetDCA from "@/src/hooks/DCA/useGetDCA";
 import { useDCAStore } from "@/src/store";
+import { set } from "@coral-xyz/anchor/dist/cjs/utils/features";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { View } from "react-native";
@@ -18,6 +19,7 @@ export default function Dca() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { createDCA } = useCreateDCA();
   const { getUserDCAs } = useGetDCA();
+  const [isloading, setIsLoading] = React.useState(false);
   return (
     <Container>
       <View
@@ -39,8 +41,11 @@ export default function Dca() {
           <Orders />
         </View>
         <Button
+        isLoading={isloading}
           onPress={async () => {
+            setIsLoading(true);
             await createDCA();
+            setIsLoading(false);
             bottomSheetModalRef.current?.present();
           }}
           style={{
