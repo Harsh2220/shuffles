@@ -163,23 +163,24 @@ export default function DCAConfirmSheet() {
             marginTop: 16,
           }}
         >
-          {!isLoading && (<Button
-            style={{
-              backgroundColor: "#EDEFF2",
-              borderColor: white[800],
-              width: "48%",
-            }}
-            textStyle={{
-              color: black[800],
-            }}
-            size="small"
-            onPress={() => {
-              dismiss();
-            }}
-          >
-            Cancel
-          </Button>)}
-
+          {!isLoading && (
+            <Button
+              style={{
+                backgroundColor: "#EDEFF2",
+                borderColor: white[800],
+                width: "48%",
+              }}
+              textStyle={{
+                color: black[800],
+              }}
+              size="small"
+              onPress={() => {
+                dismiss();
+              }}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
             style={{
               width: isLoading ? "100%" : "48%",
@@ -236,17 +237,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     marginBottom: 8,
-  },
-  summaryLabel: {
-    // Styling for the label
-  },
-  summaryValue: {
-    // Styling for the value
-  },
-  cancelButton: {
-    // Styling for the cancel button
-  },
-  startButton: {
-    // Styling for the start button
   },
 });
