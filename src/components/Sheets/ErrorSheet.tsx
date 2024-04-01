@@ -1,10 +1,10 @@
-import { Image } from "expo-image";
+import LottieView from "lottie-react-native";
 import React from "react";
 import { View } from "react-native";
-import { Heading } from "../UI/Heading";
 import Button from "../UI/Button";
+import { Heading } from "../UI/Heading";
 
-export default function ErrorSheet({ onPress }: { onPress: () => void }) {
+export default function ErrorSheet() {
   return (
     <View
       style={{
@@ -13,15 +13,14 @@ export default function ErrorSheet({ onPress }: { onPress: () => void }) {
         gap: 24,
       }}
     >
-      <Image
-        source={{
-          uri: "https://static-00.iconduck.com/assets.00/success-icon-512x512-qdg1isa0.png",
-        }}
+      <LottieView
+        source={require("../../assets/error.json")}
         style={{
           width: 150,
           height: 150,
         }}
-        contentFit="cover"
+        autoPlay
+        loop={false}
       />
       <Heading
         style={{
@@ -32,7 +31,7 @@ export default function ErrorSheet({ onPress }: { onPress: () => void }) {
         Failed to create DCA
       </Heading>
       <Button
-        onPress={onPress}
+        onPress={() => {}}
         style={{
           width: "100%",
         }}
