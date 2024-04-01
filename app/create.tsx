@@ -51,9 +51,10 @@ export default function Create() {
       <Image
         source={require("../src/assets/images/onboarding.png")}
         style={{
-          height: height / 2,
-          width: width / 1.1,
+          height: height / 2.5,
+          width: width / 1.2,
           alignSelf: "center",
+          marginVertical: 32,
         }}
         contentFit="contain"
       />
@@ -68,7 +69,7 @@ export default function Create() {
         <View
           style={{
             flex: 1,
-            // maxWidth: width / 1.3,
+            maxWidth: width / 1.3,
           }}
         >
           <View
@@ -109,6 +110,9 @@ export default function Create() {
               style={{
                 marginVertical: 8,
               }}
+              textStyle={{
+                fontSize: width / 25,
+              }}
               isLoading={isLoading}
             >
               Create wallet
@@ -118,6 +122,9 @@ export default function Create() {
               onPress={handleImport}
               style={{
                 marginVertical: 8,
+              }}
+              textStyle={{
+                fontSize: width / 25,
               }}
             >
               Import an Existing Wallet
