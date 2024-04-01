@@ -4,8 +4,22 @@ import { Image } from "expo-image";
 import { View } from "react-native";
 import { Heading } from "../../UI/Heading";
 import { SwapActivity } from "@/src/types/Activitiy";
+import { useEffect, useState } from "react";
+import { getTokenInfo } from "@/src/utils/tokenInfo";
 
 export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
+  const [inToken, setInToken] = useState<any>(null);
+  const [outToken, setOutToken] = useState<any>(null);
+  async function tokenInfo() {
+    const [inToken, outToken] = await Promise.all([getTokenInfo(data.inToken), getTokenInfo(data.outToken)]);
+    setInToken(inToken);
+    setOutToken(outToken);
+
+  }
+  useEffect(() => {
+    tokenInfo();
+  }
+    , [data]);
   return (
     <View
       style={{
@@ -28,7 +42,7 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
           }}
         >
           <Image
-            source={require("../../../assets/images/solana.png")}
+            source={{ uri: inToken?.result.image }}
             style={{
               width: 42,
               height: 42,
@@ -37,7 +51,7 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
             contentFit="cover"
           />
           <Image
-            source={require("../../../assets/images/solana.png")}
+            source={{ uri: outToken?.result.image }}
             style={{
               width: 16,
               height: 16,
@@ -74,7 +88,7 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
                 fontWeight: "600",
               }}
             >
-              SOL
+              {inToken?.result.symbol}
             </Heading>
             <ForwardArrow width={12} height={12} color={"black"} />
             <Heading
@@ -83,7 +97,7 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
                 fontWeight: "600",
               }}
             >
-              JUP
+              {outToken?.result.symbol}
             </Heading>
           </View>
         </View>
@@ -95,7 +109,7 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
           color: "#E63737",
         }}
       >
-        - 4.7 SOL
+        - {data.outAmount.toFixed(2)} {inToken?.result.symbol}
       </Heading>
     </View>
   );

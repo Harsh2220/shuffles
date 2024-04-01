@@ -7,6 +7,7 @@ export type SwapActivity = {
     type: Activities;
     inToken: string;
     outToken: string;
-    amount: number;
+    inAmount: number;
+    outAmount: number;
     timestamp: number;
 }

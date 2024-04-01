@@ -4,8 +4,22 @@ import { Image } from "expo-image";
 import { View } from "react-native";
 import { Heading } from "../../UI/Heading";
 import { SwapActivity } from "@/src/types/Activitiy";
+import { useEffect, useState } from "react";
+import { getTokenInfo } from "@/src/utils/tokenInfo";
 
 export default function SwappedCard({ data }: { data: SwapActivity }) {
+  const [inToken, setInToken] = useState<any>(null);
+  const [outToken, setOutToken] = useState<any>(null);
+  async function tokenInfo() {
+    const [inToken, outToken] = await Promise.all([getTokenInfo(data.inToken), getTokenInfo(data.outToken)]);
+    setInToken(inToken);
+    setOutToken(outToken);
+
+  }
+  useEffect(() => {
+    tokenInfo();
+  }
+    , [data]);
   return (
     <View
       style={{
@@ -23,7 +37,7 @@ export default function SwappedCard({ data }: { data: SwapActivity }) {
         }}
       >
         <Image
-          source={require("../../../assets/images/solana.png")}
+          source={{uri:inToken?.result.image}}
           style={{
             width: 42,
             height: 42,
@@ -54,7 +68,7 @@ export default function SwappedCard({ data }: { data: SwapActivity }) {
                 fontWeight: "600",
               }}
             >
-              SOL
+              {inToken?.result.symbol}
             </Heading>
             <ForwardArrow width={12} height={12} color={"black"} />
             <Heading
@@ -63,7 +77,7 @@ export default function SwappedCard({ data }: { data: SwapActivity }) {
                 fontWeight: "600",
               }}
             >
-              USDC
+              {outToken?.result.symbol}
             </Heading>
           </View>
         </View>
@@ -75,7 +89,7 @@ export default function SwappedCard({ data }: { data: SwapActivity }) {
           color: "#09CD6A",
         }}
       >
-        + 500 USDC
+        + {data.inAmount.toFixed(2)} {outToken?.result.symbol}
       </Heading>
     </View>
   );
