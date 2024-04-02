@@ -1,3 +1,4 @@
+import "./shim"
 import 'react-native-get-random-values';
 import { Buffer } from "buffer";
 import { TextEncoder } from "text-encoding"

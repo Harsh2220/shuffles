@@ -4,6 +4,18 @@ module.exports = function (api) {
     presets: [
       ["babel-preset-expo", { unstable_transformProfile: "hermes-stable" }],
     ],
-    plugins: ["react-native-reanimated/plugin"],
+    plugins: [
+      [
+        "module-resolver",
+        {
+          alias: {
+            crypto: "react-native-quick-crypto",
+            stream: "stream-browserify",
+            buffer: "@craftzdog/react-native-buffer",
+          },
+        },
+      ],
+      "react-native-reanimated/plugin",
+    ],
   };
 };

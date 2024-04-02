@@ -5,14 +5,79 @@ import BridgeConfirmSheet from "@/src/components/Sheets/BridgeConfirmSheet";
 import SwapDivider from "@/src/components/SwapDivider";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
-import { Heading } from "@/src/components/UI/Heading";
 import Sheet from "@/src/components/UI/Sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Connection, PublicKey } from "@solana/web3.js";
+import {
+  ChainAddress,
+  TokenId,
+  Wormhole,
+} from "@wormhole-foundation/connect-sdk";
+import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
+import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
+import {
+  SolanaPlatform,
+  getSolanaSignAndSendSigner,
+} from "@wormhole-foundation/connect-sdk-solana";
+import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Bridge() {
   const confirmBridgeRef = useRef<BottomSheetModal>(null);
+
+  async function handle() {
+    try {
+      const connection = new Connection("https://api.mainnet-beta.solana.com");
+      const balance = await connection.getBalance(
+        new PublicKey("HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN")
+      );
+
+      console.log(balance);
+
+      const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
+
+      const srcChain = wh.getChain("Solana");
+      const destChain = wh.getChain("Ethereum");
+      const sourceToken: TokenId = Wormhole.tokenId(
+        "Solana",
+        "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+      );
+
+      await srcChain.getTokenBridge();
+
+      await destChain.getTokenBridge();
+
+      const sAddress: ChainAddress = Wormhole.chainAddress(
+        "Solana",
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+      );
+
+      const rAddress: ChainAddress = Wormhole.chainAddress(
+        "Polygon",
+        "0xe19ca46C9F081A7B996331a36b0C9563977FfB70"
+      );
+      const xfer = await wh.tokenTransfer(
+        sourceToken,
+        1_00n,
+        sAddress,
+        rAddress,
+        true
+      );
+
+      console.log("xfer", xfer);
+
+      const signer = await getSolanaSignAndSendSigner(
+        connection,
+        "3HqBfHTw6szng8bVZtEQYec5cVemR2CBhuevnaJp9iZTK3CiJFEPBpXo62qUuVS9ue8oys6Vdhu9zdZdckNHFvBn"
+      );
+      console.log("Starting transfer", signer);
+      const srcTxids = await xfer.initiateTransfer(signer);
+      console.log(`Started transfer: `, srcTxids);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Container>
