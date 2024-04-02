@@ -12,18 +12,17 @@ import {
   ChainAddress,
   TokenId,
   Wormhole,
+  routes,
 } from "@wormhole-foundation/connect-sdk";
-import { EvmPlatform, getEvmSignerForKey, getEvmSignerForSigner } from "@wormhole-foundation/connect-sdk-evm";
+import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import {
   SolanaPlatform,
   getSolanaSigner,
 } from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
-import bs58 from "bs58";
 import React, { useRef } from "react";
 import { View } from "react-native";
-import { ethers } from "ethers";
 
 export default function Bridge() {
   const confirmBridgeRef = useRef<BottomSheetModal>(null);
@@ -38,12 +37,24 @@ export default function Bridge() {
       console.log(balance);
 
       const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
+      const resolver = wh.resolver([
+        routes.AutomaticTokenBridgeRoute,
+      ]);
 
       const srcChain = wh.getChain("Solana");
-      const destChain = wh.getChain("Ethereum");
+      const destChain = wh.getChain("Polygon");
+
+      const tokens = await resolver.supportedSourceTokens(srcChain);
+
+      console.log("tokens", tokens.length);
+
+      for (let index = 0; index < tokens.length; index++) {
+       console.log("token", tokens[index]); 
+      }
+
       const sourceToken: TokenId = Wormhole.tokenId(
         "Solana",
-        "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+        "A9mUU4qviSctJVPJdBJWkb28deg915LYJKrzQ19ji3FM"
       );
 
       await srcChain.getTokenBridge();
@@ -62,11 +73,11 @@ export default function Bridge() {
 
       const xfer = await wh.tokenTransfer(
         sourceToken,
-        1_000n,
+        1_000_000n,
         sAddress,
         rAddress,
-        false
-      );
+        true
+      )
 
       console.log("xfer", xfer);
 
@@ -75,18 +86,9 @@ export default function Bridge() {
         ""
       );
 
-      const ethSigner = await getEvmSignerForKey(
-        new ethers.JsonRpcProvider("https://rpc.ankr.com/polygon"),
-        ""
-      )
-
-      console.log("Starting transfer", signer);
       const srcTxids = await xfer.initiateTransfer(signer);
       console.log(`Started transfer: `, srcTxids);
-      const desTxids = await xfer.fetchAttestation();
-      console.log(`Attestation: `, desTxids);
-      const srcTxids2 = await xfer.completeTransfer(ethSigner);
-      console.log(`Completed transfer: `, srcTxids2);
+     
     } catch (error) {
       console.log(error);
     }
