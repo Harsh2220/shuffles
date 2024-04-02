@@ -1,3 +1,4 @@
+import type { Chain as whChain } from "@wormhole-foundation/sdk-base/dist/esm/constants/chains.d.ts";
 export interface Chain {
     chainId: number
     type: string
@@ -6,4 +7,5 @@ export interface Chain {
     image: string
     rpc: string
     explorer: string
+    whChain: whChain
 }

@@ -9,6 +9,7 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/0xsquid/assets/main/images/tokens/eth.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://etherscan.io/tx",
+        "whChain": "Ethereum"
     },
     {
         "chainId": 137,
@@ -18,6 +19,7 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/axelarnetwork/axelar-docs/main/public/images/chains/polygon.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://polygonscan.com/tx",
+        "whChain": "Polygon"
     },
     {
         "chainId": 56,
@@ -27,6 +29,7 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/0xsquid/assets/main/images/tokens/bnb.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://bscscan.com/tx",
+        "whChain": "Bsc"
     },
     {
         "chainId": 43114,
@@ -36,6 +39,7 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/axelarnetwork/axelar-docs/main/public/images/chains/avalanche.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://avascan.info/blockchain/c/tx",
+        "whChain": "Avalanche"
     },
     {
         "chainId": 42161,
@@ -45,6 +49,7 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/axelarnetwork/axelar-docs/main/public/images/chains/arbitrum.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://arbiscan.io/tx",
+        "whChain": "Arbitrum"
     },
     {
         "chainId": 10,
@@ -54,6 +59,7 @@ export const CHAINS: Chain[] = [
         "image": "https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://optimistic.etherscan.io/tx",
+        "whChain": "Optimism"
     },
     {
         "chainId": 8453,
@@ -63,14 +69,6 @@ export const CHAINS: Chain[] = [
         "image": "https://raw.githubusercontent.com/axelarnetwork/axelar-satellite/main/public/assets/chains/base.logo.svg",
         "rpc": "https://rpc.eth.xyz",
         "explorer": "https://basescan.org/tx",
+        "whChain": "Base"
     },
-    {
-        "chainId": 59144,
-        "type": "EVM",
-        "name": "Linea",
-        "symbol": "ETH",
-        "image": "https://raw.githubusercontent.com/axelarnetwork/axelar-satellite/main/public/assets/chains/linea.logo.svg",
-        "rpc": "https://rpc.eth.xyz",
-        "explorer": "https://lineascan.build/tx",
-    }
 ]

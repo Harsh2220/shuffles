@@ -6,20 +6,13 @@ import SwapDivider from "@/src/components/SwapDivider";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
+import useBridge from "@/src/hooks/Bridge/useBridge";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import {
-  ChainAddress,
-  TokenId,
-  Wormhole,
-  routes,
-} from "@wormhole-foundation/connect-sdk";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { ChainAddress, TokenId, Wormhole, routes } from "@wormhole-foundation/connect-sdk";
 import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
-import {
-  SolanaPlatform,
-  getSolanaSigner,
-} from "@wormhole-foundation/connect-sdk-solana";
+import { SolanaPlatform, getSolanaSigner } from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 import React, { useRef } from "react";
 import { View } from "react-native";
@@ -115,8 +108,7 @@ export default function Bridge() {
         </View>
         <Button
           onPress={() => {
-            handle();
-            // confirmBridgeRef?.current?.present();
+            confirmBridgeRef.current?.present();
           }}
           style={{
             marginTop: 16,
