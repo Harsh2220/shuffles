@@ -7,21 +7,23 @@ import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import {
   ChainAddress,
   TokenId,
   Wormhole,
 } from "@wormhole-foundation/connect-sdk";
-import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
+import { EvmPlatform, getEvmSignerForKey, getEvmSignerForSigner } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import {
   SolanaPlatform,
-  getSolanaSignAndSendSigner,
+  getSolanaSigner,
 } from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
+import bs58 from "bs58";
 import React, { useRef } from "react";
 import { View } from "react-native";
+import { ethers } from "ethers";
 
 export default function Bridge() {
   const confirmBridgeRef = useRef<BottomSheetModal>(null);
@@ -55,25 +57,36 @@ export default function Bridge() {
 
       const rAddress: ChainAddress = Wormhole.chainAddress(
         "Polygon",
-        "0xe19ca46C9F081A7B996331a36b0C9563977FfB70"
+        "0xC0FC7059A4e545801355eB7D19776fE3D7A20599"
       );
+
       const xfer = await wh.tokenTransfer(
         sourceToken,
-        1_00n,
+        1_000n,
         sAddress,
         rAddress,
-        true
+        false
       );
 
       console.log("xfer", xfer);
 
-      const signer = await getSolanaSignAndSendSigner(
+      const signer = await getSolanaSigner(
         connection,
-        "3HqBfHTw6szng8bVZtEQYec5cVemR2CBhuevnaJp9iZTK3CiJFEPBpXo62qUuVS9ue8oys6Vdhu9zdZdckNHFvBn"
+        ""
       );
+
+      const ethSigner = await getEvmSignerForKey(
+        new ethers.JsonRpcProvider("https://rpc.ankr.com/polygon"),
+        ""
+      )
+
       console.log("Starting transfer", signer);
       const srcTxids = await xfer.initiateTransfer(signer);
       console.log(`Started transfer: `, srcTxids);
+      const desTxids = await xfer.fetchAttestation();
+      console.log(`Attestation: `, desTxids);
+      const srcTxids2 = await xfer.completeTransfer(ethSigner);
+      console.log(`Completed transfer: `, srcTxids2);
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +113,8 @@ export default function Bridge() {
         </View>
         <Button
           onPress={() => {
-            confirmBridgeRef?.current?.present();
+            handle();
+            // confirmBridgeRef?.current?.present();
           }}
           style={{
             marginTop: 16,
