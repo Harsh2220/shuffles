@@ -8,14 +8,30 @@ import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
 import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
+import { useDCAStore } from "@/src/store/dca";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { View } from "react-native";
 
 export default function Dca() {
   const createDCARef = useRef<BottomSheetModal>(null);
   const { createDCA } = useCreateDCA();
+  const { txHash, error } = useDCAStore();
   const [isloading, setIsLoading] = React.useState(false);
+
+  async function handleDCA() {
+    try {
+      {
+        setIsLoading(true);
+        // await createDCA();
+        createDCARef.current?.present();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <Container>
@@ -39,12 +55,7 @@ export default function Dca() {
         </View>
         <Button
           isLoading={isloading}
-          onPress={async () => {
-            // setIsLoading(true);
-            // await createDCA();
-            // setIsLoading(false);
-            createDCARef.current?.present();
-          }}
+          onPress={handleDCA}
           style={{
             marginTop: 16,
           }}
@@ -57,7 +68,7 @@ export default function Dca() {
           margin: 16,
         }}
         ref={createDCARef}
-        snapPoints={[400]}
+        snapPoints={[error ? 380 : txHash ? 350 : 400]}
         detached={true}
         bottomInset={50}
       >

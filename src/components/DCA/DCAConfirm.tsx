@@ -19,27 +19,13 @@ export default function DCAConfirm() {
     sellTokenData,
     buyTokenData,
     gasFess,
-    tx,
-    dcaPubKey,
+    setTxHash,
+    setError,
   } = useDCAStore();
   const { getTokenPrice } = useTokenPrice();
   const [price, setPrice] = useState(0);
   const { executeDCA } = useCreateDCA();
   const [isLoading, setIsLoading] = useState(false);
-
-  async function handlePrice() {
-    try {
-      if (!sellTokenData?.address) return;
-      const tokenPrice = await getTokenPrice(sellTokenData?.address);
-      setPrice(tokenPrice);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    handlePrice();
-  }, []);
 
   const DATA = [
     {
@@ -63,6 +49,36 @@ export default function DCAConfirm() {
       value: gasFess,
     },
   ];
+
+  async function handlePrice() {
+    try {
+      if (!sellTokenData?.address) return;
+      const tokenPrice = await getTokenPrice(sellTokenData?.address);
+      setPrice(tokenPrice);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDCA() {
+    try {
+      setIsLoading(true);
+      const hash = await executeDCA();
+      if (hash) {
+        setTxHash(hash);
+      }
+      console.log("hello");
+      setTxHash("hello");
+      setIsLoading(false);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    handlePrice();
+  }, []);
 
   return (
     <View style={styles.contentContainer}>
@@ -187,11 +203,7 @@ export default function DCAConfirm() {
             }}
             size="small"
             isLoading={isLoading}
-            onPress={async () => {
-              setIsLoading(true);
-              await executeDCA();
-              setIsLoading(false);
-            }}
+            onPress={handleDCA}
           >
             Confirm
           </Button>

@@ -6,13 +6,20 @@ import SwapDivider from "@/src/components/SwapDivider";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
-import useBridge from "@/src/hooks/Bridge/useBridge";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { ChainAddress, TokenId, Wormhole, routes } from "@wormhole-foundation/connect-sdk";
+import {
+  ChainAddress,
+  TokenId,
+  Wormhole,
+  routes,
+} from "@wormhole-foundation/connect-sdk";
 import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
-import { SolanaPlatform, getSolanaSigner } from "@wormhole-foundation/connect-sdk-solana";
+import {
+  SolanaPlatform,
+  getSolanaSigner,
+} from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 import React, { useRef } from "react";
 import { View } from "react-native";
@@ -30,9 +37,7 @@ export default function Bridge() {
       console.log(balance);
 
       const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
-      const resolver = wh.resolver([
-        routes.AutomaticTokenBridgeRoute,
-      ]);
+      const resolver = wh.resolver([routes.AutomaticTokenBridgeRoute]);
 
       const srcChain = wh.getChain("Solana");
       const destChain = wh.getChain("Polygon");
@@ -42,7 +47,7 @@ export default function Bridge() {
       console.log("tokens", tokens.length);
 
       for (let index = 0; index < tokens.length; index++) {
-       console.log("token", tokens[index]); 
+        console.log("token", tokens[index]);
       }
 
       const sourceToken: TokenId = Wormhole.tokenId(
@@ -70,18 +75,14 @@ export default function Bridge() {
         sAddress,
         rAddress,
         true
-      )
+      );
 
       console.log("xfer", xfer);
 
-      const signer = await getSolanaSigner(
-        connection,
-        ""
-      );
+      const signer = await getSolanaSigner(connection, "");
 
       const srcTxids = await xfer.initiateTransfer(signer);
       console.log(`Started transfer: `, srcTxids);
-     
     } catch (error) {
       console.log(error);
     }

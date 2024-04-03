@@ -100,9 +100,7 @@ export default function useCreateDCA() {
         nonceAccount,
       ]);
 
-      console.log("Create DCA: ", { txid });
-
-      return dcaPubKey;
+      return txid;
     } catch (error) {
       console.log("Error executing DCA: ", error);
     }

@@ -3,8 +3,11 @@ import React from "react";
 import { View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
+import { useBottomSheet, useBottomSheetModal } from "@gorhom/bottom-sheet";
 
 function DCAError() {
+  const { dismiss } = useBottomSheetModal();
+
   return (
     <View
       style={{
@@ -26,17 +29,18 @@ function DCAError() {
         style={{
           fontSize: 24,
           fontWeight: "600",
+          textAlign: "center",
         }}
       >
-        Failed to create DCA
+        We are unable to process your transaction
       </Heading>
       <Button
-        onPress={() => {}}
+        onPress={dismiss}
         style={{
           width: "100%",
         }}
       >
-        View on explorer
+        Close
       </Button>
     </View>
   );

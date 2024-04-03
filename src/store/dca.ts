@@ -19,6 +19,7 @@ interface IDCAStore {
     gasFess: number;
     tx: Transaction | null;
     txHash: string | null;
+    error: boolean;
     setInAmount: (inAmount: string) => void;
     setInAmountPerCycle: (inAmountPerCycle: string) => void;
     setCycleSecondsApart: (cycleSecondsApart: string) => void;
@@ -36,6 +37,7 @@ interface IDCAStore {
     setGasFees: (gasFess: number) => void;
     setTx: (tx: Transaction) => void;
     setTxHash: (txHash: string) => void;
+    setError: (error: boolean) => void;
 }
 
 const useDCAStore = create<IDCAStore>((set) => ({
@@ -55,6 +57,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     txHash: null,
     buyTokenData: null,
     sellTokenData: null,
+    error: false,
     setInAmount: (inAmount) => set({ inAmount }),
     setGasFees: (gasFess) => set({ gasFess }),
     setInAmountPerCycle: (inAmountPerCycle) => set({ inAmountPerCycle }),
@@ -71,6 +74,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setSellTokenData: (sellTokenData) => set({ sellTokenData }),
     setTx: (tx) => set({ tx }),
     setTxHash: (txHash) => set({ txHash }),
+    setError: (error) => set({ error }),
 }));
 
 export { useDCAStore };
