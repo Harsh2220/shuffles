@@ -1,4 +1,4 @@
-import { useDCAStore } from "@/src/store";
+import { useDCAStore } from "@/src/store/dca";
 import useWalletStore from "@/src/store/wallet";
 import { DCABuyTimings } from "@/src/types/DCA";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";

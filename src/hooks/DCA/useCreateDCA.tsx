@@ -6,7 +6,7 @@ import {
   SystemProgram,
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
-import { useDCAStore } from "../../store";
+import { useDCAStore } from "../../store/dca";
 import { connection, dca } from "../../utils/connection";
 import useWalletStore from "../../store/wallet";
 import { getSimulationUnits } from "../../utils/calculateGas";
@@ -38,10 +38,9 @@ export default function useCreateDCA() {
     dcaPubKey,
     setTx,
     setDCA,
-    setGasFees
+    setGasFees,
   } = useDCAStore();
   async function createDCA() {
-
     const params: CreateDCAParamsV2 = {
       payer: pubKey,
       user: pubKey,
@@ -52,7 +51,8 @@ export default function useCreateDCA() {
         getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)
       ),
       inAmountPerCycle: BigInt(
-        Number(inAmount) * Math.pow(10, sellTokenData?.decimal!) / Number(inAmountPerCycle)
+        (Number(inAmount) * Math.pow(10, sellTokenData?.decimal!)) /
+          Number(inAmountPerCycle)
       ),
       inputMint: inputMint as PublicKey,
       outputMint: outputMint as PublicKey,
@@ -95,7 +95,10 @@ export default function useCreateDCA() {
         })
       );
 
-      const txid = await sendAndConfirmTransaction(connection, tx!, [userPayer, nonceAccount]);
+      const txid = await sendAndConfirmTransaction(connection, tx!, [
+        userPayer,
+        nonceAccount,
+      ]);
 
       console.log("Create DCA: ", { txid });
 

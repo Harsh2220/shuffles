@@ -7,7 +7,7 @@ import { TouchableOpacity, View } from "react-native";
 import DCABuyTokenSheet from "../Sheets/DCABuyTokenSheet";
 import Sheet from "../UI/Sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDCAStore } from "@/src/store";
+import { useDCAStore } from "@/src/store/dca";
 import ChevronDown from "@/src/assets/Icons/ChevronDown";
 
 export default function Buy() {

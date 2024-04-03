@@ -3,8 +3,6 @@ import Buy from "@/src/components/DCA/Buy";
 import Orders from "@/src/components/DCA/Orders";
 import Timings from "@/src/components/DCA/Timings";
 import DCAConfirmSheet from "@/src/components/Sheets/DCAConfirmSheet";
-import ErrorSheet from "@/src/components/Sheets/ErrorSheet";
-import SuccessSheet from "@/src/components/Sheets/SuccessSheet";
 import SwapDivider from "@/src/components/SwapDivider";
 import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
@@ -16,7 +14,6 @@ import { View } from "react-native";
 
 export default function Dca() {
   const createDCARef = useRef<BottomSheetModal>(null);
-  const successDCARef = useRef<BottomSheetModal>(null);
   const { createDCA } = useCreateDCA();
   const [isloading, setIsLoading] = React.useState(false);
 
@@ -46,8 +43,7 @@ export default function Dca() {
             // setIsLoading(true);
             // await createDCA();
             // setIsLoading(false);
-            // createDCARef.current?.present();
-            successDCARef?.current?.present();
+            createDCARef.current?.present();
           }}
           style={{
             marginTop: 16,
@@ -66,17 +62,6 @@ export default function Dca() {
         bottomInset={50}
       >
         <DCAConfirmSheet />
-      </Sheet>
-      <Sheet
-        style={{
-          margin: 16,
-        }}
-        ref={successDCARef}
-        snapPoints={[350]}
-        detached={true}
-        bottomInset={50}
-      >
-        <ErrorSheet />
       </Sheet>
     </Container>
   );

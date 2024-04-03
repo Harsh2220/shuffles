@@ -8,7 +8,7 @@ import { TextInput, TouchableOpacity, View } from "react-native";
 import Sheet from "../UI/Sheet";
 import DCASellTokenSheet from "../Sheets/DCASellTokenSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDCAStore } from "@/src/store";
+import { useDCAStore } from "@/src/store/dca";
 import { useState } from "react";
 
 export default function Allocate() {

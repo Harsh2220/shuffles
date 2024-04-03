@@ -1,7 +1,7 @@
 import { Heading } from "@/src/components/UI/Heading";
 import { Paragraph } from "@/src/components/UI/Paragraph";
 import { white } from "@/src/constants/color";
-import { useDCAStore } from "@/src/store";
+import { useDCAStore } from "@/src/store/dca";
 import React from "react";
 import { TextInput, View } from "react-native";
 

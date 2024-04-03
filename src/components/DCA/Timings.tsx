@@ -6,7 +6,7 @@ import { TextInput, View } from "react-native";
 import Sheet from "../UI/Sheet";
 import DCATimingsSheet from "../Sheets/DCATimingsSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDCAStore } from "@/src/store";
+import { useDCAStore } from "@/src/store/dca";
 
 export default function Timings() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
