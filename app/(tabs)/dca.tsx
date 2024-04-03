@@ -10,7 +10,7 @@ import Sheet from "@/src/components/UI/Sheet";
 import useCreateDCA from "@/src/hooks/DCA/useCreateDCA";
 import { useDCAStore } from "@/src/store/dca";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Dca() {

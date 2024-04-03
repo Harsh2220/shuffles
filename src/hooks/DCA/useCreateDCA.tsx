@@ -39,6 +39,8 @@ export default function useCreateDCA() {
     setTx,
     setDCA,
     setGasFees,
+    setTxHash,
+    setError,
   } = useDCAStore();
   async function createDCA() {
     const params: CreateDCAParamsV2 = {
@@ -65,6 +67,8 @@ export default function useCreateDCA() {
     const simulate =
       (await getSimulationUnits(connection, tx.instructions, pubKey, [])) ?? 0;
     const gasFees = simulate / 1000000000;
+    setTxHash(null);
+    setError(false);
     setTx(tx);
     setDCA(dcaPubKey);
     setGasFees(gasFees);

@@ -36,7 +36,7 @@ interface IDCAStore {
     setSellTokenData: (sellTokenData: IToken) => void;
     setGasFees: (gasFess: number) => void;
     setTx: (tx: Transaction) => void;
-    setTxHash: (txHash: string) => void;
+    setTxHash: (txHash: string | null) => void;
     setError: (error: boolean) => void;
 }
 
