@@ -1,5 +1,6 @@
 import { CreateDCAParamsV2 } from "@jup-ag/dca-sdk";
 import {
+  ComputeBudgetProgram,
   Keypair,
   NONCE_ACCOUNT_LENGTH,
   PublicKey,
@@ -18,12 +19,11 @@ export default function useCreateDCA() {
   const { currentWallet } = useWalletStore();
 
   const userPayer = Keypair.fromSecretKey(
-    bs58.decode(currentWallet?.secretKey as string)
+    bs58.decode(currentWallet?.secretKey ?? "")
   );
 
-  const pubKey = new PublicKey(currentWallet?.publicKey as string);
+  const pubKey = new PublicKey(currentWallet?.publicKey ?? "");
 
-  let nonceAccount = Keypair.generate();
   const {
     inAmount,
     inAmountPerCycle,
@@ -79,11 +79,18 @@ export default function useCreateDCA() {
   async function executeDCA() {
     console.log("Execute DCA: ", dcaPubKey);
     try {
+
+      let nonceAccount = Keypair.generate();
       const latestBlockhash = await connection.getLatestBlockhash();
 
       tx!.recentBlockhash = latestBlockhash.blockhash;
       tx!.lastValidBlockHeight = latestBlockhash.lastValidBlockHeight;
-      tx?.add(
+
+      const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: 20000,
+      });
+
+      tx!.add(
         SystemProgram.createAccount({
           fromPubkey: pubKey,
           newAccountPubkey: nonceAccount.publicKey,
@@ -98,14 +105,19 @@ export default function useCreateDCA() {
           authorizedPubkey: pubKey,
         })
       );
+      tx!.add(addPriorityFee);
 
       const txid = await sendAndConfirmTransaction(connection, tx!, [
         userPayer,
         nonceAccount,
       ]);
 
+      setTxHash(txid);
+      console.log("DCA Executed: ", txid);
+
       return txid;
     } catch (error) {
+      setError(true);
       console.log("Error executing DCA: ", error);
     }
   }

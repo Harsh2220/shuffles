@@ -23,7 +23,7 @@ export default function Dca() {
     try {
       {
         setIsLoading(true);
-        // await createDCA();
+        await createDCA();
         createDCARef.current?.present();
       }
     } catch (error) {

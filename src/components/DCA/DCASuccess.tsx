@@ -1,10 +1,12 @@
 import LottieView from "lottie-react-native";
 import React from "react";
-import { View } from "react-native";
+import { Linking, View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
+import { useDCAStore } from "@/src/store/dca";
 
 function DCASuccess() {
+  const {txHash} = useDCAStore();
   return (
     <View
       style={{
@@ -31,7 +33,9 @@ function DCASuccess() {
         DCA created Successfully
       </Heading>
       <Button
-        onPress={() => {}}
+        onPress={() => {
+          Linking.openURL(`https://solscan.io/tx/${txHash}`);
+        }}
         style={{
           width: "100%",
         }}

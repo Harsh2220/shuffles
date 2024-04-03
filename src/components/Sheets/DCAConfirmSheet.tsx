@@ -10,5 +10,5 @@ export default function DCAConfirmSheet() {
 
   if (error) return <DCAError />;
 
-  return <DCAError />;
+  return <DCAConfirm />;
 }

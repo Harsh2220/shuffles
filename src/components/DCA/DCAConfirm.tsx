@@ -67,11 +67,8 @@ export default function DCAConfirm() {
       if (hash) {
         setTxHash(hash);
       }
-      console.log("hello");
-      setTxHash("hello");
       setIsLoading(false);
     } catch (error) {
-      setError(true);
       console.log(error);
     }
   }

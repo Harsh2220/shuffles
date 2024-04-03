@@ -58,7 +58,7 @@ export default function Button({
       }}
     >
       {isLoading ? (
-        <ActivityIndicator size={"small"} animating={true} color={"black"} />
+        <ActivityIndicator size={"small"} animating={true} color={"white"} />
       ) : (
         <>
           {icon && iconPosition === "left" ? icon : null}
