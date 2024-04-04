@@ -36,6 +36,7 @@ export default function useCreateDCA() {
     sellTokenData,
     tx,
     dcaPubKey,
+    orderPer,
     setTx,
     setDCA,
     setGasFees,
@@ -50,7 +51,7 @@ export default function useCreateDCA() {
         Number(inAmount) * Math.pow(10, sellTokenData?.decimal!)
       ),
       cycleSecondsApart: BigInt(
-        getSeconds(Number(cycleSecondsApart), DCABuyTimings.MINUTE)
+        getSeconds(Number(cycleSecondsApart), orderPer)
       ),
       inAmountPerCycle: BigInt(
         (Number(inAmount) * Math.pow(10, sellTokenData?.decimal!)) /
@@ -79,7 +80,6 @@ export default function useCreateDCA() {
   async function executeDCA() {
     console.log("Execute DCA: ", dcaPubKey);
     try {
-
       let nonceAccount = Keypair.generate();
       const latestBlockhash = await connection.getLatestBlockhash();
 

@@ -7,11 +7,12 @@ import Sheet from "../UI/Sheet";
 import DCATimingsSheet from "../Sheets/DCATimingsSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useDCAStore } from "@/src/store/dca";
+import ChevronDown from "@/src/assets/Icons/ChevronDown";
 
 export default function Timings() {
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["35%", "60%"], []);
-  const { setCycleSecondsApart } = useDCAStore();
+  const { setCycleSecondsApart, orderPer } = useDCAStore();
   return (
     <View>
       <Paragraph
@@ -50,7 +51,8 @@ export default function Timings() {
         />
         <Button
           style={{
-            paddingHorizontal: 16,
+            paddingLeft: 16,
+            paddingRight: 8,
             paddingVertical: 8,
             backgroundColor: black[800],
             borderColor: black[800],
@@ -59,8 +61,9 @@ export default function Timings() {
           onPress={() => {
             bottomSheetModalRef?.current?.present();
           }}
+          icon={<ChevronDown width={24} height={24} color={"white"} />}
         >
-          Minute
+          {orderPer}
         </Button>
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>

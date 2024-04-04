@@ -4,6 +4,7 @@ import { DCABuyTimings } from "@/src/types/DCA";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { TouchableOpacity, View } from "react-native";
 import { Heading } from "../UI/Heading";
+import Check from "@/src/assets/Icons/Check";
 
 const DATA: DCABuyTimings[] = [
   DCABuyTimings.SECOND,
@@ -16,8 +17,7 @@ const DATA: DCABuyTimings[] = [
 
 export default function DCATimingsSheet() {
   const { dismiss } = useBottomSheetModal();
-  const { setInputMint, setSellTokenData } = useDCAStore();
-  const { tokens } = useWalletStore();
+  const { orderPer, setOrderPer } = useDCAStore();
 
   return (
     <View
@@ -27,7 +27,17 @@ export default function DCATimingsSheet() {
       }}
     >
       {DATA.map((el, index) => (
-        <TouchableOpacity key={index}>
+        <TouchableOpacity
+          key={index}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+          onPress={() => {
+            setOrderPer(el);
+            dismiss();
+          }}
+        >
           <Heading
             style={{
               fontSize: 20,
@@ -36,6 +46,7 @@ export default function DCATimingsSheet() {
           >
             {el}
           </Heading>
+          {orderPer === el && <Check width={24} height={24} color={"black"} />}
         </TouchableOpacity>
       ))}
     </View>

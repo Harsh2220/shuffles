@@ -1,6 +1,7 @@
 import { PublicKey, Transaction } from "@solana/web3.js";
 import { create } from "zustand";
 import { IToken, JupTokens } from "../types/wallet";
+import { DCABuyTimings } from "../types/DCA";
 
 interface IDCAStore {
     inAmount: string;
@@ -12,6 +13,7 @@ interface IDCAStore {
     maxOutAmountPerCycle: BigInt | null;
     startAt: BigInt | null;
     userInTokenAccount: PublicKey | null;
+    orderPer: DCABuyTimings;
     dcaPubKey: PublicKey | null;
     withDrawAmount: BigInt;
     buyTokenData: JupTokens | null;
@@ -38,6 +40,7 @@ interface IDCAStore {
     setTx: (tx: Transaction) => void;
     setTxHash: (txHash: string | null) => void;
     setError: (error: boolean) => void;
+    setOrderPer: (orderPer: DCABuyTimings) => void;
 }
 
 const useDCAStore = create<IDCAStore>((set) => ({
@@ -48,6 +51,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     outputMint: null,
     minOutAmountPerCycle: null,
     maxOutAmountPerCycle: null,
+    orderPer: DCABuyTimings.SECOND,
     startAt: null,
     userInTokenAccount: null,
     dcaPubKey: null,
@@ -75,6 +79,7 @@ const useDCAStore = create<IDCAStore>((set) => ({
     setTx: (tx) => set({ tx }),
     setTxHash: (txHash) => set({ txHash }),
     setError: (error) => set({ error }),
+    setOrderPer: (orderPer) => set({ orderPer }),
 }));
 
 export { useDCAStore };
