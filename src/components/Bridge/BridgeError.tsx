@@ -1,12 +1,13 @@
 import LottieView from "lottie-react-native";
 import React from "react";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
-import useBridgeStore from "@/src/store/bridge";
+import { useBottomSheet, useBottomSheetModal } from "@gorhom/bottom-sheet";
 
-function BridgeSuccess() {
-  const { txHash } = useBridgeStore();
+function BridgeError() {
+  const { dismiss } = useBottomSheetModal();
+
   return (
     <View
       style={{
@@ -16,7 +17,7 @@ function BridgeSuccess() {
       }}
     >
       <LottieView
-        source={require("../../assets/success.json")}
+        source={require("../../assets/error.json")}
         style={{
           width: 150,
           height: 150,
@@ -28,22 +29,21 @@ function BridgeSuccess() {
         style={{
           fontSize: 24,
           fontWeight: "600",
+          textAlign: "center",
         }}
       >
-        Bridged Successfully
+        We are unable to process your transaction
       </Heading>
       <Button
-        onPress={() => {
-          Linking.openURL(`https://wormholescan.io/#/tx/${txHash}`);
-        }}
+        onPress={dismiss}
         style={{
           width: "100%",
         }}
       >
-        View on explorer
+        Close
       </Button>
     </View>
   );
 }
 
-export default React.memo(BridgeSuccess);
+export default React.memo(BridgeError);

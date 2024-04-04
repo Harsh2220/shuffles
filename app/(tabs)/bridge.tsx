@@ -7,6 +7,7 @@ import Button from "@/src/components/UI/Button";
 import Container from "@/src/components/UI/Container";
 import Sheet from "@/src/components/UI/Sheet";
 import useBridge from "@/src/hooks/Bridge/useBridge";
+import useBridgeStore from "@/src/store/bridge";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
@@ -14,15 +15,16 @@ import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Bridge() {
-  const successBridgeRef = useRef<BottomSheetModal>(null);
+  const confirmBridgeRef = useRef<BottomSheetModal>(null);
   const { bridgeTokens } = useBridge();
+  const { error } = useBridgeStore();
   const [loading, setLoading] = React.useState(false);
 
   async function handleBridge() {
     try {
       setLoading(true);
       await bridgeTokens();
-      
+      confirmBridgeRef?.current?.present();
     } catch (error) {
       console.log(error);
     } finally {
@@ -51,12 +53,7 @@ export default function Bridge() {
         </View>
         <Button
           isLoading={loading}
-          onPress={async () => {
-            setLoading(true);
-            await bridgeTokens();
-            setLoading(false);
-            
-          }}
+          onPress={handleBridge}
           style={{
             marginTop: 16,
           }}
@@ -68,8 +65,8 @@ export default function Bridge() {
         style={{
           margin: 16,
         }}
-        ref={successBridgeRef}
-        snapPoints={[340]}
+        ref={confirmBridgeRef}
+        snapPoints={[error ? 370 : 340]}
         detached={true}
         bottomInset={50}
       >

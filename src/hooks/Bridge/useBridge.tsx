@@ -1,14 +1,11 @@
 import useBridgeStore from "@/src/store/bridge";
-import useWalletStore from "@/src/store/wallet";
 import { connection } from "@/src/utils/connection";
 import {
   ChainAddress,
   TokenId,
   Wormhole,
 } from "@wormhole-foundation/connect-sdk";
-import {
-  EvmPlatform,
-} from "@wormhole-foundation/connect-sdk-evm";
+import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import {
   SolanaPlatform,
@@ -17,8 +14,8 @@ import {
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 
 export default function useBridge() {
-  const { currentWallet } = useWalletStore();
-  const { amount, receiver, chain, sellToken, setTxHash } = useBridgeStore();
+  const { amount, receiver, chain, sellToken, setTxHash, setError } =
+    useBridgeStore();
 
   async function bridgeTokens() {
     try {
@@ -62,8 +59,8 @@ export default function useBridge() {
       const srcTxids = await xfer.initiateTransfer(signer);
       console.log(`Completed transfer: `, srcTxids);
       setTxHash(srcTxids[0]);
-  
     } catch (error) {
+      setError(true);
       console.log(error);
     }
   }

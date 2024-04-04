@@ -9,11 +9,13 @@ interface IBridge {
     amount: string;
     receiver: string;
     txHash: string | null;
+    error: boolean,
     setChain: (chain: Chain) => void
     setSellToken: (sellToken: BridgeToken) => void
     setAmount: (amount: string) => void
     setReceiver: (amount: string) => void
     setTxHash: (txHash: string) => void
+    setError: (error: boolean) => void
 }
 
 const useBridgeStore = create<IBridge>((set) => ({
@@ -22,6 +24,7 @@ const useBridgeStore = create<IBridge>((set) => ({
     chain: null,
     receiver: '',
     txHash: null,
+    error: false,
     setChain: (chain) =>
         set({
             chain: chain,
@@ -41,6 +44,10 @@ const useBridgeStore = create<IBridge>((set) => ({
     setTxHash: (txHash) =>
         set({
             txHash: txHash,
+        }),
+    setError: (error) =>
+        set({
+            error: error,
         }),
 }));
 

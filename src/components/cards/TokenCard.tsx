@@ -17,12 +17,14 @@ export default function TokenCard({ token }: { token: IToken }) {
         }}
       >
         <Image source={{ uri: token.image }} style={styles.assetImage} />
-        <View style={{
-          maxWidth: 200,
-        }}>
-          <Heading
-          numberOfLines={1}
-          style={styles.assetName}>{token.name}</Heading>
+        <View
+          style={{
+            maxWidth: 200,
+          }}
+        >
+          <Heading numberOfLines={1} style={styles.assetName}>
+            {token.name}
+          </Heading>
           <Paragraph
             style={{
               fontSize: 12,
