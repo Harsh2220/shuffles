@@ -1,14 +1,15 @@
 import { create } from "zustand";
 import { Chain } from "../types/Chain";
 import { IToken } from "../types/wallet";
+import { BridgeToken } from "../types/Bridge";
 
 interface IBridge {
-    sellToken: null | IToken
+    sellToken: null | BridgeToken
     chain: null | Chain;
     amount: string;
     receiver: string;
     setChain: (chain: Chain) => void
-    setSellToken: (sellToken: IToken) => void
+    setSellToken: (sellToken: BridgeToken) => void
     setAmount: (amount: string) => void
     setReceiver: (amount: string) => void
 }

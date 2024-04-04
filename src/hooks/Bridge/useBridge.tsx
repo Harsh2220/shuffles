@@ -50,7 +50,7 @@ export default function useBridge() {
 
       const xfer = await wh.tokenTransfer(
         sourceToken,
-        BigInt(Number(amount) * Math.pow(10, sellToken.decimal)),
+        BigInt(Number(amount) * Math.pow(10, sellToken.decimals)),
         sAddress,
         rAddress,
         false

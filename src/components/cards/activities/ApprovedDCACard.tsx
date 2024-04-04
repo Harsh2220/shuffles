@@ -11,15 +11,16 @@ export default function ApprovedDCACard({ data }: { data: SwapActivity }) {
   const [inToken, setInToken] = useState<any>(null);
   const [outToken, setOutToken] = useState<any>(null);
   async function tokenInfo() {
-    const [inToken, outToken] = await Promise.all([getTokenInfo(data.inToken), getTokenInfo(data.outToken)]);
+    const [inToken, outToken] = await Promise.all([
+      getTokenInfo(data.inToken),
+      getTokenInfo(data.outToken),
+    ]);
     setInToken(inToken);
     setOutToken(outToken);
-
   }
   useEffect(() => {
     tokenInfo();
-  }
-    , [data]);
+  }, [data]);
   return (
     <View
       style={{
