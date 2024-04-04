@@ -14,8 +14,21 @@ import React, { useRef } from "react";
 import { View } from "react-native";
 
 export default function Bridge() {
-  const confirmBridgeRef = useRef<BottomSheetModal>(null);
+  const successBridgeRef = useRef<BottomSheetModal>(null);
   const { bridgeTokens } = useBridge();
+  const [loading, setLoading] = React.useState(false);
+
+  async function handleBridge() {
+    try {
+      setLoading(true);
+      await bridgeTokens();
+      
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Container>
@@ -37,8 +50,12 @@ export default function Bridge() {
           <BridgeTo />
         </View>
         <Button
-          onPress={() => {
-            confirmBridgeRef.current?.present();
+          isLoading={loading}
+          onPress={async () => {
+            setLoading(true);
+            await bridgeTokens();
+            setLoading(false);
+            
           }}
           style={{
             marginTop: 16,
@@ -51,7 +68,7 @@ export default function Bridge() {
         style={{
           margin: 16,
         }}
-        ref={confirmBridgeRef}
+        ref={successBridgeRef}
         snapPoints={[340]}
         detached={true}
         bottomInset={50}

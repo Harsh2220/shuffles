@@ -11,7 +11,7 @@ import ChainSheet from "../Sheets/BridgeSheets/ChainSheet";
 import Sheet from "../UI/Sheet";
 
 export default function BridgeTo() {
-  const { chain } = useBridgeStore();
+  const { chain, amount, receiver } = useBridgeStore();
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ["60%", "90%"], []);
 
@@ -90,6 +90,7 @@ export default function BridgeTo() {
             }}
           >
             <TextInput
+              value={receiver && chain ? (Number(amount) - 1.2).toFixed(2).toString() : ""}
               editable={false}
               style={{
                 fontSize: 58,

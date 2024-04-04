@@ -11,14 +11,14 @@ export const BRIDGE_TOKENS: BridgeToken[] = [
     {
         "address": "A9mUU4qviSctJVPJdBJWkb28deg915LYJKrzQ19ji3FM",
         "image": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/A9mUU4qviSctJVPJdBJWkb28deg915LYJKrzQ19ji3FM/logo.png",
-        "name": "USD Coin (Portal from Ethereum)",
+        "name": "USD Coin (Portal)",
         "symbol": "USDCet",
         "decimals": 6,
     },
     {
         "address": "Dn4noZ5jgGfkntzcQSUZ8czkreiZ1ForXYoV2H8Dm7S1",
         "image": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Dn4noZ5jgGfkntzcQSUZ8czkreiZ1ForXYoV2H8Dm7S1/logo.png",
-        "name": "Tether USD (Portal from Ethereum)",
+        "name": "Tether USD (Portal)",
         "symbol": "USDTet",
         "decimals": 6,
 
@@ -41,7 +41,7 @@ export const BRIDGE_TOKENS: BridgeToken[] = [
     {
         "address": "Gz7VkD4MacbEB6yC5XD3HcumEiYx2EtDYYrfikGsvopG",
         "image": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/Gz7VkD4MacbEB6yC5XD3HcumEiYx2EtDYYrfikGsvopG/logo.png",
-        "name": "Matic (Portal from Polygon)",
+        "name": "Matic (Portal)",
         "symbol": "MATICpo",
         "decimals": 8,
 
@@ -55,43 +55,10 @@ export const BRIDGE_TOKENS: BridgeToken[] = [
 
     },
     {
-        "address": "DRQBDBEWmwWGK13fRTLhSPzjbvMSUavhV6nW4RUH8W6T",
-        "image": "",
-        "name": "Wrapped Fantom (Wormhole)",
-        "symbol": "WFTM",
-        "decimals": 8,
-
-    },
-    {
-        "address": "9kvAcwQbqejuJMd59mKuw2bfSsLRaQ7zuvaTVHEeBBec",
-        "image": "",
-        "name": "Celo native asset (Wormhole)",
-        "symbol": "CELO",
-        "decimals": 8,
-
-    },
-    {
-        "address": "7ixSaXGsHAFy34wogPk2YXiUX3BMmQMFdercdaHLnBby",
-        "image": "",
-        "name": "Wrapped GLMR (Wormhole)",
-        "symbol": "WGLMR",
-        "decimals": 8,
-
-    },
-    {
-        "address": "G1vJEgzepqhnVu35BN4jrkv3wVwkujYWFFCxhbEZ1CZr",
-        "image": "",
-        "name": "Sui (Wormhole)",
-        "symbol": "SUI",
-        "decimals": 8,
-
-    },
-    {
         "address": "So11111111111111111111111111111111111111112",
         "image": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
         "name": "Wrapped SOL",
         "symbol": "SOL",
         "decimals": 9,
-
     }
 ]

@@ -6,9 +6,10 @@ import useBridgeStore from "@/src/store/bridge";
 import React from "react";
 import * as Clipboard from "expo-clipboard";
 import { TextInput, View } from "react-native";
+import formatAddress from "@/src/utils/formatAddress";
 
 export default function Receiver() {
-  const { setReceiver, receiver } = useBridgeStore();
+  const { setReceiver, receiver, amount } = useBridgeStore();
 
   async function handlePaste() {
     const text = await Clipboard.getStringAsync();
@@ -39,7 +40,9 @@ export default function Receiver() {
         }}
       >
         <TextInput
-          value={receiver}
+          value={
+            receiver ?
+              formatAddress(receiver) : ""}
           onChange={(e) => {
             setReceiver(e.nativeEvent.text);
           }}

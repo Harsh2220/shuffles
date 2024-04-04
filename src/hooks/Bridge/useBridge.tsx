@@ -8,7 +8,6 @@ import {
 } from "@wormhole-foundation/connect-sdk";
 import {
   EvmPlatform,
-  getEvmSignerForKey,
 } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
 import {
@@ -16,11 +15,10 @@ import {
   getSolanaSigner,
 } from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
-import { ethers } from "ethers";
 
 export default function useBridge() {
   const { currentWallet } = useWalletStore();
-  const { amount, receiver, chain, sellToken } = useBridgeStore();
+  const { amount, receiver, chain, sellToken, setTxHash } = useBridgeStore();
 
   async function bridgeTokens() {
     try {
@@ -40,7 +38,7 @@ export default function useBridge() {
 
       const sAddress: ChainAddress = Wormhole.chainAddress(
         "Solana",
-        currentWallet?.publicKey!
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
       );
 
       const rAddress: ChainAddress = Wormhole.chainAddress(
@@ -53,25 +51,18 @@ export default function useBridge() {
         BigInt(Number(amount) * Math.pow(10, sellToken.decimals)),
         sAddress,
         rAddress,
-        false
+        true
       );
 
       console.log("xfer", xfer);
 
       const signer = await getSolanaSigner(connection, "");
 
-      const ethSigner = await getEvmSignerForKey(
-        new ethers.JsonRpcProvider(chain.rpc),
-        ""
-      );
-
       console.log("Starting transfer", signer);
       const srcTxids = await xfer.initiateTransfer(signer);
-      console.log(`Started transfer: `, srcTxids);
-      const desTxids = await xfer.fetchAttestation();
-      console.log(`Attestation: `, desTxids);
-      const srcTxids2 = await xfer.completeTransfer(ethSigner);
-      console.log(`Completed transfer: `, srcTxids2);
+      console.log(`Completed transfer: `, srcTxids);
+      setTxHash(srcTxids[0]);
+  
     } catch (error) {
       console.log(error);
     }

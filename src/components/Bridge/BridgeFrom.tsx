@@ -6,10 +6,7 @@ import { Image } from "expo-image";
 import React from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
 import Sheet from "../UI/Sheet";
-import DCASellTokenSheet from "../Sheets/DCASellTokenSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDCAStore } from "@/src/store";
-import { useState } from "react";
 import useBridgeStore from "@/src/store/bridge";
 import TokenSheet from "../Sheets/BridgeSheets/TokenSheet";
 
@@ -95,7 +92,7 @@ export default function BridgeFrom() {
                       color: white[100],
                     }}
                   >
-                    {sellToken.balance} {sellToken.symbol}
+                    {sellToken.symbol}
                   </Paragraph>
                 )}
               </View>
