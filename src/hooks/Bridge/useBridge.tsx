@@ -4,6 +4,7 @@ import {
   ChainAddress,
   TokenId,
   Wormhole,
+  routes,
 } from "@wormhole-foundation/connect-sdk";
 import { EvmPlatform } from "@wormhole-foundation/connect-sdk-evm";
 import "@wormhole-foundation/connect-sdk-evm-tokenbridge";
@@ -61,6 +62,67 @@ export default function useBridge() {
       setTxHash(srcTxids[0]);
     } catch (error) {
       setError(true);
+      console.log(error);
+    }
+  }
+
+  async function estimate() {
+    try {
+      if (!chain?.whChain || !receiver || !sellToken) return;
+      const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
+
+      const srcChain = wh.getChain("Solana");
+      const destChain = wh.getChain(chain?.whChain);
+      const sourceToken: TokenId = Wormhole.tokenId(
+        "Solana",
+        sellToken?.address!
+      );
+
+      await srcChain.getTokenBridge();
+
+      await destChain.getTokenBridge();
+
+      const sAddress: ChainAddress = Wormhole.chainAddress(
+        "Solana",
+        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+      );
+
+      const rAddress: ChainAddress = Wormhole.chainAddress(
+        chain?.whChain,
+        receiver
+      );
+      const resolver = wh.resolver([
+        routes.AutomaticTokenBridgeRoute, // automatic token bridge
+      ]);
+
+      const destTokens = await resolver.supportedDestinationTokens(
+        sourceToken,
+        srcChain,
+        destChain
+      );
+
+      const destinationToken = destTokens[0]!;
+
+      const tr = await routes.RouteTransferRequest.create(wh, {
+        from: sAddress,
+        to: rAddress,
+        source: sourceToken,
+        destination: destinationToken,
+      });
+
+      const foundRoutes = await resolver.findRoutes(tr);
+      const bestRoute = foundRoutes[0];
+      console.log(bestRoute);
+      const validated = await bestRoute.validate({
+        amount: "1000",
+      });
+      if (!validated.valid) throw validated.error;
+      const quote = await bestRoute.quote(validated.params);
+      if (quote?.success) {
+        console.log(quote?.destinationToken?.amount);
+        console.log(quote?.destinationToken?.token);
+      }
+    } catch (error) {
       console.log(error);
     }
   }
