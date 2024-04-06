@@ -1,54 +1,51 @@
-## Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
+# Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
 
-<div style="text-align:center;">
-    <img src="/src/assets/images/icon.png" width="100" height="100">
-</div>
+![Logo](/src/assets/images/icon.png){ width="100" height="100" style="display: block; margin: 0 auto" }
 
-Shuffles is a mobile app that allows users to trade cryptocurrencies across different blockchains. It is a non-custodial wallet that enables users to trade directly from their wallets without the need to visit different websites to perform different DeFi operations. 
+Shuffles is a mobile app enabling users to seamlessly trade cryptocurrencies across different blockchains. Acting as a non-custodial wallet, Shuffles empowers users to execute trades directly from their wallets without navigating multiple platforms for various DeFi operations.
 
-## Shuffles is a one-stop solution for all your DeFi needs.
+## Shuffles: A One-stop Solution for All Your DeFi Needs
 
 ### Features:
 - **Cross-Chain Swaps**: Trade cryptocurrencies across different blockchains.
-- **Essential DeFi features**: Access to all DeFi features like DCA, limit orders, lending, borrowing, etc.
-- **Non-Custodial Wallet**: You are in control of your funds.
-- **Secure**: Your private keys are stored securely on your device.
-- **Enhanced User Experience (UX)**: Prioritizing intuitive design and navigation
+- **Essential DeFi Features**: Access DCA, limit orders, lending, borrowing, and more.
+- **Non-Custodial Wallet**: Maintain control over your funds.
+- **Secure**: Private keys securely stored on your device.
+- **Enhanced User Experience (UX)**: Intuitive design prioritized for seamless navigation.
 
 ## Why Now?
 
-Current solution providers are premitive and they lack support for essential DeFi, we at Shuffles provides all the essential features from cross-chain swaps to DCA, limit orders by extracting the complexity from user to provide them the best user experience on the go, so that they can access all these features on their fingertip by using shuffles.
+Existing solutions lack support for essential DeFi features. Shuffles streamlines the DeFi experience, offering cross-chain swaps, DCA, limit orders, and more, all within a user-friendly mobile app.
 
 ![ROADMAP](/src/assets/images/roadmap.png)
 
-We have more features in the pipeline so that in the future we can create a whole DeFi suite for user so that they don't have to visit 10 different websites to perform 10 different tasks, they can basically access all these features inside the shuffles application.
+We have exciting features in the pipeline, aiming to create a comprehensive DeFi suite within Shuffles. Say goodbye to visiting multiple websites for different tasks—Shuffles brings them all under one roof.
 
-## How we made it
+## How We Made It
 
 - **Jupiter Integration**:
-  - Utilizing [Jupiter](https://station.jup.ag/docs/dca/dca-sdk) for Dollar Cost Averaging (DCA) and limit orders, enabling users to systematically invest over time.
-  - Seamless integration for user-friendly investment strategies.
+  - Utilizing [Jupiter](https://station.jup.ag/docs/dca/dca-sdk) for Dollar Cost Averaging (DCA) and limit orders, enabling systematic investments.
+  - Seamlessly integrated for user-friendly investment strategies.
 
 - **Wormhole Integration**:
-  - Integrated [Wormhole](https://docs.wormhole.com/wormhole/reference/sdk-docs) for cross-chain swaps, leveraging automated token bridges to eliminate gas fees on both chains.
-  - Users can effortlessly redeem assets on the destination chain without incurring extra costs.
+  - Integrated [Wormhole](https://docs.wormhole.com/wormhole/reference/sdk-docs) for cross-chain swaps, eliminating gas fees with automated token bridges.
+  - Users can redeem assets on the destination chain hassle-free.
 
 - **Birdeye Integration**:
-  - Leveraging [Birdeye](https://birdeye.so/) for real-time asset prices and precise calculation of asset prices during DCA and limit orders.
-  - Ensuring accurate investment decisions based on up-to-date market data.
+  - Leveraging [Birdeye](https://birdeye.so/) for real-time asset prices and precise calculations during DCA and limit orders.
+  - Ensuring accurate investment decisions based on live market data.
 
 - **Shyft Integration**:
-  - Integrated [Shyft](https://docs.shyft.to/solana-apis/) for retrieving all assets associated with the user's wallet.
-  - Facilitating a comprehensive view of the user's portfolio for informed investment strategies.
+  - Integrated [Shyft](https://docs.shyft.to/solana-apis/) for retrieving all assets from the user's wallet.
+  - Provides a comprehensive view of the user's portfolio for informed investment strategies.
 
 - **Helius Integration**:
-  - Utilizing [Helius](https://docs.helius.dev/) for analytics on the user's wallet, providing insights into user activity and portfolio performance.
-  - Empowering users with data-driven insights for optimizing their investment strategies.
+  - Utilizing [Helius](https://docs.helius.dev/) for wallet analytics, offering insights into user activity and portfolio performance.
+  - Empowering users with data-driven insights for optimized investment strategies.
 
+## How to Run the Project
 
-## How to run the project
-
-We believe that you already have react-native and expo set-up on your machine, if not then please install it by going through this [guide](https://reactnative.dev/docs/environment-setup)
+Ensure you have React Native and Expo set up on your machine. If not, follow this [guide](https://reactnative.dev/docs/environment-setup).
 
 ```sh
 npm i
