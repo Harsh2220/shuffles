@@ -22,7 +22,7 @@ export default function useCreateDCA() {
     bs58.decode(currentWallet?.secretKey ?? "")
   );
 
-  const pubKey = new PublicKey("HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN");
+  const pubKey = new PublicKey(currentWallet?.publicKey ?? "");
 
   const {
     inAmount,
@@ -87,7 +87,7 @@ export default function useCreateDCA() {
       tx!.lastValidBlockHeight = latestBlockhash.lastValidBlockHeight;
 
       const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-        microLamports: 50000,
+        microLamports: 20000,
       });
 
       tx!.add(
@@ -117,9 +117,8 @@ export default function useCreateDCA() {
 
       return txid;
     } catch (error) {
-      // setError(true);
-      setTxHash("null");
-      // console.log("Error executing DCA: ", error);
+      setError(true);
+      console.log("Error executing DCA: ", error);
     }
   }
 

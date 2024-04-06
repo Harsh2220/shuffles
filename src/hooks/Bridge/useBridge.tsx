@@ -13,6 +13,7 @@ import {
   getSolanaSigner,
 } from "@wormhole-foundation/connect-sdk-solana";
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
+import useWalletStore from "@/src/store/wallet";
 
 export default function useBridge() {
   const {
@@ -24,6 +25,8 @@ export default function useBridge() {
     setError,
     setDstAmount,
   } = useBridgeStore();
+
+  const { currentWallet } = useWalletStore();
 
   async function bridgeTokens() {
     try {
@@ -61,7 +64,7 @@ export default function useBridge() {
 
       console.log("xfer", xfer);
 
-      const signer = await getSolanaSigner(connection, "");
+      const signer = await getSolanaSigner(connection, currentWallet?.secretKey ?? "");
 
       console.log("Starting transfer", signer);
       const srcTxids = await xfer.initiateTransfer(signer);
@@ -101,7 +104,7 @@ export default function useBridge() {
         receiver
       );
       const resolver = wh.resolver([
-        routes.AutomaticTokenBridgeRoute, // automatic token bridge
+        routes.AutomaticTokenBridgeRoute, 
       ]);
 
       const destTokens = await resolver.supportedDestinationTokens(
