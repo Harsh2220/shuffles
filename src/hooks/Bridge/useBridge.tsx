@@ -46,7 +46,7 @@ export default function useBridge() {
 
       const sAddress: ChainAddress = Wormhole.chainAddress(
         "Solana",
-        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+        currentWallet?.publicKey ?? ""
       );
 
       const rAddress: ChainAddress = Wormhole.chainAddress(
@@ -96,7 +96,7 @@ export default function useBridge() {
 
       const sAddress: ChainAddress = Wormhole.chainAddress(
         "Solana",
-        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
+        currentWallet?.publicKey ?? ""
       );
 
       const rAddress: ChainAddress = Wormhole.chainAddress(
