@@ -1,6 +1,6 @@
 ### Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
 
-![ROADMAP](/src/assets/images/icon.png)
+<img src="/src/assets/images/icon.png" width="100" height="100">
 
 Shuffles is a mobile app that allows users to trade cryptocurrencies across different blockchains. It is a non-custodial wallet that enables users to trade directly from their wallets without the need to visit different websites to perform different DeFi operations. 
 
@@ -19,15 +19,15 @@ Current solution providers are premitive and they lack support for essential DeF
 
 ![ROADMAP](/src/assets/images/roadmap.png)
 
-We have more features in the pipe-line so that in the future we can create a whole DeFi suite for user so that they don't have to visit 10 different websites to perform 10 different tasks, they can basically access all these features inside the shuffles application.
+We have more features in the pipeline so that in the future we can create a whole DeFi suite for user so that they don't have to visit 10 different websites to perform 10 different tasks, they can basically access all these features inside the shuffles application.
 
 ## How we made it
 
-We are using (Jupiter)['https://station.jup.ag/docs/dca/dca-sdk'] For the DCA and limit orders so that user can invest systematically invest over time. We have integrated (Wormhole)['https://docs.wormhole.com/wormhole/reference/sdk-docs'] for the cross-chain swaps where we are using the automated token bridge so that user don't have to pay the gas fees on both of the chains, they can automatically redeem the assets on the destination chain. We are also using (Birdeye)['https://birdeye.so/'] for the live asset prices and calculation of the asset price during the DCA & limit orders. We have integrated (Shyft)['https://docs.shyft.to/solana-apis/'] for fetching all the assets of the user's wallet, and lastly we are using the (Helius)['https://docs.helius.dev/] for the analytics of the user's wallet including the activity of the user.
+We are using [Jupiter](https://station.jup.ag/docs/dca/dca-sdk) For the DCA and limit orders so that user can invest systematically invest over time. We have integrated [Wormhole](https://docs.wormhole.com/wormhole/reference/sdk-docs) for the cross-chain swaps where we are using the automated token bridge so that user don't have to pay the gas fees on both of the chains, they can automatically redeem the assets on the destination chain. We are also using [Birdeye](https://birdeye.so/) for the live asset prices and calculation of the asset price during the DCA & limit orders. We have integrated [Shyft](https://docs.shyft.to/solana-apis/) for fetching all the assets of the user's wallet, and lastly we are using the [Helius](https://docs.helius.dev/) for the analytics of the user's wallet including the activity of the user.
 
 ## How to run the project
 
-We believe that you already have react-native and expo set-up on your machine, if not then please install it by going through this (guide)[https://reactnative.dev/docs/environment-setup]
+We believe that you already have react-native and expo set-up on your machine, if not then please install it by going through this [guide](https://reactnative.dev/docs/environment-setup)
 
 ```sh
 npm i
