@@ -15,8 +15,15 @@ import {
 import "@wormhole-foundation/connect-sdk-solana-tokenbridge";
 
 export default function useBridge() {
-  const { amount, receiver, chain, sellToken, setTxHash, setError } =
-    useBridgeStore();
+  const {
+    amount,
+    receiver,
+    chain,
+    sellToken,
+    setTxHash,
+    setError,
+    setDstAmount,
+  } = useBridgeStore();
 
   async function bridgeTokens() {
     try {
@@ -69,6 +76,8 @@ export default function useBridge() {
   async function estimate() {
     try {
       if (!chain?.whChain || !receiver || !sellToken) return;
+      setError(false);
+      setTxHash(null);
       const wh = new Wormhole("Mainnet", [SolanaPlatform, EvmPlatform]);
 
       const srcChain = wh.getChain("Solana");
@@ -114,18 +123,21 @@ export default function useBridge() {
       const bestRoute = foundRoutes[0];
       console.log(bestRoute);
       const validated = await bestRoute.validate({
-        amount: "1000",
+        amount: amount,
       });
       if (!validated.valid) throw validated.error;
       const quote = await bestRoute.quote(validated.params);
       if (quote?.success) {
-        console.log(quote?.destinationToken?.amount);
-        console.log(quote?.destinationToken?.token);
+        const destinationAmount =
+          Number(quote?.destinationToken?.amount?.amount) /
+          Math.pow(10, Number(quote?.destinationToken?.amount?.decimals));
+        setDstAmount(destinationAmount.toString());
       }
     } catch (error) {
+      setError(true);
       console.log(error);
     }
   }
 
-  return { bridgeTokens };
+  return { bridgeTokens, estimate };
 }

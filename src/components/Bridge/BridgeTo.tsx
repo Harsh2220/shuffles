@@ -27,7 +27,54 @@ export default function BridgeTo() {
         >
           Choose Network to Receive
         </Paragraph>
-        <View
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: 10,
+            backgroundColor: white[800],
+            borderWidth: 1,
+            borderColor: white[500],
+            borderRadius: 100,
+            marginTop: 8,
+          }}
+          onPress={() => {
+            bottomSheetModalRef.current?.present();
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            {chain && (
+              <Image
+                source={{
+                  uri: chain.image,
+                }}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 50,
+                }}
+                contentFit="cover"
+              />
+            )}
+            <Heading
+              style={{
+                fontSize: 16,
+                fontWeight: "600",
+                marginLeft: 10,
+              }}
+            >
+              {chain ? chain.name : "Select Chain"}
+            </Heading>
+          </View>
+          <ChevronDown width={24} height={24} color={"black"} />
+        </TouchableOpacity>
+        {/* <View
           style={{
             borderRadius: 32,
             marginTop: 8,
@@ -37,52 +84,6 @@ export default function BridgeTo() {
             padding: 8,
           }}
         >
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: 10,
-              backgroundColor: white[800],
-              borderWidth: 1,
-              borderColor: white[500],
-              borderRadius: 100,
-            }}
-            onPress={() => {
-              bottomSheetModalRef.current?.present();
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              {chain && (
-                <Image
-                  source={{
-                    uri: chain.image,
-                  }}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 50,
-                  }}
-                  contentFit="cover"
-                />
-              )}
-              <Heading
-                style={{
-                  fontSize: 16,
-                  fontWeight: "600",
-                  marginLeft: 10,
-                }}
-              >
-                {chain ? chain.name : "Select Chain"}
-              </Heading>
-            </View>
-            <ChevronDown width={24} height={24} color={"black"} />
-          </TouchableOpacity>
           <View
             style={{
               alignItems: "center",
@@ -90,7 +91,11 @@ export default function BridgeTo() {
             }}
           >
             <TextInput
-              value={receiver && chain ? (Number(amount) - 1.2).toFixed(2).toString() : ""}
+              value={
+                receiver && chain
+                  ? (Number(amount) - 1.2).toFixed(2).toString()
+                  : ""
+              }
               editable={false}
               style={{
                 fontSize: 58,
@@ -101,7 +106,7 @@ export default function BridgeTo() {
               placeholder="00"
             />
           </View>
-        </View>
+        </View> */}
       </View>
       <Sheet ref={bottomSheetModalRef} snapPoints={snapPoints}>
         <ChainSheet />

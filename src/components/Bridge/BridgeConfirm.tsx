@@ -1,14 +1,71 @@
 import { black, white } from "@/src/constants/color";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Button from "../UI/Button";
 import { Heading } from "../UI/Heading";
 import { Paragraph } from "../UI/Paragraph";
+import useBridgeStore from "@/src/store/bridge";
+import formatAddress from "@/src/utils/formatAddress";
+import useBridge from "@/src/hooks/Bridge/useBridge";
+import useTokenPrice from "@/src/hooks/useTokenPrice";
 
 export default function BridgeConfirm() {
+  const { sellToken, amount, dstAmount, chain, receiver } = useBridgeStore();
   const { dismiss } = useBottomSheetModal();
+  const { bridgeTokens } = useBridge();
+  const { getTokenPrice } = useTokenPrice();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [price, setPrice] = useState(0);
+
+  const DATA = [
+    {
+      title: "You are selling",
+      value: `${amount} ${sellToken?.symbol}`,
+    },
+    {
+      title: "You will receive",
+      value: `~ ${dstAmount} ${sellToken?.symbol}`,
+    },
+    {
+      title: "Destination Network",
+      value: chain?.name,
+    },
+    {
+      title: "Receive on",
+      value: formatAddress(receiver),
+    },
+    // {
+    //   title: "Estimated gas fees",
+    //   value: gasFess,
+    // },
+  ];
+
+  async function handleBridge() {
+    try {
+      setIsLoading(true);
+      await bridgeTokens();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handlePrice() {
+    try {
+      if (!sellToken?.address) return;
+      const tokenPrice = await getTokenPrice(sellToken?.address);
+      setPrice(tokenPrice);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    handlePrice();
+  }, []);
 
   return (
     <View style={styles.contentContainer}>
@@ -24,7 +81,9 @@ export default function BridgeConfirm() {
           }}
         >
           <View>
-            <Heading style={styles.assetName}>-500 JUP</Heading>
+            <Heading style={styles.assetName}>
+              -{amount} {sellToken?.symbol}
+            </Heading>
             <Paragraph
               style={{
                 fontSize: 12,
@@ -32,11 +91,13 @@ export default function BridgeConfirm() {
                 color: white[200],
               }}
             >
-              $700
+              ${(price * Number(amount)).toFixed(2)}
             </Paragraph>
           </View>
           <Image
-            source={require("../../assets/images/solana.png")}
+            source={{
+              uri: sellToken?.image,
+            }}
             style={{ width: 40, height: 40, borderRadius: 25 }}
           />
         </View>
@@ -66,7 +127,7 @@ export default function BridgeConfirm() {
               gap: 8,
             }}
           >
-            {[...Array(3)].map((_, index) => (
+            {DATA.map((el, index) => (
               <View
                 key={index}
                 style={{
@@ -82,7 +143,7 @@ export default function BridgeConfirm() {
                     fontWeight: "500",
                   }}
                 >
-                  Amount
+                  {el.title}
                 </Paragraph>
                 <Heading
                   style={{
@@ -91,7 +152,7 @@ export default function BridgeConfirm() {
                     color: black[800],
                   }}
                 >
-                  1 WSOL
+                  {el.value}
                 </Heading>
               </View>
             ))}
@@ -105,30 +166,31 @@ export default function BridgeConfirm() {
             marginTop: 16,
           }}
         >
+          {!isLoading && (
+            <Button
+              style={{
+                backgroundColor: "#EDEFF2",
+                borderColor: white[800],
+                width: "48%",
+              }}
+              textStyle={{
+                color: black[800],
+              }}
+              size="small"
+              onPress={() => {
+                dismiss();
+              }}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
+            isLoading={isLoading}
             style={{
-              backgroundColor: "#EDEFF2",
-              borderColor: white[800],
-              width: "48%",
-            }}
-            textStyle={{
-              color: black[800],
+              width: isLoading ? "100%" : "48%",
             }}
             size="small"
-            onPress={() => {
-              dismiss();
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: "48%",
-            }}
-            size="small"
-            onPress={() => {
-              dismiss();
-            }}
+            onPress={handleBridge}
           >
             Confirm
           </Button>

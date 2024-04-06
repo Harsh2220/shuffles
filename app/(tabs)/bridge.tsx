@@ -16,14 +16,14 @@ import { View } from "react-native";
 
 export default function Bridge() {
   const confirmBridgeRef = useRef<BottomSheetModal>(null);
-  const { bridgeTokens } = useBridge();
+  const { bridgeTokens, estimate } = useBridge();
   const { error } = useBridgeStore();
   const [loading, setLoading] = React.useState(false);
 
   async function handleBridge() {
     try {
       setLoading(true);
-      await bridgeTokens();
+      await estimate();
       confirmBridgeRef?.current?.present();
     } catch (error) {
       console.log(error);
@@ -66,7 +66,7 @@ export default function Bridge() {
           margin: 16,
         }}
         ref={confirmBridgeRef}
-        snapPoints={[error ? 370 : 340]}
+        snapPoints={[370]}
         detached={true}
         bottomInset={50}
       >
