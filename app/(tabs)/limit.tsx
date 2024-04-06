@@ -7,7 +7,7 @@ import { View } from "react-native";
 export default function Limit() {
   return (
     <Container>
-      {/* <View
+      <View
         style={{
           flex: 1,
           justifyContent: "center",
@@ -22,13 +22,6 @@ export default function Limit() {
         >
           Comming Soon
         </Heading>
-      </View> */}
-      <View
-        style={{
-          padding: 16,
-        }}
-      >
-        <ActiveDCACard />
       </View>
     </Container>
   );
