@@ -1,6 +1,10 @@
 # Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
 
-![Logo](/src/assets/images/icon.png){ width="100" height="100" style="display: block; margin: 0 auto" }
+<img src="/src/assets/images/icon.png" 
+        alt="Logo" 
+        width="100" 
+        height="100" 
+        style="display: block; margin: 0 auto" />
 
 Shuffles is a mobile app enabling users to seamlessly trade cryptocurrencies across different blockchains. Acting as a non-custodial wallet, Shuffles empowers users to execute trades directly from their wallets without navigating multiple platforms for various DeFi operations.
 
