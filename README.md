@@ -1,6 +1,8 @@
-### Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
+## Shuffles - Your Passport to Seamless Cross-Chain Trading on Mobile 📱
 
-<img src="/src/assets/images/icon.png" width="100" height="100">
+<div style="text-align:center;">
+    <img src="/src/assets/images/icon.png" width="100" height="100">
+</div>
 
 Shuffles is a mobile app that allows users to trade cryptocurrencies across different blockchains. It is a non-custodial wallet that enables users to trade directly from their wallets without the need to visit different websites to perform different DeFi operations. 
 
@@ -23,7 +25,26 @@ We have more features in the pipeline so that in the future we can create a whol
 
 ## How we made it
 
-We are using [Jupiter](https://station.jup.ag/docs/dca/dca-sdk) For the DCA and limit orders so that user can invest systematically invest over time. We have integrated [Wormhole](https://docs.wormhole.com/wormhole/reference/sdk-docs) for the cross-chain swaps where we are using the automated token bridge so that user don't have to pay the gas fees on both of the chains, they can automatically redeem the assets on the destination chain. We are also using [Birdeye](https://birdeye.so/) for the live asset prices and calculation of the asset price during the DCA & limit orders. We have integrated [Shyft](https://docs.shyft.to/solana-apis/) for fetching all the assets of the user's wallet, and lastly we are using the [Helius](https://docs.helius.dev/) for the analytics of the user's wallet including the activity of the user.
+- **Jupiter Integration**:
+  - Utilizing [Jupiter](https://station.jup.ag/docs/dca/dca-sdk) for Dollar Cost Averaging (DCA) and limit orders, enabling users to systematically invest over time.
+  - Seamless integration for user-friendly investment strategies.
+
+- **Wormhole Integration**:
+  - Integrated [Wormhole](https://docs.wormhole.com/wormhole/reference/sdk-docs) for cross-chain swaps, leveraging automated token bridges to eliminate gas fees on both chains.
+  - Users can effortlessly redeem assets on the destination chain without incurring extra costs.
+
+- **Birdeye Integration**:
+  - Leveraging [Birdeye](https://birdeye.so/) for real-time asset prices and precise calculation of asset prices during DCA and limit orders.
+  - Ensuring accurate investment decisions based on up-to-date market data.
+
+- **Shyft Integration**:
+  - Integrated [Shyft](https://docs.shyft.to/solana-apis/) for retrieving all assets associated with the user's wallet.
+  - Facilitating a comprehensive view of the user's portfolio for informed investment strategies.
+
+- **Helius Integration**:
+  - Utilizing [Helius](https://docs.helius.dev/) for analytics on the user's wallet, providing insights into user activity and portfolio performance.
+  - Empowering users with data-driven insights for optimizing their investment strategies.
+
 
 ## How to run the project
 
