@@ -3,12 +3,13 @@ import { dca } from "@/src/utils/connection";
 import { PublicKey } from "@solana/web3.js";
 
 export default function useGetDCA() {
-  const {} = useWalletStore();
+  const { currentWallet } = useWalletStore();
 
   async function getUserDCAs() {
     try {
+      if (!currentWallet?.publicKey) return;
       const dcaAccounts = await dca.getCurrentByUser(
-        new PublicKey("HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN")
+        new PublicKey(currentWallet?.publicKey)
       );
       console.log(dcaAccounts);
     } catch (error) {

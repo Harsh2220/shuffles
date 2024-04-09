@@ -3,14 +3,13 @@ import useWalletStore from "../store/wallet";
 import { getTokenBalance, getWalletBalance } from "../utils/balance";
 
 export default function useWalletData() {
+  const { currentWallet } = useWalletStore();
   const { setTokens, tokens, setBalance } = useWalletStore();
 
   async function handleTokens() {
     try {
-      const tokenList = await getTokenBalance(
-        "HkS4TZQbbAvgGUVdvJV5hUaXg2T3cecjTCRou6WsZfMN"
-      );
-
+      if (!currentWallet?.publicKey) return;
+      const tokenList = await getTokenBalance(currentWallet?.publicKey);
       setTokens(tokenList);
     } catch (error) {}
   }
